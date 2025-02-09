@@ -1,0 +1,178 @@
+{
+  "lockfile_version": "1",
+  "packages": {
+    "bun@latest": {
+      "last_modified": "2025-02-02T17:30:19Z",
+      "resolved": "github:NixOS/nixpkgs/8532db2a88ba56de9188af72134d93e39fd825f3#bun",
+      "source": "devbox-search",
+      "version": "1.2.2",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/zfcpibckybddvxmc8l1z70644lmln9ql-bun-1.2.2",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/zfcpibckybddvxmc8l1z70644lmln9ql-bun-1.2.2"
+        },
+        "aarch64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/cq09szfdxdn3qyqbaazpax0kv8fkhf98-bun-1.2.2",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/cq09szfdxdn3qyqbaazpax0kv8fkhf98-bun-1.2.2"
+        },
+        "x86_64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/vdx6qm7m6zpqz2nbzry9gwdgj9j75l8w-bun-1.2.2",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/vdx6qm7m6zpqz2nbzry9gwdgj9j75l8w-bun-1.2.2"
+        },
+        "x86_64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/nx66dlvda541k1lpfy858whqzyfmbx5z-bun-1.2.2",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/nx66dlvda541k1lpfy858whqzyfmbx5z-bun-1.2.2"
+        }
+      }
+    },
+    "postgresql@latest": {
+      "last_modified": "2025-02-04T04:50:32Z",
+      "plugin_version": "0.0.2",
+      "resolved": "github:NixOS/nixpkgs/95ea544c84ebed84a31896b0ecea2570e5e0e236#postgresql",
+      "source": "devbox-search",
+      "version": "17.2",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/jdi529p5wchb3889bd2949g15kgksgzw-postgresql-17.2",
+              "default": true
+            },
+            {
+              "name": "man",
+              "path": "/nix/store/xqpcd2fm6d472p02jrmpjniy0459f4pf-postgresql-17.2-man",
+              "default": true
+            },
+            {
+              "name": "doc",
+              "path": "/nix/store/vg3gsbgf5yzkpgx4fg0ikxx7k6ng8j2h-postgresql-17.2-doc"
+            },
+            {
+              "name": "lib",
+              "path": "/nix/store/jp6k12j1175gvv3nsad3x9n506c72vg8-postgresql-17.2-lib"
+            },
+            {
+              "name": "dev",
+              "path": "/nix/store/ns4clvyr5vhpqlyfljj3pmwpm3n8fh4f-postgresql-17.2-dev"
+            }
+          ],
+          "store_path": "/nix/store/jdi529p5wchb3889bd2949g15kgksgzw-postgresql-17.2"
+        },
+        "aarch64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/k89qn0a30pmy2rdwlfdljz5yqcj6rva9-postgresql-17.2",
+              "default": true
+            },
+            {
+              "name": "man",
+              "path": "/nix/store/gi9rhd0drga9wzqljs7zidi98a1dda94-postgresql-17.2-man",
+              "default": true
+            },
+            {
+              "name": "debug",
+              "path": "/nix/store/7crj0fg3narxcyvlji6rfqc16giryzx1-postgresql-17.2-debug"
+            },
+            {
+              "name": "dev",
+              "path": "/nix/store/67r36ymdzllp2q3d9ahdkcvn9q28bwvl-postgresql-17.2-dev"
+            },
+            {
+              "name": "doc",
+              "path": "/nix/store/cwifwcky8fkmdd901dk0ngax6azhwx3l-postgresql-17.2-doc"
+            },
+            {
+              "name": "lib",
+              "path": "/nix/store/kcn4s3rsk6dawk024mriz3k5wrjhmsc2-postgresql-17.2-lib"
+            }
+          ],
+          "store_path": "/nix/store/k89qn0a30pmy2rdwlfdljz5yqcj6rva9-postgresql-17.2"
+        },
+        "x86_64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/fsgbrp7d3agcjl8f44l8x1mqgrln5nlp-postgresql-17.2",
+              "default": true
+            },
+            {
+              "name": "man",
+              "path": "/nix/store/34yl598fi04vzajlrv0csmkkkb8c2j2a-postgresql-17.2-man",
+              "default": true
+            },
+            {
+              "name": "lib",
+              "path": "/nix/store/z8m3rxb6j0b45c1y5vwp4aw3c3dp2i1f-postgresql-17.2-lib"
+            },
+            {
+              "name": "dev",
+              "path": "/nix/store/64ynzwd77v83v7j8mgzvsy635waxrl4c-postgresql-17.2-dev"
+            },
+            {
+              "name": "doc",
+              "path": "/nix/store/fs650j8m70wjaijj8vvbqgy9xjrnqhm4-postgresql-17.2-doc"
+            }
+          ],
+          "store_path": "/nix/store/fsgbrp7d3agcjl8f44l8x1mqgrln5nlp-postgresql-17.2"
+        },
+        "x86_64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/zhxgjz2wnjza5vrzxpys5aq7qz2x8wlp-postgresql-17.2",
+              "default": true
+            },
+            {
+              "name": "man",
+              "path": "/nix/store/xnm8hkqb3c4y91273sjgc080zi2qv68s-postgresql-17.2-man",
+              "default": true
+            },
+            {
+              "name": "debug",
+              "path": "/nix/store/l99y06gaygg5yprihbc36a26l6nc0qgs-postgresql-17.2-debug"
+            },
+            {
+              "name": "dev",
+              "path": "/nix/store/1k1dddq7p3yv63jq1bp31isn97m86j3g-postgresql-17.2-dev"
+            },
+            {
+              "name": "doc",
+              "path": "/nix/store/gik164y7sdrvri0lrhqm25q2gxb2hkdi-postgresql-17.2-doc"
+            },
+            {
+              "name": "lib",
+              "path": "/nix/store/m6yvygzi8bbajx880nv0nfwdvs5az967-postgresql-17.2-lib"
+            }
+          ],
+          "store_path": "/nix/store/zhxgjz2wnjza5vrzxpys5aq7qz2x8wlp-postgresql-17.2"
+        }
+      }
+    }
+  }
+}
