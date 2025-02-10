@@ -1,8 +1,8 @@
 <script lang="ts">
-    import { toggleMode } from 'mode-watcher';
-    import { Sun, Moon, Plus, Search } from 'lucide-svelte';
     import { Button } from '$lib/components/ui/button';
     import { Input } from '$lib/components/ui/input';
+    import { Moon, Plus, Search, Sun } from 'lucide-svelte';
+    import { toggleMode } from 'mode-watcher';
 
     let { data } = $props();
 </script>
@@ -43,11 +43,6 @@
         </div>
     </div>
     <div id="groups-content" class="flex-1">
-        <form class="flex w-full max-w-sm items-center space-x-2" method="POST">
-            <Input type="text" name="name" />
-            <Button type="submit">Add group</Button>
-        </form>
-
         <ul>
             {#each data.groups as group}
                 <li>{group.uuid}: {group.name}</li>

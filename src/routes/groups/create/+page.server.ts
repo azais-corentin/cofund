@@ -19,6 +19,9 @@ export const actions = {
                 form
             });
         }
+
+        await db.insertInto('groups').values(form.data).execute();
+
         return {
             form
         };

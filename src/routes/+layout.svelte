@@ -1,13 +1,13 @@
 <script lang="ts">
-	import '../app.css';
+    import { ModeWatcher } from 'mode-watcher';
 
-	import { ModeWatcher } from 'mode-watcher';
+    import '../app.css';
 
-	let { children } = $props();
+    let { children } = $props();
 </script>
 
 <ModeWatcher />
 
 <div class="min-h-screen">
-	{@render children()}
+    {@render children()}
 </div>
