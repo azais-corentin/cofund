@@ -1,10 +1,19 @@
 <script lang="ts">
     import { Button } from '$lib/components/ui/button';
     import { Input } from '$lib/components/ui/input';
-    import { Moon, Plus, Search, Sun } from 'lucide-svelte';
+    import { observeLive } from '$lib/db/live.js';
+    import { type Groups } from '$lib/db/types.js';
+    import { type Selectable } from 'kysely';
+    import { Moon, Plus, Search, Sun, Trash2 } from 'lucide-svelte';
     import { toggleMode } from 'mode-watcher';
 
     let { data } = $props();
+
+    let groups = $state(data.groups);
+
+    type Group = Selectable<Groups>;
+
+    observeLive<Group>('groups', groups);
 </script>
 
 <div class="flex min-h-screen flex-col gap-6 p-6">
@@ -43,10 +52,33 @@
         </div>
     </div>
     <div id="groups-content" class="flex-1">
-        <ul>
-            {#each data.groups as group}
-                <li>{group.uuid}: {group.name}</li>
-            {/each}
-        </ul>
+        {#each groups as group (group.uuid)}
+            <table class="mb-4 w-full border-collapse">
+                <thead>
+                    <tr>
+                        <th class="border px-4 py-2 text-left">Name</th>
+                        <th class="border px-4 py-2 text-left">Users</th>
+                        <th class="border px-4 py-2 text-left">Currency</th>
+                        <th class="border px-4 py-2 text-left">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="border px-4 py-2">{group.name}</td>
+                        <td class="border px-4 py-2">{group.users.join(', ')}</td>
+                        <td class="border px-4 py-2">{group.currency}</td>
+                        <td class="border px-4 py-2"
+                            ><Button
+                                variant="destructive"
+                                onclick={async () =>
+                                    await fetch(`/api/groups/${group.uuid}`, {
+                                        method: 'DELETE'
+                                    })}><Trash2 /></Button
+                            ></td
+                        >
+                    </tr>
+                </tbody>
+            </table>
+        {/each}
     </div>
 </div>
