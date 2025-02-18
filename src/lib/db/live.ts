@@ -1,16 +1,15 @@
-// Initialize the JS client
-import { type Groups } from '$lib/db/types.js';
 import {
     REALTIME_LISTEN_TYPES,
     REALTIME_POSTGRES_CHANGES_LISTEN_EVENT
 } from '@supabase/supabase-js';
-import { type Selectable } from 'kysely';
 
 import { supabase } from './supabaseClient';
 
-type Group = Selectable<Groups>;
-
-export const observeLive = <T>(table: string, output: Group[]) => {
+export const observeLive = <T>(
+    table: string,
+    output: T[],
+    compareId: (newValue: T, oldValue: T) => boolean
+) => {
     supabase
         .channel(table)
         .on(
@@ -25,9 +24,9 @@ export const observeLive = <T>(table: string, output: Group[]) => {
                 table: string;
                 commit_timestamp: string;
                 eventType: string;
-                old: Group;
-                new: Group;
-                errors: any;
+                old: T;
+                new: T;
+                errors: never;
             }) => {
                 console.log('Change received: ');
                 console.log(payload);
@@ -37,7 +36,7 @@ export const observeLive = <T>(table: string, output: Group[]) => {
                         output.push(payload.new);
                         break;
                     case 'UPDATE': {
-                        const index = output.findIndex((row) => row.uuid == payload.old.uuid);
+                        const index = output.findIndex((row) => compareId(row, payload.old));
                         if (index > -1) {
                             output[index] = payload.new;
                         } else {
@@ -47,7 +46,7 @@ export const observeLive = <T>(table: string, output: Group[]) => {
                         break;
                     }
                     case 'DELETE': {
-                        const index = output.findIndex((row) => row.uuid == payload.old.uuid);
+                        const index = output.findIndex((row) => compareId(row, payload.old));
                         if (index > -1) {
                             output.splice(index, 1);
                         }

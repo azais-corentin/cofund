@@ -15,7 +15,9 @@
 
     type Group = Selectable<Groups>;
 
-    observeLive<Group>('groups', groups);
+    observeLive<Group>('groups', groups, (newValue: Group, oldValue: Group) => {
+        return newValue.uuid == oldValue.uuid;
+    });
 </script>
 
 <div class="flex min-h-screen flex-col gap-6">
