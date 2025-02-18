@@ -2,10 +2,8 @@
     import { page } from '$app/state';
     import * as Breadcrumb from '$lib/components/ui/breadcrumb/index.js';
     import { Button } from '$lib/components/ui/button';
-    import { Input } from '$lib/components/ui/input';
-    import { Moon, Plus, Search, Sun } from 'lucide-svelte';
+    import { Plus } from 'lucide-svelte';
     import { ModeWatcher } from 'mode-watcher';
-    import { toggleMode } from 'mode-watcher';
 
     import '../app.css';
 
