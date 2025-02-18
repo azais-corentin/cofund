@@ -1,13 +1,16 @@
 <script lang="ts">
-    import { page } from '$app/state';
-    import * as Breadcrumb from '$lib/components/ui/breadcrumb/index.js';
     import { Button } from '$lib/components/ui/button';
+    import * as Card from '$lib/components/ui/card';
     import { Input } from '$lib/components/ui/input';
     import { observeLive } from '$lib/db/live.js';
     import { type Groups } from '$lib/db/types.js';
+    import dayjs from 'dayjs';
+    import relativeTime from 'dayjs/plugin/relativeTime';
     import { type Selectable } from 'kysely';
-    import { Moon, Plus, Search, Sun, Trash2 } from 'lucide-svelte';
+    import { Moon, Search, Sun, Trash2 } from 'lucide-svelte';
     import { toggleMode } from 'mode-watcher';
+
+    dayjs.extend(relativeTime);
 
     let { data } = $props();
 
@@ -40,8 +43,8 @@
             </div>
         </div>
     </div>
-    <div id="groups-content" class="flex-1">
-        <table class="mb-4 w-full border-collapse">
+    <div id="groups-content" class="flex-1 flex flex-col gap-6">
+        <table class="w-full border-collapse">
             <thead>
                 <tr>
                     <th class="border px-4 py-2 text-left">Name</th>
@@ -69,5 +72,17 @@
                 {/each}
             </tbody>
         </table>
+
+        {#each groups as group}
+            <a href="/groups/{group.uuid}">
+                <Card.Root>
+                    <Card.Header>
+                        <Card.Title>{group.name}</Card.Title>
+                        <Card.Description>Created {dayjs().to(group.created_at)}</Card.Description>
+                    </Card.Header>
+                    <Card.Content></Card.Content>
+                </Card.Root>
+            </a>
+        {/each}
     </div>
 </div>
