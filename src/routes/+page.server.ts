@@ -1,7 +1,5 @@
 import { redirect } from '@sveltejs/kit';
 
-import type { PageServerLoad } from './$types';
-
-export const load: PageServerLoad = () => {
+export const load = () => {
     redirect(307, '/groups');
 };

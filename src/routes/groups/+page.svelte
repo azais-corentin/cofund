@@ -1,4 +1,6 @@
 <script lang="ts">
+    import { page } from '$app/state';
+    import * as Breadcrumb from '$lib/components/ui/breadcrumb/index.js';
     import { Button } from '$lib/components/ui/button';
     import { Input } from '$lib/components/ui/input';
     import { observeLive } from '$lib/db/live.js';
@@ -16,23 +18,8 @@
     observeLive<Group>('groups', groups);
 </script>
 
-<div class="flex min-h-screen flex-col gap-6 p-6">
+<div class="flex min-h-screen flex-col gap-6">
     <div id="groups-header" class="flex flex-col gap-6">
-        <div class="flew-row flex gap-4">
-            <div class="flex flex-1 flex-col">
-                <div class="pb-2">
-                    <h1 class="text-3xl font-semibold">My groups</h1>
-                </div>
-                <div>
-                    <p class="text-l tracking-tight text-muted-foreground">
-                        Manage your shared expenses
-                    </p>
-                </div>
-            </div>
-            <div class="content-center">
-                <Button href="/groups/create"><Plus /> New group</Button>
-            </div>
-        </div>
         <div class="flex flex-row gap-4">
             <Button onclick={toggleMode} variant="outline" size="icon">
                 <Sun
@@ -52,17 +39,17 @@
         </div>
     </div>
     <div id="groups-content" class="flex-1">
-        {#each groups as group (group.uuid)}
-            <table class="mb-4 w-full border-collapse">
-                <thead>
-                    <tr>
-                        <th class="border px-4 py-2 text-left">Name</th>
-                        <th class="border px-4 py-2 text-left">Users</th>
-                        <th class="border px-4 py-2 text-left">Currency</th>
-                        <th class="border px-4 py-2 text-left">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
+        <table class="mb-4 w-full border-collapse">
+            <thead>
+                <tr>
+                    <th class="border px-4 py-2 text-left">Name</th>
+                    <th class="border px-4 py-2 text-left">Users</th>
+                    <th class="border px-4 py-2 text-left">Currency</th>
+                    <th class="border px-4 py-2 text-left">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {#each groups as group (group.uuid)}
                     <tr>
                         <td class="border px-4 py-2">{group.name}</td>
                         <td class="border px-4 py-2">{group.users.join(', ')}</td>
@@ -77,8 +64,8 @@
                             ></td
                         >
                     </tr>
-                </tbody>
-            </table>
-        {/each}
+                {/each}
+            </tbody>
+        </table>
     </div>
 </div>
