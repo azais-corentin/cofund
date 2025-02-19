@@ -1,4 +1,4 @@
-export const load = async ({ parent, params, data }) => {
+export const load = async ({ parent, data }) => {
     const { navigationData } = await parent();
 
     return {
