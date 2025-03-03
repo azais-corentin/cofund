@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { Badge } from '$lib/components/ui/badge';
     import { Button } from '$lib/components/ui/button';
     import * as Card from '$lib/components/ui/card';
     import { Input } from '$lib/components/ui/input';
@@ -81,6 +82,11 @@
                         <Card.Description>Created {dayjs().to(group.created_at)}</Card.Description>
                     </Card.Header>
                     <Card.Content></Card.Content>
+                    <Card.Footer class="gap-2">
+                        {#each group.users as user}
+                            <Badge variant="secondary">{user}</Badge>
+                        {/each}
+                    </Card.Footer>
                 </Card.Root>
             </a>
         {/each}
