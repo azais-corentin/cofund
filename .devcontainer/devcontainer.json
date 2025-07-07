@@ -1,0 +1,6 @@
+{
+    "name": "Cofund development",
+    "dockerComposeFile": "docker-compose.yml",
+    "service": "app",
+    "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}"
+}

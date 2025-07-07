@@ -1,0 +1,18 @@
+version: '3'
+services:
+    couchdb:
+        image: couchdb:latest
+        volumes:
+            - ./couchdb-data:/opt/couchdb/data
+        env_file: couchdb.env
+        ports:
+            - 5984:5984
+    app:
+        build:
+            context: ..
+            dockerfile: Dockerfile
+            target: devcontainer
+        volumes:
+            - ../..:/workspaces:cached
+        network_mode: service:couchdb
+        command: sleep infinity
