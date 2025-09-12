@@ -1,4 +1,4 @@
-import db from '$lib/db';
+// import db from "$lib/db";
 import { error } from '@sveltejs/kit';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
@@ -6,24 +6,30 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 dayjs.extend(relativeTime);
 
 export const load = async ({ params }) => {
-    console.time('db');
-    const group = await db.groups.findOne(params.uuid).exec();
-    console.timeEnd('db');
+  //   const group = await db.groups.findOne(params.uuid).exec();
 
-    if (!group) {
-        return error(420, 'Invalid group uuid');
-    }
+  const group = {
+    uuid: 'group-1',
+    name: 'Group 1',
+    users: ['User 1', 'User 2'],
+    currency: 'USD',
+    created_at: new Date(),
+  };
 
-    const groupJSON = group.toJSON();
+  if (!group) {
+    return error(420, 'Invalid group uuid');
+  }
 
-    return {
-        navigationData: [
-            {
-                title: groupJSON?.name, // TODO Replace with actual group name from API/database
-                description: `Created ${dayjs().to(groupJSON.created_at)}`,
-                url: '/groups/' + params.uuid
-            }
-        ],
-        group: groupJSON
-    };
+  const groupJSON = group;
+
+  return {
+    navigationData: [
+      {
+        title: groupJSON?.name, // TODO Replace with actual group name from API/database
+        description: `Created ${dayjs().to(groupJSON.created_at)}`,
+        url: '/groups/' + params.uuid,
+      },
+    ],
+    group: groupJSON,
+  };
 };

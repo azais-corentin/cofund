@@ -1,16 +1,21 @@
 {
-    "name": "cofund devcontainer",
-    "dockerComposeFile": "docker-compose.yml",
-    "service": "app",
-    "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
-    "customizations": {
-        "vscode": {
-            "extensions": [
-                "Gxl.git-graph-3",
-                "svelte.svelte-vscode",
-                "bradlc.vscode-tailwindcss",
-                "esbenp.prettier-vscode"
-            ]
-        }
+  "name": "cofund devcontainer",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "app",
+  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "Gxl.git-graph-3",
+        "svelte.svelte-vscode",
+        "bradlc.vscode-tailwindcss",
+        "esbenp.prettier-vscode",
+        "fill-labs.dependi",
+        "oxc.oxc-vscode"
+      ]
     }
+  },
+  "features": {
+    "ghcr.io/tailscale/codespace/tailscale": { "version": "latest" }
+  }
 }
