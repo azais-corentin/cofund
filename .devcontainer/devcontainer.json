@@ -1,6 +1,16 @@
 {
-    "name": "Cofund development",
+    "name": "cofund devcontainer",
     "dockerComposeFile": "docker-compose.yml",
     "service": "app",
-    "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}"
+    "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "Gxl.git-graph-3",
+                "svelte.svelte-vscode",
+                "bradlc.vscode-tailwindcss",
+                "esbenp.prettier-vscode"
+            ]
+        }
+    }
 }

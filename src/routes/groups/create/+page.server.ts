@@ -1,7 +1,8 @@
 import db from '$lib/db';
-import { fail } from '@sveltejs/kit';
+import { fail, redirect } from '@sveltejs/kit';
 import { superValidate } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
+import { v4 as uuidv4 } from 'uuid';
 
 import { formSchema } from './schema';
 
@@ -20,10 +21,14 @@ export const actions = {
             });
         }
 
-        await db.insertInto('groups').values(form.data).execute();
+        await db.groups.insert({
+            ...form.data,
+            id: uuidv4(),
+            users: [],
+            created_at: new Date().toISOString(),
+            updated_at: new Date().toISOString()
+        });
 
-        return {
-            form
-        };
+        redirect(302, '/groups');
     }
 };

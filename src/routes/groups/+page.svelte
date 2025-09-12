@@ -3,11 +3,10 @@
     import { Button } from '$lib/components/ui/button';
     import * as Card from '$lib/components/ui/card';
     import { Input } from '$lib/components/ui/input';
-    import { observeLive } from '$lib/db/live.js';
-    import { type Groups } from '$lib/db/types.js';
+    import { type GroupsDocType } from '$lib/db';
+    import { observeLive } from '$lib/db/live';
     import dayjs from 'dayjs';
     import relativeTime from 'dayjs/plugin/relativeTime';
-    import { type Selectable } from 'kysely';
     import { Moon, Search, Sun, Trash2 } from 'lucide-svelte';
     import { toggleMode } from 'mode-watcher';
 
@@ -17,11 +16,13 @@
 
     let groups = $state(data.groups);
 
-    type Group = Selectable<Groups>;
-
-    observeLive<Group>('groups', groups, (newValue: Group, oldValue: Group) => {
-        return newValue.uuid == oldValue.uuid;
-    });
+    observeLive<GroupsDocType>(
+        'groups',
+        groups,
+        (newValue: GroupsDocType, oldValue: GroupsDocType) => {
+            return newValue.id == oldValue.id;
+        }
+    );
 </script>
 
 <div class="flex min-h-screen flex-col gap-6">
@@ -74,7 +75,7 @@
             </tbody>
         </table>
 
-        {#each groups as group}
+        {#each groups as group (group.id)}
             <a href="/groups/{group.uuid}">
                 <Card.Root>
                     <Card.Header>
@@ -83,7 +84,7 @@
                     </Card.Header>
                     <Card.Content></Card.Content>
                     <Card.Footer class="gap-2">
-                        {#each group.users as user}
+                        {#each group.users as user (user)}
                             <Badge variant="secondary">{user}</Badge>
                         {/each}
                     </Card.Footer>

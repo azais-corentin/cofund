@@ -16,8 +16,7 @@ RUN curl https://mise.run | sh
 ENV PATH="/home/vscode/.local/bin:${PATH}"
 RUN echo 'eval "$(~/.local/bin/mise activate bash)"' >> ~/.bashrc
 
-RUN mise use -g bun node@latest
-RUN mise exec bun -- bun install -g @google/gemini-cli
+RUN mise use -g bun
 ENV PATH="/home/vscode/.bun/bin:${PATH}"
 
 FROM oven/bun:1 AS production-build

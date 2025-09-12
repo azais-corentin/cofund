@@ -1,12 +1,14 @@
 version: '3'
 services:
-    couchdb:
-        image: couchdb:latest
+    triplit:
+        image: aspencloud/triplit-server-bun:latest
         volumes:
-            - ./couchdb-data:/opt/couchdb/data
-        env_file: couchdb.env
+            - ./triplit-data:/mnt/triplitdb
+        env_file: .env
+        environment:
+            LOCAL_DATABASE_URL: '/mnt/triplitdb/app.db'
         ports:
-            - 5984:5984
+            - 6543:6543
     app:
         build:
             context: ..
@@ -14,5 +16,5 @@ services:
             target: devcontainer
         volumes:
             - ../..:/workspaces:cached
-        network_mode: service:couchdb
+        network_mode: service:triplit
         command: sleep infinity

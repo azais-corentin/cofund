@@ -19,7 +19,7 @@
     const { form: formData, enhance } = form;
 
     // Used to update focus to new input when adding a new user
-    let lastUserInput: any = $state(undefined);
+    let lastUserInput: HTMLInputElement | undefined = $state(undefined);
 
     const handleInputKeydown = async (event: KeyboardEvent, i: number) => {
         if (event.ctrlKey && event.key === 'Backspace') {

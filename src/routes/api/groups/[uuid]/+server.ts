@@ -2,7 +2,10 @@ import db from '$lib/db';
 import { json } from '@sveltejs/kit';
 
 export const DELETE = async ({ params }) => {
-    db.deleteFrom('groups').where('uuid', '=', params.uuid).executeTakeFirst();
+    const group = await db.groups.findOne(params.uuid).exec();
+    if (group) {
+        await group.remove();
+    }
 
     return json({ success: true });
 };

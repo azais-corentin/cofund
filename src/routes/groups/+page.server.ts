@@ -1,7 +1,8 @@
 import db from '$lib/db';
 
 export const load = async () => {
+    const groups = await db.groups.find().exec();
     return {
-        groups: await db.selectFrom('groups').selectAll().execute()
+        groups: groups.map((g: any) => g.toJSON())
     };
 };

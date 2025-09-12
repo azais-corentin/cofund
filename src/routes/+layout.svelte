@@ -19,7 +19,7 @@
                 <div class="pb-2">
                     <Breadcrumb.Root>
                         <Breadcrumb.List class="text-3xl font-semibold">
-                            {#each page.data.navigationData as navigationData, i}
+                            {#each page.data.navigationData as navigationData, i (navigationData.url)}
                                 {#if i > 0}
                                     <Breadcrumb.Separator />
                                 {/if}
