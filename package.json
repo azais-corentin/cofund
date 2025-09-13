@@ -9,6 +9,7 @@
     "preview": "bun --bun vite preview",
     "prepare": "bun --bun svelte-kit sync || echo ''",
     "format": "bun --bun prettier --write .",
+    "lint": "oxlint --type-aware",
     "check": "bun run prepare && bun --bun svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "bun run check --watch"
   },
@@ -17,6 +18,7 @@
     "@logtape/logtape": "1.1.0",
     "@logtape/pretty": "1.1.0",
     "@lucide/svelte": "0.544.0",
+    "@prettier/plugin-oxc": "0.0.4",
     "@sveltejs/adapter-auto": "6.1.0",
     "@sveltejs/kit": "2.39.1",
     "@sveltejs/vite-plugin-svelte": "6.2.0",
