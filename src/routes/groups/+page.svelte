@@ -3,26 +3,17 @@
   import { Button } from '$lib/components/ui/button';
   import * as Card from '$lib/components/ui/card';
   import { Input } from '$lib/components/ui/input';
-  //   import { type GroupsDocType } from "$lib/db";
-  //   import { observeLive } from "$lib/db/live";
   import dayjs from 'dayjs';
   import relativeTime from 'dayjs/plugin/relativeTime';
   import { Moon, Search, Sun, Trash2 } from '@lucide/svelte';
   import { toggleMode } from 'mode-watcher';
 
+  import { useQuery } from '@triplit/svelte';
+  import { db, Query } from '$lib/db/db';
+
   dayjs.extend(relativeTime);
 
-  let { data } = $props();
-
-  let groups = $state(data.groups);
-
-  //   observeLive<GroupsDocType>(
-  //     "groups",
-  //     groups,
-  //     (newValue: GroupsDocType, oldValue: GroupsDocType) => {
-  //       return newValue.id == oldValue.id;
-  //     },
-  //   );
+  const groups = useQuery(db, Query('groups'));
 </script>
 
 <div class="flex min-h-screen flex-col gap-6">
@@ -46,7 +37,31 @@
     </div>
   </div>
   <div id="groups-content" class="flex flex-1 flex-col gap-6">
-    <table class="w-full border-collapse">
+    {#if groups.fetching}
+      <p>Loading...</p>
+    {:else if groups.error}
+      <p>Error: {groups.error.message}</p>
+    {:else if groups.results}
+      {#each groups.results as group}
+        <a href="/groups/{group.id}">
+          <Card.Root>
+            <Card.Header>
+              <Card.Title>{group.name}</Card.Title>
+              <Card.Description
+                >Created {dayjs().to(group.created_at)}</Card.Description
+              >
+            </Card.Header>
+            <Card.Content></Card.Content>
+            <Card.Footer class="gap-2">
+              {#each group.users as user (user)}
+                <Badge variant="secondary">{user}</Badge>
+              {/each}
+            </Card.Footer>
+          </Card.Root>
+        </a>
+      {/each}
+    {/if}
+    <!-- <table class="w-full border-collapse">
       <thead>
         <tr>
           <th class="border px-4 py-2 text-left">Name</th>
@@ -69,25 +84,10 @@
           </tr>
         {/each}
       </tbody>
-    </table>
+    </table> -->
 
-    {#each groups as group (group.uuid)}
-      <a href="/groups/{group.uuid}">
-        <Card.Root>
-          <Card.Header>
-            <Card.Title>{group.name}</Card.Title>
-            <Card.Description
-              >Created {dayjs().to(group.created_at)}</Card.Description
-            >
-          </Card.Header>
-          <Card.Content></Card.Content>
-          <Card.Footer class="gap-2">
-            {#each group.users as user (user)}
-              <Badge variant="secondary">{user}</Badge>
-            {/each}
-          </Card.Footer>
-        </Card.Root>
-      </a>
-    {/each}
+    <!-- {#each groups as group (group.uuid)}
+
+    {/each} -->
   </div>
 </div>

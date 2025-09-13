@@ -47,4 +47,7 @@ export default defineConfig({
   server: {
     host: true,
   },
+  define: {
+    BUILD_DATE: JSON.stringify(new Date().toISOString()),
+  },
 });

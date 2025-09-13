@@ -8,14 +8,21 @@
   import { type SuperValidated, superForm } from 'sveltekit-superforms';
   import { valibotClient } from 'sveltekit-superforms/adapters';
   import * as valibot from 'valibot';
-
   import { formSchema } from './schema';
+
+  import { TriplitClient } from '@triplit/client';
+  import { useQuery } from '@triplit/svelte';
+  import { db } from '$lib/db/db';
+  import { schema } from '$lib/db/schema.js';
 
   let {
     data,
   }: {
     data: { form: SuperValidated<valibot.InferOutput<typeof formSchema>> };
   } = $props();
+
+  const client = new TriplitClient({ schema, autoConnect: false });
+  const groups = useQuery(db, client.query('groups'));
 
   const form = superForm(data.form, {
     validators: valibotClient(formSchema),

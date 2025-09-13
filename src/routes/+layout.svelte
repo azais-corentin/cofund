@@ -8,6 +8,8 @@
   import { Button } from '$lib/components/ui/button';
   import { Plus } from '@lucide/svelte';
   import { ModeWatcher } from 'mode-watcher';
+  import Breadcrumbs from '$lib/Breadcrumbs.svelte';
+  import { setBreadcrumb } from '$lib/breadcrumb-state.svelte';
 
   const webManifest = $derived(pwaInfo ? pwaInfo.webManifest.linkTag : '');
 
@@ -33,25 +35,30 @@
     <div class="flew-row flex gap-4">
       <div class="flex flex-1 flex-col">
         <div class="pb-2">
-          <Breadcrumb.Root>
-            <Breadcrumb.List class="text-3xl font-semibold">
-              {#each page.data.navigationData as navigationData, i (navigationData.url)}
-                {#if i > 0}
-                  <Breadcrumb.Separator />
-                {/if}
-                <Breadcrumb.Item>
-                  <Breadcrumb.Link href={navigationData.url}
-                    >{navigationData.title}</Breadcrumb.Link
-                  >
-                </Breadcrumb.Item>
-              {/each}
-            </Breadcrumb.List>
-          </Breadcrumb.Root>
+          <Breadcrumbs />
+          {#if page.data.navigationData}
+            <Breadcrumb.Root>
+              <Breadcrumb.List class="text-3xl font-semibold">
+                {#each page.data.navigationData as navigationData, i (navigationData.url)}
+                  {#if i > 0}
+                    <Breadcrumb.Separator />
+                  {/if}
+                  <Breadcrumb.Item>
+                    <Breadcrumb.Link href={navigationData.url}
+                      >{navigationData.title}</Breadcrumb.Link
+                    >
+                  </Breadcrumb.Item>
+                {/each}
+              </Breadcrumb.List>
+            </Breadcrumb.Root>
+          {/if}
         </div>
         <div>
-          <p class="text-l tracking-tight text-muted-foreground">
-            {page.data.navigationData.at(-1).description}
-          </p>
+          {#if page.data.navigationData}
+            <p class="text-l tracking-tight text-muted-foreground">
+              {page.data.navigationData.at(-1).description}
+            </p>
+          {/if}
         </div>
       </div>
       <div class="content-center">

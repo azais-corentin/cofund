@@ -1,13 +1,5 @@
 version: '3'
 services:
-  triplit:
-    image: aspencloud/triplit-server-bun:latest
-    volumes:
-      - ./triplit-data:/mnt/triplitdb
-    environment:
-      LOCAL_DATABASE_URL: '/mnt/triplitdb/app.db'
-    ports:
-      - 6543:6543
   app:
     build:
       context: ..
@@ -16,5 +8,4 @@ services:
     env_file: .env
     volumes:
       - ../..:/workspaces:cached
-    network_mode: service:triplit
     command: sleep infinity
