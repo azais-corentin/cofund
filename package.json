@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "bun --bun vite dev",
+    "dev:triplit": "bun --bun triplit dev -s sqlite",
     "build": "bun --bun vite build",
     "preview": "bun --bun vite preview",
     "prepare": "bun --bun svelte-kit sync || echo ''",
@@ -29,6 +30,7 @@
     "@types/bun": "1.2.21",
     "@vite-pwa/assets-generator": "1.0.1",
     "@vite-pwa/sveltekit": "1.0.0",
+    "better-sqlite3": "^12.2.0",
     "bits-ui": "2.9.8",
     "clsx": "2.1.1",
     "dayjs": "1.11.18",
