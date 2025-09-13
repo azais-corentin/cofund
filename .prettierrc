@@ -3,7 +3,6 @@
   "tabWidth": 2,
   "singleQuote": true,
   "plugins": [
-    "@prettier/plugin-oxc",
     "prettier-plugin-svelte",
     "prettier-plugin-organize-imports",
     "prettier-plugin-tailwindcss"
