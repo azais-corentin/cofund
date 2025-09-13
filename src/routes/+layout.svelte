@@ -1,16 +1,28 @@
 <script lang="ts">
   import '../app.css';
   import favicon from '$lib/assets/favicon.svg';
+  import { pwaAssetsHead } from 'virtual:pwa-assets/head';
+  import { pwaInfo } from 'virtual:pwa-info';
   import { page } from '$app/state';
   import * as Breadcrumb from '$lib/components/ui/breadcrumb/index.js';
   import { Button } from '$lib/components/ui/button';
   import { Plus } from '@lucide/svelte';
   import { ModeWatcher } from 'mode-watcher';
 
+  const webManifest = $derived(pwaInfo ? pwaInfo.webManifest.linkTag : '');
+
   let { children } = $props();
 </script>
 
 <svelte:head>
+  {#if pwaAssetsHead.themeColor}
+    <meta name="theme-color" content={pwaAssetsHead.themeColor.content} />
+  {/if}
+  {#each pwaAssetsHead.links as link}
+    <link {...link} />
+  {/each}
+  <!-- eslint-disable-next-line svelte/no-at-html-tags -->
+  {@html webManifest}
   <link rel="icon" href={favicon} />
 </svelte:head>
 
@@ -49,3 +61,7 @@
     {@render children()}
   </div>
 </div>
+
+{#await import('$lib/ReloadPrompt.svelte') then { default: ReloadPrompt }}
+  <ReloadPrompt />
+{/await}

@@ -1,8 +1,12 @@
 @import 'tailwindcss';
-
 @import 'tw-animate-css';
+@import '@fontsource-variable/roboto';
 
 @custom-variant dark (&:is(.dark *));
+
+body {
+  font-family: 'Roboto Variable', sans-serif;
+}
 
 :root {
   --radius: 0.625rem;

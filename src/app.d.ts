@@ -7,7 +7,11 @@ import 'vite-plugin-pwa/svelte';
 declare global {
   namespace App {
     // interface Error {}
-    // interface Locals {}
+    interface Locals {
+      userid: string;
+      buildDate: string;
+      periodicUpdates: boolean;
+    }
     // interface PageData {}
     // interface PageState {}
     // interface Platform {}
