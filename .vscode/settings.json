@@ -29,6 +29,8 @@
   "[yaml]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
+  "prettier.documentSelectors": ["**/*.svelte"],
   "diffEditor.experimental.showMoves": true,
-  "editor.formatOnSave": true
+  "editor.formatOnSave": true,
+  "oxc.enable": true
 }
