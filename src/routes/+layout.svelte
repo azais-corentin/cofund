@@ -8,8 +8,7 @@
   import { Button } from '$lib/components/ui/button';
   import { Plus } from '@lucide/svelte';
   import { ModeWatcher } from 'mode-watcher';
-  import Breadcrumbs from '$lib/Breadcrumbs.svelte';
-  import { setBreadcrumb } from '$lib/breadcrumb-state.svelte';
+  import Breadcrumbs from '$lib/breadcrumbs.svelte';
 
   const webManifest = $derived(pwaInfo ? pwaInfo.webManifest.linkTag : '');
 
