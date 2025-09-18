@@ -3,6 +3,7 @@
   import * as Card from '$lib/components/ui/card';
   import * as Form from '$lib/components/ui/form';
   import { Input } from '$lib/components/ui/input';
+  import { Badge } from '$lib/components/ui/badge';
   import { Minus, Plus } from '@lucide/svelte';
   import { tick } from 'svelte';
   import { type SuperValidated, superForm } from 'sveltekit-superforms';
@@ -22,30 +23,57 @@
   } = $props();
 
   const client = new TriplitClient({ schema, autoConnect: false });
-  const groups = useQuery(db, client.query('groups'));
+  // const groups = useQuery(db, client.query('groups'));
 
   const form = superForm(data.form, {
+    dataType: 'json',
     validators: valibotClient(formSchema),
   });
 
   const { form: formData, enhance } = form;
 
   // Used to update focus to new input when adding a new user
-  let lastUserInput: HTMLInputElement | undefined = $state(undefined);
+  let userInputs: (HTMLElement | null)[] = $state([null]);
+
+  const addNewUser = async (index?: number) => {
+    const newIndex = (index ?? $formData.users.length - 1) + 1;
+
+    $formData.users = $formData.users.toSpliced(newIndex, 0, {
+      uuid: crypto.randomUUID(),
+      name: '',
+    });
+    userInputs.splice(newIndex, 0, null);
+    await tick();
+    console.log('Focusing new user input');
+    userInputs[newIndex]?.focus();
+  };
+
+  const removeUser = async (index: number) => {
+    if ($formData.users.length <= 1) {
+      return;
+    }
+
+    $formData.users = $formData.users.toSpliced(index, 1);
+    userInputs.splice(index, 1);
+    await tick();
+    if (index > 0) {
+      userInputs[index - 1]?.focus();
+    } else {
+      userInputs[0]?.focus();
+    }
+  };
 
   const handleInputKeydown = async (event: KeyboardEvent, i: number) => {
-    if (event.ctrlKey && event.key === 'Backspace') {
-      $formData.users = $formData.users.filter((_, idx) => idx !== i);
+    if (!event.ctrlKey) {
+      return;
     }
-    if (
-      event.ctrlKey &&
-      event.key === 'Enter' &&
-      i == $formData.users.length - 1
-    ) {
-      $formData.users = [...$formData.users, ''];
+
+    if (event.key === 'Enter') {
       event.preventDefault();
-      await tick();
-      lastUserInput?.focus();
+      addNewUser(i);
+    } else if (event.key === 'Backspace') {
+      event.preventDefault();
+      removeUser(i);
     }
   };
 </script>
@@ -72,8 +100,7 @@
             <Input
               {...props}
               bind:value={$formData.currency}
-              placeholder="$, €, £, ..."
-            />
+              placeholder="$, €, £, ..." />
             <Form.Description>We'll use it to display amounts</Form.Description>
           {/snippet}
         </Form.Control>
@@ -88,39 +115,47 @@
     </Card.Header>
     <Card.Content>
       <Form.Field {form} name="users">
-        {#each $formData.users, i}
-          <Form.ElementField {form} name="users[{i}]">
+        {#each $formData.users as user, i (user.uuid)}
+          <Form.Field {form} name="users[{i}].name" class="mb-4">
             <Form.Control>
               {#snippet children({ props })}
                 <div class="flex items-center gap-4">
-                  <input
+                  <Input
                     {...props}
                     placeholder="User name"
-                    bind:this={lastUserInput}
-                    class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
-                    bind:value={$formData.users[i]}
-                    onkeydown={(event) => handleInputKeydown(event, i)}
-                  />
+                    bind:ref={userInputs[i]}
+                    bind:value={$formData.users[i].name}
+                    onkeydown={(event) => handleInputKeydown(event, i)} />
                   <Button
+                    aria-label="Remove user"
                     variant="destructive"
                     class="px-3"
                     onclick={() =>
                       ($formData.users = $formData.users.filter(
                         (_, idx) => idx !== i,
-                      ))}
-                  >
+                      ))}>
                     <Minus />
                   </Button>
                 </div>
               {/snippet}
             </Form.Control>
             <Form.FieldErrors />
-          </Form.ElementField>
+          </Form.Field>
         {/each}
-        <Form.Description>Press Ctrl+Enter to add more users</Form.Description>
+        <Form.Description>
+          Press
+          <Badge variant="outline" class="h-5 px-1.5 font-mono">
+            Ctrl + Enter
+          </Badge> to add more users or <Badge
+            variant="outline"
+            class="h-5 px-1.5 font-mono">
+            Ctrl + Backspace
+          </Badge>
+          to remove the current user
+        </Form.Description>
         <Form.FieldErrors />
       </Form.Field>
-      <Button onclick={() => ($formData.users = [...$formData.users, ''])}>
+      <Button onclick={async () => await addNewUser()}>
         <Plus />
         Add user
       </Button>

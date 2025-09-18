@@ -17,16 +17,19 @@ export const formSchema = v.object({
   users: v.optional(
     v.pipe(
       v.array(
-        v.pipe(
-          v.string(),
-          v.minLength(2, 'User name must be at least 2 characters long'),
-          v.maxLength(255, 'User name must be at most 255 characters long'),
-        ),
+        v.object({
+          uuid: v.pipe(v.string(), v.uuid('Invalid UUID')),
+          name: v.pipe(
+            v.string(),
+            v.minLength(2, 'User name must be at least 2 characters long'),
+            v.maxLength(255, 'User name must be at most 255 characters long'),
+          ),
+        }),
       ),
       v.minLength(1, 'At least one user is required'),
       v.maxLength(255, 'No more than 255 users allowed'),
     ),
-    [''],
+    [{ uuid: crypto.randomUUID(), name: '' }],
   ),
 });
 
