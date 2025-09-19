@@ -9,6 +9,7 @@
   import { Plus } from '@lucide/svelte';
   import { ModeWatcher } from 'mode-watcher';
   import Breadcrumbs from '$lib/breadcrumbs.svelte';
+  import ConnectionStatus from '$lib/connection-status.svelte';
 
   const webManifest = $derived(pwaInfo ? pwaInfo.webManifest.linkTag : '');
 
@@ -22,7 +23,6 @@
   {#each pwaAssetsHead.links as link}
     <link {...link} />
   {/each}
-  <!-- eslint-disable-next-line svelte/no-at-html-tags -->
   {@html webManifest}
   <link rel="icon" href={favicon} />
 </svelte:head>
@@ -31,33 +31,11 @@
 
 <div class="min-h-screen">
   <div class="flex min-h-screen flex-col gap-6 p-6">
-    <div class="flew-row flex gap-4">
+    <div class="flex flex-row gap-4 pb-2">
       <div class="flex flex-1 flex-col">
-        <div class="pb-2">
+        <div class="flex items-center gap-2">
+          <ConnectionStatus />
           <Breadcrumbs />
-          {#if page.data.navigationData}
-            <Breadcrumb.Root>
-              <Breadcrumb.List class="text-3xl font-semibold">
-                {#each page.data.navigationData as navigationData, i (navigationData.url)}
-                  {#if i > 0}
-                    <Breadcrumb.Separator />
-                  {/if}
-                  <Breadcrumb.Item>
-                    <Breadcrumb.Link href={navigationData.url}
-                      >{navigationData.title}</Breadcrumb.Link
-                    >
-                  </Breadcrumb.Item>
-                {/each}
-              </Breadcrumb.List>
-            </Breadcrumb.Root>
-          {/if}
-        </div>
-        <div>
-          {#if page.data.navigationData}
-            <p class="text-l tracking-tight text-muted-foreground">
-              {page.data.navigationData.at(-1).description}
-            </p>
-          {/if}
         </div>
       </div>
       <div class="content-center">
