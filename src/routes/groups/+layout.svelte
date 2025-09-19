@@ -4,7 +4,7 @@
   let { children } = $props();
 
   setBreadcrumb({
-    name: 'Groups',
+    name: 'Cofund',
     path: '/groups',
   });
 </script>
