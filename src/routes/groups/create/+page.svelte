@@ -34,12 +34,13 @@
 
   // Used to update focus to new input when adding a new user
   let userInputs: (HTMLElement | null)[] = $state([null]);
+  let globalIndex = 1;
 
   const addNewUser = async (index?: number) => {
     const newIndex = (index ?? $formData.users.length - 1) + 1;
 
     $formData.users = $formData.users.toSpliced(newIndex, 0, {
-      uuid: crypto.randomUUID(),
+      uuid: globalIndex++,
       name: '',
     });
     userInputs.splice(newIndex, 0, null);

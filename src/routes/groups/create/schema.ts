@@ -18,7 +18,7 @@ export const formSchema = v.object({
     v.pipe(
       v.array(
         v.object({
-          uuid: v.pipe(v.string(), v.uuid('Invalid UUID')),
+          uuid: v.number(),
           name: v.pipe(
             v.string(),
             v.minLength(2, 'User name must be at least 2 characters long'),
@@ -29,7 +29,7 @@ export const formSchema = v.object({
       v.minLength(1, 'At least one user is required'),
       v.maxLength(255, 'No more than 255 users allowed'),
     ),
-    [{ uuid: crypto.randomUUID(), name: '' }],
+    [{ uuid: 0, name: '' }],
   ),
 });
 
