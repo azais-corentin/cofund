@@ -1,19 +1,33 @@
 <script lang="ts">
   import '../app.css';
-  import favicon from '$lib/assets/favicon.svg';
   import { pwaAssetsHead } from 'virtual:pwa-assets/head';
   import { pwaInfo } from 'virtual:pwa-info';
+  import favicon from '$lib/assets/favicon.svg';
+
   import { page } from '$app/state';
-  import * as Breadcrumb from '$lib/components/ui/breadcrumb/index.js';
-  import { Button } from '$lib/components/ui/button';
-  import { Plus } from '@lucide/svelte';
+
   import { ModeWatcher } from 'mode-watcher';
+  import { Plus, Trash } from '@lucide/svelte';
+
+  import { Button } from '$lib/components/ui/button';
+  import { db } from '$lib/db/db';
   import Breadcrumbs from '$lib/breadcrumbs.svelte';
   import ConnectionStatus from '$lib/connection-status.svelte';
 
   const webManifest = $derived(pwaInfo ? pwaInfo.webManifest.linkTag : '');
 
   let { children } = $props();
+
+  const isGroupPage = $derived(page.route.id === '/groups/[id]');
+  const isCreateGroupPage = $derived(page.route.id === '/groups/create');
+
+  const deleteGroup = async () => {
+    if (!page.params.id) {
+      return;
+    }
+
+    await db.delete('groups', page.params.id);
+  };
 </script>
 
 <svelte:head>
@@ -38,8 +52,13 @@
           <Breadcrumbs />
         </div>
       </div>
-      <div class="content-center">
-        <Button href="/groups/create"><Plus /> New group</Button>
+      <div class="flex gap-4">
+        {#if isGroupPage}
+          <Button variant="destructive" onclick={deleteGroup}><Trash /> Delete group</Button>
+        {/if}
+        {#if !isCreateGroupPage}
+          <Button href="/groups/create"><Plus /> New group</Button>
+        {/if}
       </div>
     </div>
     {@render children()}
