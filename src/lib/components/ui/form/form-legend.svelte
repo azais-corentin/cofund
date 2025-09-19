@@ -15,5 +15,4 @@
     'text-sm leading-none font-medium data-[fs-error]:text-destructive',
     className,
   )}
-  {...restProps}
-/>
+  {...restProps} />

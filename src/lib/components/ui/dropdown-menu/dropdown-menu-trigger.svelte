@@ -10,5 +10,4 @@
 <DropdownMenuPrimitive.Trigger
   bind:ref
   data-slot="dropdown-menu-trigger"
-  {...restProps}
-/>
+  {...restProps} />

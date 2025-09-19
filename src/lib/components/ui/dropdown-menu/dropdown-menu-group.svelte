@@ -10,5 +10,4 @@
 <DropdownMenuPrimitive.Group
   bind:ref
   data-slot="dropdown-menu-group"
-  {...restProps}
-/>
+  {...restProps} />

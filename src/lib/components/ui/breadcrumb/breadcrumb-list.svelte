@@ -17,7 +17,6 @@
     'flex flex-wrap items-center gap-1.5 text-sm break-words text-muted-foreground sm:gap-2.5',
     className,
   )}
-  {...restProps}
->
+  {...restProps}>
   {@render children?.()}
 </ol>

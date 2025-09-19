@@ -14,7 +14,6 @@
   bind:this={ref}
   data-slot="dropdown-menu-shortcut"
   class={cn('ml-auto text-xs tracking-widest text-muted-foreground', className)}
-  {...restProps}
->
+  {...restProps}>
   {@render children?.()}
 </span>

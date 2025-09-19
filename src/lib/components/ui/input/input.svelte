@@ -38,8 +38,7 @@
     type="file"
     bind:files
     bind:value
-    {...restProps}
-  />
+    {...restProps} />
 {:else}
   <input
     bind:this={ref}
@@ -52,6 +51,5 @@
     )}
     {type}
     bind:value
-    {...restProps}
-  />
+    {...restProps} />
 {/if}

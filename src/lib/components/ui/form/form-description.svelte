@@ -13,5 +13,4 @@
   bind:ref
   data-slot="form-description"
   class={cn('text-sm text-muted-foreground', className)}
-  {...restProps}
-/>
+  {...restProps} />

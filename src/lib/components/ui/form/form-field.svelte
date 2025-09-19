@@ -1,7 +1,6 @@
 <script
   lang="ts"
-  generics="T extends Record<string, unknown>, U extends FormPath<T>"
->
+  generics="T extends Record<string, unknown>, U extends FormPath<T>">
   import * as FormPrimitive from 'formsnap';
   import type { FormPath } from 'sveltekit-superforms';
   import { cn, type WithElementRef, type WithoutChildren } from '$lib/utils.js';
@@ -24,8 +23,7 @@
       bind:this={ref}
       data-slot="form-item"
       class={cn('space-y-2', className)}
-      {...restProps}
-    >
+      {...restProps}>
       {@render childrenProp?.({
         constraints,
         errors,
