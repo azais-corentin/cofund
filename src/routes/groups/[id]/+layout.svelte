@@ -8,10 +8,7 @@
 
   let { children } = $props();
 
-  const groupQuery = useQueryOne(
-    db,
-    Query('groups').Where('id', '=', page.params.id),
-  );
+  const groupQuery = useQueryOne(db, Query('groups').Where('id', '=', page.params.id));
 
   setContext('groupQuery', groupQuery);
 

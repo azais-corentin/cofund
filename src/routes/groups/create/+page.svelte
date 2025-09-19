@@ -97,10 +97,7 @@
         <Form.Control>
           {#snippet children({ props })}
             <Form.Label>Currency symbol</Form.Label>
-            <Input
-              {...props}
-              bind:value={$formData.currency}
-              placeholder="$, €, £, ..." />
+            <Input {...props} bind:value={$formData.currency} placeholder="$, €, £, ..." />
             <Form.Description>We'll use it to display amounts</Form.Description>
           {/snippet}
         </Form.Control>
@@ -131,9 +128,7 @@
                     variant="destructive"
                     class="px-3"
                     onclick={() =>
-                      ($formData.users = $formData.users.filter(
-                        (_, idx) => idx !== i,
-                      ))}>
+                      ($formData.users = $formData.users.filter((_, idx) => idx !== i))}>
                     <Minus />
                   </Button>
                 </div>
@@ -144,13 +139,8 @@
         {/each}
         <Form.Description>
           Press
-          <Badge variant="outline" class="h-5 px-1.5 font-mono">
-            Ctrl + Enter
-          </Badge> to add more users or <Badge
-            variant="outline"
-            class="h-5 px-1.5 font-mono">
-            Ctrl + Backspace
-          </Badge>
+          <Badge variant="outline" class="h-5 px-1.5 font-mono">Ctrl + Enter</Badge> to add more users
+          or <Badge variant="outline" class="h-5 px-1.5 font-mono">Ctrl + Backspace</Badge>
           to remove the current user
         </Form.Description>
         <Form.FieldErrors />

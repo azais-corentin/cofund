@@ -44,8 +44,7 @@
           <Card.Root>
             <Card.Header>
               <Card.Title>{group.name}</Card.Title>
-              <Card.Description
-                >Created {dayjs().to(group.created_at)}</Card.Description>
+              <Card.Description>Created {dayjs().to(group.created_at)}</Card.Description>
             </Card.Header>
             <Card.Content></Card.Content>
             <Card.Footer class="gap-2">
