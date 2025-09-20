@@ -57,6 +57,7 @@
 
 <style>
   .pwa-date {
+    display: none;
     visibility: hidden;
   }
   .pwa-toast {

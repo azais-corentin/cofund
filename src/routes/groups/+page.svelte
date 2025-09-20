@@ -16,7 +16,7 @@
   const groups = useQuery(db, Query('groups'));
 </script>
 
-<div class="flex min-h-screen flex-col gap-6">
+<div class="flex flex-col gap-6">
   <div id="groups-header" class="flex flex-col gap-6">
     <div class="flex flex-row gap-4">
       <Button onclick={toggleMode} variant="outline" size="icon">

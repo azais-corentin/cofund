@@ -2,10 +2,12 @@
   import { getBreadcrumbs } from './breadcrumb-state.svelte';
   import * as Breadcrumb from '$lib/components/ui/breadcrumb';
 
+  let props = $props();
+
   let items = $derived(getBreadcrumbs());
 </script>
 
-<Breadcrumb.Root>
+<Breadcrumb.Root {...props}>
   <Breadcrumb.List class="text-3xl font-semibold">
     {#each items as item, index (item.path)}
       <Breadcrumb.Item>
