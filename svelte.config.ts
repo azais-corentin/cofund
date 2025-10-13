@@ -1,10 +1,9 @@
 import adapter from '@jesterkit/exe-sveltekit';
+import type { Config } from '@sveltejs/kit';
 import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 
-/** @type {import('@sveltejs/kit').Config} */
-const config = {
+const config: Config = {
   preprocess: vitePreprocess(),
-
   kit: { adapter: adapter({ binaryName: 'cofund' }), serviceWorker: { register: false } },
 };
 
