@@ -2,11 +2,6 @@
 @import 'tw-animate-css';
 @import '@fontsource-variable/roboto';
 
-* {
-  outline: 1px solid rgba(255, 0, 0, 0.05);
-  background-color: rgba(0, 255, 0, 0.05);
-}
-
 @custom-variant dark (&:is(.dark *));
 
 body {
@@ -127,4 +122,10 @@ body {
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* Debug layout mode */
+.debug-layout * {
+  outline: 1px solid rgba(255, 0, 0, 0.05);
+  background-color: rgba(0, 255, 0, 0.02);
 }

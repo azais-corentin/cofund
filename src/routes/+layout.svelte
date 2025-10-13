@@ -4,13 +4,21 @@
   import { pwaAssetsHead } from 'virtual:pwa-assets/head';
   import { pwaInfo } from 'virtual:pwa-info';
 
+  import { dev } from '$app/environment';
   import SiteFooter from '$lib/components/site-footer.svelte';
   import SiteHeader from '$lib/components/site-header.svelte';
+  import Button from '$lib/components/ui/button/button.svelte';
   import { ModeWatcher } from 'mode-watcher';
 
   const webManifest = $derived(pwaInfo ? pwaInfo.webManifest.linkTag : '');
 
   let { children } = $props();
+
+  let debugLayout = $state(false);
+
+  function toggleDebugLayout() {
+    debugLayout = !debugLayout;
+  }
 </script>
 
 <svelte:head>
@@ -26,13 +34,26 @@
 
 <ModeWatcher />
 
-<div class="relative flex min-h-svh flex-col bg-background">
+<div class="relative flex min-h-svh flex-col bg-background" class:debug-layout={debugLayout}>
   <SiteHeader />
   <main class="flex-1 px-6">
     {@render children()}
   </main>
   <SiteFooter />
 </div>
+
+<!-- Debug Layout Toggle Button - Only shown in development -->
+{#if dev}
+  <Button
+    variant="outline"
+    size="sm"
+    onclick={toggleDebugLayout}
+    class="fixed bottom-4 right-4 z-50 shadow-lg"
+    title="Toggle debug layout mode"
+  >
+    {debugLayout ? '🔍 Debug ON' : '🔍 Debug OFF'}
+  </Button>
+{/if}
 
 {#await import('$lib/ReloadPrompt.svelte') then { default: ReloadPrompt }}
   <ReloadPrompt />
