@@ -1,7 +1,7 @@
 <script lang="ts">
   import * as Tooltip from '$lib/components/ui/tooltip';
-  import { useConnectionStatus } from '@triplit/svelte';
   import { db } from '$lib/db/db';
+  import { useConnectionStatus } from '@triplit/svelte';
 
   const connection = useConnectionStatus(db);
 

@@ -9,7 +9,7 @@
     "build": "bun vite build",
     "preview": "bun vite preview",
     "prepare": "bun svelte-kit sync || echo ''",
-    "format": "bun prettier --write .",
+    "format": "dprint fmt",
     "lint": "oxlint --type-aware",
     "check": "bun run prepare && bun svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "bun run check --watch"

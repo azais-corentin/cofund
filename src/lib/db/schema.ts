@@ -10,9 +10,7 @@ export const schema = S.Collections({
       created_at: S.Date(),
     }),
     relationships: {
-      operations: S.RelationMany('operations', {
-        where: [['group_id', '=', '$id']],
-      }),
+      operations: S.RelationMany('operations', { where: [['group_id', '=', '$id']] }),
     },
   },
   operations: {

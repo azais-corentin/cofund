@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { getBreadcrumbs } from './breadcrumb-state.svelte';
   import * as Breadcrumb from '$lib/components/ui/breadcrumb';
+  import { getBreadcrumbs } from './breadcrumb-state.svelte';
 
   let props = $props();
 

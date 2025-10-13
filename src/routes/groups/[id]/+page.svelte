@@ -1,7 +1,7 @@
 <script lang="ts">
-  import { getContext } from 'svelte';
   import dayjs from 'dayjs';
   import relativeTime from 'dayjs/plugin/relativeTime';
+  import { getContext } from 'svelte';
 
   dayjs.extend(relativeTime);
 

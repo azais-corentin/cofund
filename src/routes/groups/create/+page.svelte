@@ -1,34 +1,28 @@
 <script lang="ts">
+  import { Badge } from '$lib/components/ui/badge';
   import { Button } from '$lib/components/ui/button';
   import * as Card from '$lib/components/ui/card';
   import * as Form from '$lib/components/ui/form';
   import { Input } from '$lib/components/ui/input';
-  import { Badge } from '$lib/components/ui/badge';
   import { Minus, Plus } from '@lucide/svelte';
   import { tick } from 'svelte';
-  import { type SuperValidated, superForm } from 'sveltekit-superforms';
+  import { superForm, type SuperValidated } from 'sveltekit-superforms';
   import { valibotClient } from 'sveltekit-superforms/adapters';
   import * as valibot from 'valibot';
   import { formSchema } from './schema';
 
-  import { TriplitClient } from '@triplit/client';
-  import { useQuery } from '@triplit/svelte';
   import { db } from '$lib/db/db';
   import { schema } from '$lib/db/schema.js';
+  import { TriplitClient } from '@triplit/client';
+  import { useQuery } from '@triplit/svelte';
 
-  let {
-    data,
-  }: {
-    data: { form: SuperValidated<valibot.InferOutput<typeof formSchema>> };
-  } = $props();
+  let { data }: { data: { form: SuperValidated<valibot.InferOutput<typeof formSchema>> } } =
+    $props();
 
   const client = new TriplitClient({ schema, autoConnect: false });
   // const groups = useQuery(db, client.query('groups'));
 
-  const form = superForm(data.form, {
-    dataType: 'json',
-    validators: valibotClient(formSchema),
-  });
+  const form = superForm(data.form, { dataType: 'json', validators: valibotClient(formSchema) });
 
   const { form: formData, enhance } = form;
 
@@ -39,10 +33,7 @@
   const addNewUser = async (index?: number) => {
     const newIndex = (index ?? $formData.users.length - 1) + 1;
 
-    $formData.users = $formData.users.toSpliced(newIndex, 0, {
-      uuid: globalIndex++,
-      name: '',
-    });
+    $formData.users = $formData.users.toSpliced(newIndex, 0, { uuid: globalIndex++, name: '' });
     userInputs.splice(newIndex, 0, null);
     await tick();
     console.log('Focusing new user input');
@@ -123,13 +114,16 @@
                     placeholder="User name"
                     bind:ref={userInputs[i]}
                     bind:value={$formData.users[i].name}
-                    onkeydown={(event) => handleInputKeydown(event, i)} />
+                    onkeydown={(event) => handleInputKeydown(event, i)}
+                  />
                   <Button
                     aria-label="Remove user"
                     variant="destructive"
                     class="px-3"
-                    onclick={() =>
-                      ($formData.users = $formData.users.filter((_, idx) => idx !== i))}>
+                    onclick={() => ($formData.users = $formData.users.filter((_, idx) =>
+                      idx !== i
+                    ))}
+                  >
                     <Minus />
                   </Button>
                 </div>
@@ -140,8 +134,8 @@
         {/each}
         <Form.Description>
           Press
-          <Badge variant="outline" class="h-5 px-1.5 font-mono">Ctrl + Enter</Badge> to add more users
-          or <Badge variant="outline" class="h-5 px-1.5 font-mono">Ctrl + Backspace</Badge>
+          <Badge variant="outline" class="h-5 px-1.5 font-mono">Ctrl + Enter</Badge> to add more
+          users or <Badge variant="outline" class="h-5 px-1.5 font-mono">Ctrl + Backspace</Badge>
           to remove the current user
         </Form.Description>
         <Form.FieldErrors />

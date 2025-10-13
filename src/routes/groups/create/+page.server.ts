@@ -6,9 +6,7 @@ import { valibot } from 'sveltekit-superforms/adapters';
 import { formSchema } from './schema';
 
 export const load = async () => {
-  return {
-    form: await superValidate(valibot(formSchema)),
-  };
+  return { form: await superValidate(valibot(formSchema)) };
 };
 
 const logger = getLogger(['groups', 'create']);
@@ -17,9 +15,7 @@ export const actions = {
   default: async (event) => {
     const form = await superValidate(event, valibot(formSchema));
     if (!form.valid) {
-      return fail(400, {
-        form,
-      });
+      return fail(400, { form });
     }
 
     const group = await db.insert('groups', {

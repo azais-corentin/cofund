@@ -1,8 +1,8 @@
 <script lang="ts">
   import { page } from '$app/state';
 
-  import ConnectionStatus from '$lib/connection-status.svelte';
   import Breadcrumbs from '$lib/breadcrumbs.svelte';
+  import ConnectionStatus from '$lib/connection-status.svelte';
 
   import { Button } from '$lib/components/ui/button';
   import { Plus, Trash } from '@lucide/svelte';

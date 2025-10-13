@@ -9,9 +9,9 @@
         "Gxl.git-graph-3",
         "svelte.svelte-vscode",
         "bradlc.vscode-tailwindcss",
-        "esbenp.prettier-vscode",
         "fill-labs.dependi",
-        "oxc.oxc-vscode"
+        "oxc.oxc-vscode",
+        "dprint.dprint"
       ]
     }
   }

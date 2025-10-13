@@ -12,16 +12,13 @@ export interface BreadcrumbInternal extends Breadcrumb {
 const breadcrumbMap = new SvelteMap<string, BreadcrumbInternal>();
 
 const breadcrumbs: Breadcrumb[] = $derived.by(() =>
-  Array.from(breadcrumbMap.values()).toSorted((a, b) => a.count - b.count),
+  Array.from(breadcrumbMap.values()).toSorted((a, b) => a.count - b.count)
 );
 export const getBreadcrumbs = (): Breadcrumb[] => breadcrumbs;
 
 export function setBreadcrumb(item: Breadcrumb) {
   $effect(() => {
-    breadcrumbMap.set(item.path, {
-      ...item,
-      count: item.path.split('/').length,
-    });
+    breadcrumbMap.set(item.path, { ...item, count: item.path.split('/').length });
     return () => {
       breadcrumbMap.delete(item.path);
     };

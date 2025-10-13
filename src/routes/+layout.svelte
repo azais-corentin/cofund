@@ -1,12 +1,12 @@
 <script lang="ts">
   import '../app.css';
+  import favicon from '$lib/assets/favicon.svg';
   import { pwaAssetsHead } from 'virtual:pwa-assets/head';
   import { pwaInfo } from 'virtual:pwa-info';
-  import favicon from '$lib/assets/favicon.svg';
 
-  import { ModeWatcher } from 'mode-watcher';
-  import SiteHeader from '$lib/components/site-header.svelte';
   import SiteFooter from '$lib/components/site-footer.svelte';
+  import SiteHeader from '$lib/components/site-header.svelte';
+  import { ModeWatcher } from 'mode-watcher';
 
   const webManifest = $derived(pwaInfo ? pwaInfo.webManifest.linkTag : '');
 

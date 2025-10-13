@@ -4,9 +4,8 @@
 
 FROM mcr.microsoft.com/devcontainers/base:debian AS devcontainer
 
-RUN apt-get update  \
-    && apt-get -y --no-install-recommends install  \
-    # install any other dependencies you might need
+RUN apt-get update \
+    && apt-get -y --no-install-recommends install \
     sudo curl git ca-certificates build-essential \
     && rm -rf /var/lib/apt/lists/*
 
@@ -39,4 +38,4 @@ COPY --from=builder /app/dist/cofund .
 
 ENV NODE_ENV=production
 EXPOSE 3000/tcp
-ENTRYPOINT [ "/app/cofund" ]
+ENTRYPOINT ["/app/cofund"]

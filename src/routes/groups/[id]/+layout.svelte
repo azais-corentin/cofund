@@ -2,8 +2,8 @@
   import { page } from '$app/state';
   import { setBreadcrumb } from '$lib/breadcrumb-state.svelte';
 
-  import { useQueryOne } from '@triplit/svelte';
   import { db, Query } from '$lib/db/db';
+  import { useQueryOne } from '@triplit/svelte';
   import { setContext } from 'svelte';
 
   let { children } = $props();
@@ -13,10 +13,7 @@
   setContext('groupQuery', groupQuery);
 
   $effect(() => {
-    setBreadcrumb({
-      name: groupQuery.result?.name ?? '?',
-      path: `/groups/${page.params.id}`,
-    });
+    setBreadcrumb({ name: groupQuery.result?.name ?? '?', path: `/groups/${page.params.id}` });
   });
 </script>
 

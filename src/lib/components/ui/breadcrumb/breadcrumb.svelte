@@ -2,12 +2,9 @@
   import type { WithElementRef } from '$lib/utils.js';
   import type { HTMLAttributes } from 'svelte/elements';
 
-  let {
-    ref = $bindable(null),
-    class: className,
-    children,
-    ...restProps
-  }: WithElementRef<HTMLAttributes<HTMLElement>> = $props();
+  let { ref = $bindable(null), class: className, children, ...restProps }: WithElementRef<
+    HTMLAttributes<HTMLElement>
+  > = $props();
 </script>
 
 <nav
@@ -15,6 +12,7 @@
   data-slot="breadcrumb"
   class={className}
   aria-label="breadcrumb"
-  {...restProps}>
+  {...restProps}
+>
   {@render children?.()}
 </nav>
