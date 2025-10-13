@@ -1,0 +1,8 @@
+.devcontainer
+.git
+.github
+.svelte-kit
+.vscode
+dist
+Dockerfile
+node_modules

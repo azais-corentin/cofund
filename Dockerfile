@@ -12,24 +12,31 @@ RUN apt-get update  \
 
 USER vscode
 
+ENV MISE_DATA_DIR="/mise"
+ENV MISE_CONFIG_DIR="/mise"
+ENV MISE_CACHE_DIR="/mise/cache"
+ENV MISE_INSTALL_PATH="/usr/local/bin/mise"
+ENV PATH="/mise/shims:$PATH"
 RUN curl https://mise.run | sh
-ENV PATH="/home/vscode/.local/bin:${PATH}"
 RUN echo 'eval "$(~/.local/bin/mise activate bash)"' >> ~/.bashrc
 
-RUN mise use -g bun
-ENV PATH="/home/vscode/.bun/bin:${PATH}"
+RUN mise use -g bun github:dprint/dprint
 
-FROM oven/bun:1 AS production-build
+FROM oven/bun:1 AS builder
+WORKDIR /app
+
+COPY package.json bun.lock .
+RUN bun install --frozen-lockfile
+
+COPY . .
+RUN bun run build
+
+FROM gcr.io/distroless/base:nonroot AS runner
 
 WORKDIR /app
-COPY . /app
 
-RUN bun install --frozen-lockfile && bun run build
+COPY --from=builder /app/dist/cofund .
 
-FROM oven/bun:1-slim AS production
-
-WORKDIR /app
-COPY --from=production-build /app/build .
-
-EXPOSE 3000
-ENTRYPOINT [ "bun", "run", "/app/index.ts" ]
+ENV NODE_ENV=production
+EXPOSE 3000/tcp
+ENTRYPOINT [ "/app/cofund" ]
