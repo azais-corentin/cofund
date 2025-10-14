@@ -2,13 +2,13 @@
   import { page } from '$app/state';
   import { setBreadcrumb } from '$lib/breadcrumb-state.svelte';
 
-  import { db, Query } from '$lib/db/db';
-  import { useQueryOne } from '@triplit/svelte';
+  import { useRow } from '$lib/db/hooks.svelte';
+  import { deserializeGroup, type Group } from '$lib/db/schema';
   import { setContext } from 'svelte';
 
   let { children } = $props();
 
-  const groupQuery = useQueryOne(db, Query('groups').Where('id', '=', page.params.id));
+  const groupQuery = useRow<Group>('groups', page.params.id || '', deserializeGroup);
 
   setContext('groupQuery', groupQuery);
 

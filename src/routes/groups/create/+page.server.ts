@@ -1,6 +1,5 @@
-import { db } from '$lib/db/db';
 import { getLogger } from '@logtape/logtape';
-import { fail, redirect } from '@sveltejs/kit';
+import { fail } from '@sveltejs/kit';
 import { superValidate } from 'sveltekit-superforms';
 import { valibot } from 'sveltekit-superforms/adapters';
 import { formSchema } from './schema';
@@ -18,15 +17,29 @@ export const actions = {
       return fail(400, { form });
     }
 
-    const group = await db.insert('groups', {
+    // Generate a unique ID for the group
+    const groupId = crypto.randomUUID();
+
+    logger.info('Validated group creation {groupId}', {
+      groupId,
       name: form.data.name,
       currency: form.data.currency,
-      users: form.data.users.map((u) => u.name),
-      created_at: new Date(),
+      users: form
+        .data
+        .users
+        .map((u) => u.name),
     });
 
-    logger.info('Created group {group}', { group });
-
-    redirect(302, `/groups/${group.id}`);
+    // Return success with the group data - client will handle insertion
+    return {
+      success: true,
+      groupId,
+      groupData: {
+        name: form.data.name,
+        currency: form.data.currency,
+        users: form.data.users.map((u) => u.name),
+        created_at: Date.now(),
+      },
+    };
   },
 };

@@ -7,7 +7,8 @@
   import { Button } from '$lib/components/ui/button';
   import { Plus, Trash } from '@lucide/svelte';
 
-  import { db } from '$lib/db/db';
+  import { goto } from '$app/navigation';
+  import { store } from '$lib/db/db';
 
   const isGroupPage = $derived(page.route.id === '/groups/[id]');
   const isCreateGroupPage = $derived(page.route.id === '/groups/create');
@@ -17,7 +18,8 @@
       return;
     }
 
-    await db.delete('groups', page.params.id);
+    store.delRow('groups', page.params.id);
+    goto('/groups');
   };
 </script>
 

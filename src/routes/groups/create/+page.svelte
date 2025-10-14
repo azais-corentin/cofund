@@ -1,9 +1,12 @@
 <script lang="ts">
+  import { goto } from '$app/navigation';
   import { Badge } from '$lib/components/ui/badge';
   import { Button } from '$lib/components/ui/button';
   import * as Card from '$lib/components/ui/card';
   import * as Form from '$lib/components/ui/form';
   import { Input } from '$lib/components/ui/input';
+  import { store } from '$lib/db/db';
+  import { serializeGroup } from '$lib/db/schema';
   import { Minus, Plus } from '@lucide/svelte';
   import { tick } from 'svelte';
   import { superForm, type SuperValidated } from 'sveltekit-superforms';
@@ -11,18 +14,23 @@
   import * as valibot from 'valibot';
   import { formSchema } from './schema';
 
-  import { db } from '$lib/db/db';
-  import { schema } from '$lib/db/schema.js';
-  import { TriplitClient } from '@triplit/client';
-  import { useQuery } from '@triplit/svelte';
-
   let { data }: { data: { form: SuperValidated<valibot.InferOutput<typeof formSchema>> } } =
     $props();
 
-  const client = new TriplitClient({ schema, autoConnect: false });
-  // const groups = useQuery(db, client.query('groups'));
+  const form = superForm(data.form, {
+    dataType: 'json',
+    validators: valibotClient(formSchema),
+    onResult: ({ result }) => {
+      if (result.type === 'success' && result.data?.success) {
+        // Insert the group into TinyBase store
+        const { groupId, groupData } = result.data;
+        store.setRow('groups', groupId, serializeGroup(groupData));
 
-  const form = superForm(data.form, { dataType: 'json', validators: valibotClient(formSchema) });
+        // Navigate to the new group
+        goto(`/groups/${groupId}`);
+      }
+    },
+  });
 
   const { form: formData, enhance } = form;
 

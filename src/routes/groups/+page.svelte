@@ -8,12 +8,12 @@
   import relativeTime from 'dayjs/plugin/relativeTime';
   import { toggleMode } from 'mode-watcher';
 
-  import { db, Query } from '$lib/db/db';
-  import { useQuery } from '@triplit/svelte';
+  import { useTable } from '$lib/db/hooks.svelte';
+  import { deserializeGroup, type Group } from '$lib/db/schema';
 
   dayjs.extend(relativeTime);
 
-  const groups = useQuery(db, Query('groups'));
+  const groups = useTable<Group>('groups', deserializeGroup);
 </script>
 
 <div class="flex flex-col gap-6">

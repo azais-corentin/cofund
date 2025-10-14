@@ -1,11 +1,8 @@
 <script lang="ts">
   import * as Tooltip from '$lib/components/ui/tooltip';
-  import { db } from '$lib/db/db';
-  import { useConnectionStatus } from '@triplit/svelte';
+  import { useConnectionStatus } from '$lib/db/hooks.svelte';
 
-  const connection = useConnectionStatus(db);
-
-  let value = 'test';
+  const connection = useConnectionStatus();
 
   const color = $derived.by(() => {
     if (connection.status === 'CLOSED') {
