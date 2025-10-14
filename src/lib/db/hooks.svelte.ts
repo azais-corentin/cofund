@@ -1,6 +1,6 @@
 import { onDestroy, onMount } from 'svelte';
 import type { Row } from 'tinybase';
-import { store } from './db';
+import { store, synchronizer } from './db';
 
 /**
  * Custom Svelte hook to reactively get all rows from a table
@@ -117,59 +117,41 @@ export function useRow<T = Record<string, any>>(
   };
 }
 
-/**
- * Custom Svelte hook for WebSocket connection status
- * Monitors the WsSynchronizer connection status
- */
-export function useConnectionStatus() {
-  let status = $state<'OPEN' | 'CLOSED' | 'CONNECTING'>('CONNECTING');
+export let connectionStatus = $state<{ state: 'CLOSED' | 'CONNECTING' | 'CONNECTED' }>({
+  state: 'CONNECTING',
+});
 
-  onMount(async () => {
-    // Dynamically import synchronizer to avoid SSR issues
-    const { synchronizer } = await import('./db');
+(async () => {
+  const sync = await synchronizer;
 
-    if (!synchronizer) {
-      status = 'CLOSED';
-      return;
-    }
+  if (!sync) {
+    connectionStatus.state = 'CLOSED';
+    return;
+  }
 
-    // Get initial status
-    const wsStatus = synchronizer.getWebSocket().readyState;
-    status = wsStatus === WebSocket.OPEN
-      ? 'OPEN'
-      : wsStatus === WebSocket.CONNECTING
-      ? 'CONNECTING'
-      : 'CLOSED';
-
-    // Listen for status changes on the WebSocket
-    const ws = synchronizer.getWebSocket();
-
-    const handleOpen = () => {
-      status = 'OPEN';
-    };
-
-    const handleClose = () => {
-      status = 'CLOSED';
-    };
-
-    const handleError = () => {
-      status = 'CLOSED';
-    };
-
-    ws.addEventListener('open', handleOpen);
-    ws.addEventListener('close', handleClose);
-    ws.addEventListener('error', handleError);
-
-    onDestroy(() => {
-      ws.removeEventListener('open', handleOpen);
-      ws.removeEventListener('close', handleClose);
-      ws.removeEventListener('error', handleError);
-    });
+  sync.addStatusListener((persister, status) => {
+    console.log(`sync status changed to ${status}`);
   });
 
-  return {
-    get status() {
-      return status;
-    },
-  };
-}
+  const ws = sync.getWebSocket();
+
+  // Set initial status
+  connectionStatus.state = ws.readyState === WebSocket.OPEN
+    ? 'CONNECTED'
+    : ws.readyState === WebSocket.CONNECTING
+    ? 'CONNECTING'
+    : 'CLOSED';
+
+  // Listen for status changes
+  ws.addEventListener('open', () => {
+    connectionStatus.state = 'CONNECTED';
+  });
+
+  ws.addEventListener('close', () => {
+    connectionStatus.state = 'CLOSED';
+  });
+
+  ws.addEventListener('error', () => {
+    connectionStatus.state = 'CLOSED';
+  });
+})();

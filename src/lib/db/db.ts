@@ -2,7 +2,6 @@ import { browser } from '$app/environment';
 import { createMergeableStore, createRelationships } from 'tinybase';
 import { createIndexedDbPersister } from 'tinybase/persisters/persister-indexed-db';
 import { createWsSynchronizer } from 'tinybase/synchronizers/synchronizer-ws-client';
-import type { WsSynchronizer } from 'tinybase/synchronizers/synchronizer-ws-client';
 
 // Create the mergeable store (required for WsSynchronizer)
 export const store = createMergeableStore();
@@ -15,28 +14,39 @@ relationships.setRelationshipDefinition('groupOperations', 'operations', 'groups
 
 // Initialize persister for IndexedDB storage
 let persister: ReturnType<typeof createIndexedDbPersister> | null = null;
-let synchronizer: WsSynchronizer<WebSocket> | null = null;
 
-if (browser) {
-  // Get WebSocket URL from environment or use default
+export const synchronizer = (async () => {
+  if (!browser) {
+    return null;
+  }
+
   const wsUrl = import.meta.env.PUBLIC_WS_URL || 'ws://localhost:8043';
 
-  // Set up local persistence first
+  console.info('Setting up IndexedDB persister');
   persister = createIndexedDbPersister(store, 'cofund-db');
 
-  // Load local data first, then set up sync
-  void persister.load().then(async () => {
-    void persister?.startAutoSave();
+  console.info('Loading data from IndexedDB');
+  await persister.load();
+  console.info('Starting auto-save for IndexedDB persister');
+  await persister.startAutoSave();
 
-    // Set up WebSocket synchronization
-    try {
-      const ws = new WebSocket(wsUrl);
-      synchronizer = await createWsSynchronizer(store, ws);
-      await synchronizer.startSync();
-    } catch (error) {
-      console.error('Failed to connect to WebSocket server:', error);
-    }
+  persister.addStatusListener((persister, status) => {
+    console.log(`persister status changed to ${status}`);
   });
-}
 
-export { persister, synchronizer };
+  // Set up WebSocket synchronization
+  try {
+    console.info(`Connecting to WebSocket server at ${wsUrl}`);
+    const ws = new WebSocket(wsUrl);
+    console.info('Setting up WebSocket synchronizer');
+    const synchronizer = await createWsSynchronizer(store, ws);
+    console.info('Starting WebSocket synchronizer');
+    await synchronizer.startSync();
+    return synchronizer;
+  } catch (error) {
+    console.error('Failed to connect to WebSocket server:', error);
+    return null;
+  }
+})();
+
+export { persister };

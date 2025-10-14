@@ -38,7 +38,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 const wsLogger = getLogger(['logtape', 'ws']);
 
 export const init: ServerInit = async () => {
-  wsLogger.info('Starting WebSocket server...');
+  wsLogger.info('Starting WebSocket synchronization server...');
 
   // Get port from environment or use default
   const WS_PORT = process.env.WS_PORT ? parseInt(process.env.WS_PORT) : 8043;
@@ -53,8 +53,7 @@ export const init: ServerInit = async () => {
   // Create TinyBase WebSocket synchronization server
   const server = createWsServer(wss);
 
-  wsLogger.info(`✓ WebSocket synchronization server started on port ${WS_PORT}`);
-  wsLogger.info(`  Clients can connect to: ws://localhost:${WS_PORT}`);
+  wsLogger.info(`Websocket synchronization server started at ws://localhost:${WS_PORT}`);
 
   process.on('sveltekit:shutdown', async () => {
     await server.destroy();

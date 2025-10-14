@@ -1,14 +1,12 @@
 <script lang="ts">
   import * as Tooltip from '$lib/components/ui/tooltip';
-  import { useConnectionStatus } from '$lib/db/hooks.svelte';
-
-  const connection = useConnectionStatus();
+  import { connectionStatus } from '$lib/db/hooks.svelte';
 
   const color = $derived.by(() => {
-    if (connection.status === 'CLOSED') {
+    if (connectionStatus.state === 'CLOSED') {
       return 'bg-red-600';
     }
-    if (connection.status === 'CONNECTING') {
+    if (connectionStatus.state === 'CONNECTING') {
       return 'bg-yellow-600';
     }
 
@@ -22,7 +20,7 @@
       <div class="inline-block h-3 w-3 rounded-full {color}"></div>
     </Tooltip.Trigger>
     <Tooltip.Content>
-      <p class="capitalize">{connection.status.toLocaleLowerCase()}</p>
+      <p class="capitalize">{connectionStatus.state.toLocaleLowerCase()}</p>
     </Tooltip.Content>
   </Tooltip.Root>
 </Tooltip.Provider>
