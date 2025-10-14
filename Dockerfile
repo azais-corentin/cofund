@@ -11,15 +11,10 @@ RUN apt-get update \
 
 USER vscode
 
-ENV MISE_DATA_DIR="/mise"
-ENV MISE_CONFIG_DIR="/mise"
-ENV MISE_CACHE_DIR="/mise/cache"
-ENV MISE_INSTALL_PATH="/usr/local/bin/mise"
-ENV PATH="/mise/shims:$PATH"
-RUN curl https://mise.run | sh
-RUN echo 'eval "$(~/.local/bin/mise activate bash)"' >> ~/.bashrc
-
-RUN mise use -g bun github:dprint/dprint
+# Install mise
+RUN curl https://mise.run/bash | sh
+RUN echo 'eval "$(mise activate bash)"' >> ~/.bashrc
+RUN ~/.local/bin/mise use -g bun github:dprint/dprint
 
 FROM oven/bun:1 AS builder
 WORKDIR /app
