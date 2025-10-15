@@ -9,17 +9,15 @@
   import { serializeGroup } from '$lib/db/schema';
   import { Minus, Plus } from '@lucide/svelte';
   import { tick } from 'svelte';
-  import { superForm, type SuperValidated } from 'sveltekit-superforms';
-  import { valibotClient } from 'sveltekit-superforms/adapters';
-  import * as valibot from 'valibot';
+  import { superForm } from 'sveltekit-superforms';
+  import { typeboxClient } from 'sveltekit-superforms/adapters';
   import { formSchema } from './schema';
 
-  let { data }: { data: { form: SuperValidated<valibot.InferOutput<typeof formSchema>> } } =
-    $props();
+  let { data } = $props();
 
-  const form = superForm(data.form, {
+  const { form, errors, message, enhance } = superForm(data.form, {
     dataType: 'json',
-    validators: valibotClient(formSchema),
+    validators: typeboxClient(formSchema),
     onResult: ({ result }) => {
       if (result.type === 'success' && result.data?.success) {
         // Insert the group into TinyBase store
@@ -32,16 +30,14 @@
     },
   });
 
-  const { form: formData, enhance } = form;
-
   // Used to update focus to new input when adding a new user
   let userInputs: (HTMLElement | null)[] = $state([null]);
   let globalIndex = 1;
 
   const addNewUser = async (index?: number) => {
-    const newIndex = (index ?? $formData.users.length - 1) + 1;
+    const newIndex = (index ?? $form.users.length - 1) + 1;
 
-    $formData.users = $formData.users.toSpliced(newIndex, 0, { uuid: globalIndex++, name: '' });
+    $form.users = $form.users.toSpliced(newIndex, 0, { uuid: globalIndex++, name: '' });
     userInputs.splice(newIndex, 0, null);
     await tick();
     console.log('Focusing new user input');
@@ -49,11 +45,11 @@
   };
 
   const removeUser = async (index: number) => {
-    if ($formData.users.length <= 1) {
+    if ($form.users.length <= 1) {
       return;
     }
 
-    $formData.users = $formData.users.toSpliced(index, 1);
+    $form.users = $form.users.toSpliced(index, 1);
     userInputs.splice(index, 1);
     await tick();
     if (index > 0) {
@@ -88,7 +84,7 @@
         <Form.Control>
           {#snippet children({ props })}
             <Form.Label>Name</Form.Label>
-            <Input {...props} bind:value={$formData.name} />
+            <Input {...props} bind:value={$form.name} />
           {/snippet}
         </Form.Control>
         <Form.FieldErrors />
@@ -97,7 +93,7 @@
         <Form.Control>
           {#snippet children({ props })}
             <Form.Label>Currency symbol</Form.Label>
-            <Input {...props} bind:value={$formData.currency} placeholder="$, €, £, ..." />
+            <Input {...props} bind:value={$form.currency} placeholder="$, €, £, ..." />
             <Form.Description>We'll use it to display amounts</Form.Description>
           {/snippet}
         </Form.Control>
@@ -112,7 +108,7 @@
     </Card.Header>
     <Card.Content>
       <Form.Field {form} name="users">
-        {#each $formData.users as user, i (user.uuid)}
+        {#each $form.users as user, i (user.uuid)}
           <Form.Field {form} name="users[{i}].name" class="mb-4">
             <Form.Control>
               {#snippet children({ props })}
@@ -121,16 +117,14 @@
                     {...props}
                     placeholder="User name"
                     bind:ref={userInputs[i]}
-                    bind:value={$formData.users[i].name}
+                    bind:value={$form.users[i].name}
                     onkeydown={(event) => handleInputKeydown(event, i)}
                   />
                   <Button
                     aria-label="Remove user"
                     variant="destructive"
                     class="px-3"
-                    onclick={() => ($formData.users = $formData.users.filter((_, idx) =>
-                      idx !== i
-                    ))}
+                    onclick={() => ($form.users = $form.users.filter((_, idx) => idx !== i))}
                   >
                     <Minus />
                   </Button>

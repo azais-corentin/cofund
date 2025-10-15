@@ -1,9 +1,9 @@
 import { sveltekit } from '@sveltejs/kit/vite';
 import tailwindcss from '@tailwindcss/vite';
 import { SvelteKitPWA } from '@vite-pwa/sveltekit';
-import { defineConfig } from 'vite';
+import { type UserConfig } from 'vite';
 
-export default defineConfig({
+export default {
   plugins: [tailwindcss(), sveltekit(),
     SvelteKitPWA({
       srcDir: './src',
@@ -35,4 +35,4 @@ export default defineConfig({
     })],
   server: { host: true },
   define: { BUILD_DATE: JSON.stringify(new Date().toISOString()) },
-});
+} satisfies UserConfig;

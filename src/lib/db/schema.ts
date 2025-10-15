@@ -1,28 +1,36 @@
-import type { Row } from 'tinybase';
+import type { Row, TablesSchema } from 'tinybase';
+import Type from 'typebox';
+import { Compile } from 'typebox/compile';
 
-// TinyBase uses a simple key-value structure for tables
-// Schema is defined by the data structure you use
+const groupObject = Type.Object({
+  id: Type.String(),
+  name: Type.String(),
+  currency: Type.String(),
+  users: Type.String(), // JSON
+  created_at: Type.Number(),
+});
+const group = Compile(groupObject);
 
-export interface Group {
-  id: string;
-  name: string;
-  currency: string;
-  users: string[]; // Stored as JSON string in TinyBase
-  created_at: number; // Timestamp
-}
+const operationObject = Type.Object({
+  id: Type.String(),
+  group_id: Type.String(),
+  created_at: Type.Number(),
+  title: Type.String(),
+  amount: Type.Number(),
+  paid_by: Type.String(),
+  split_type: Type.String(),
+  split: Type.String(),
+});
+const operation = Compile(operationObject);
 
-export interface Operation {
-  id: string;
-  group_id: string;
-  created_at: number; // Timestamp
-  title: string;
-  amount: number;
-  paid_by: string;
-  split_type: string;
-  split: string; // JSON string of array of { user: string, value: number }
-}
+export type Group = Type.Static<typeof group>;
+export type Operation = Type.Static<typeof operation>;
 
-// Helper functions for type-safe data operations
+export const tablesSchema: TablesSchema = {
+  groups: groupObject.properties,
+  operations: operationObject.properties,
+};
+
 export const serializeGroup = (group: Omit<Group, 'id'>): Row => ({
   name: group.name,
   currency: group.currency,
