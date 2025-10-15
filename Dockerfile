@@ -14,6 +14,7 @@ USER vscode
 # Install mise
 RUN curl https://mise.run/bash | sh
 RUN echo 'eval "$(mise activate bash)"' >> ~/.bashrc
+# Install bun, dprint
 RUN ~/.local/bin/mise use -g bun github:dprint/dprint
 
 FROM oven/bun:1 AS builder

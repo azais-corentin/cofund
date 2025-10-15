@@ -1,6 +1,6 @@
 import { onDestroy, onMount } from 'svelte';
 import type { Row } from 'tinybase';
-import { store, synchronizer } from './db';
+import { store } from './db';
 
 /**
  * Custom Svelte hook to reactively get all rows from a table
@@ -116,42 +116,3 @@ export function useRow<T = Record<string, any>>(
     },
   };
 }
-
-export let connectionStatus = $state<{ state: 'CLOSED' | 'CONNECTING' | 'CONNECTED' }>({
-  state: 'CONNECTING',
-});
-
-(async () => {
-  const sync = await synchronizer;
-
-  if (!sync) {
-    connectionStatus.state = 'CLOSED';
-    return;
-  }
-
-  sync.addStatusListener((persister, status) => {
-    console.log(`sync status changed to ${status}`);
-  });
-
-  const ws = sync.getWebSocket();
-
-  // Set initial status
-  connectionStatus.state = ws.readyState === WebSocket.OPEN
-    ? 'CONNECTED'
-    : ws.readyState === WebSocket.CONNECTING
-    ? 'CONNECTING'
-    : 'CLOSED';
-
-  // Listen for status changes
-  ws.addEventListener('open', () => {
-    connectionStatus.state = 'CONNECTED';
-  });
-
-  ws.addEventListener('close', () => {
-    connectionStatus.state = 'CLOSED';
-  });
-
-  ws.addEventListener('error', () => {
-    connectionStatus.state = 'CLOSED';
-  });
-})();

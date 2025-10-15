@@ -3,7 +3,7 @@
   import { Button } from '$lib/components/ui/button';
   import * as Card from '$lib/components/ui/card';
   import { Input } from '$lib/components/ui/input';
-  import { Moon, Search, Sun, Trash2 } from '@lucide/svelte';
+  import { Moon, Search, Sun } from '@lucide/svelte';
   import dayjs from 'dayjs';
   import relativeTime from 'dayjs/plugin/relativeTime';
   import { toggleMode } from 'mode-watcher';
