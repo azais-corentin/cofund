@@ -8,9 +8,10 @@ import {
   createWsSynchronizer,
   type WsSynchronizer,
 } from 'tinybase/synchronizers/synchronizer-ws-client';
+import { tablesSchema } from './schema';
 
 // Create the mergeable store (required for WsSynchronizer)
-export const store = createMergeableStore();
+export const store = createMergeableStore().setTablesSchema(tablesSchema);
 
 // Create relationships
 export const relationships = createRelationships(store).setRelationshipDefinition(
