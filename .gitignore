@@ -1,9 +1,8 @@
 !.env.example
 !.env.test
-.env
-.env.*
+.agents
+.env*
 .svelte-kit/
 dist/
 node_modules/
-vite.config.js.timestamp-*
-vite.config.ts.timestamp-*
+vite.config.*.timestamp-*
