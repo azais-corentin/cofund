@@ -35,7 +35,7 @@ export const handle: Handle = async ({ event, resolve }) => {
   return resolve(event);
 };
 
-const wsLogger = getLogger(['logtape', 'ws']);
+const wsLogger = getLogger(['cofund', 'ws']);
 
 export const init: ServerInit = async () => {
   wsLogger.info('Starting WebSocket synchronization server...');

@@ -1,7 +1,7 @@
 import { getLogger } from '@logtape/logtape';
 import { redirect } from '@sveltejs/kit';
 
-const logger = getLogger();
+const logger = getLogger('cofund');
 
 export const load = () => {
   logger.info('Redirecting to /groups');
