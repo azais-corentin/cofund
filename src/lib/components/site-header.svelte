@@ -10,8 +10,8 @@
   import { goto } from '$app/navigation';
   import { store } from '$lib/db/db';
 
-  const isGroupPage = $derived(page.route.id === '/groups/[id]');
-  const isCreateGroupPage = $derived(page.route.id === '/groups/create');
+  const isGroupPage = $derived(page.route.id === '/(app)/groups/[id]');
+  const isCreateGroupPage = $derived(page.route.id === '/(app)/groups/create');
 
   const deleteGroup = async () => {
     if (!page.params.id) {

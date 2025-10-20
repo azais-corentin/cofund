@@ -35,11 +35,17 @@
 <ModeWatcher />
 
 <div class="relative flex min-h-svh flex-col bg-background" class:debug-layout={debugLayout}>
-  <SiteHeader />
-  <main class="flex-1 px-6">
+  <div class="hidden md:block">
+    <SiteHeader />
+  </div>
+
+  <main class="flex-1 px-6 pt-4 md:pt-0">
     {@render children()}
   </main>
-  <SiteFooter />
+
+  <div class="hidden md:block">
+    <SiteFooter />
+  </div>
 </div>
 
 <!-- Debug Layout Toggle Button - Only shown in development -->
@@ -48,7 +54,7 @@
     variant="outline"
     size="sm"
     onclick={toggleDebugLayout}
-    class="fixed bottom-4 right-4 z-50 shadow-lg"
+    class="fixed bottom-4 left-4 z-50 shadow-lg"
     title="Toggle debug layout mode"
   >
     {debugLayout ? '🔍 Debug ON' : '🔍 Debug OFF'}
