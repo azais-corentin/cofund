@@ -5,6 +5,9 @@
   import { useTable } from '$lib/db/hooks.svelte';
   import { deserializeOperation, type Operation } from '$lib/db/schema';
   import { page } from '$app/state';
+  import { goto } from '$app/navigation';
+  import { deleteOperation } from '$lib/db/db.js';
+  import SwipeableExpense from '$lib/components/swipeable-expense.svelte';
 
   const groupQuery: any = getContext('groupQuery');
   const group = $derived(groupQuery?.result);
@@ -135,40 +138,47 @@
               {@const StatusIcon = getStatusIcon(operation.split_type)}
               {@const splitData = JSON.parse(operation.split)}
               {@const participants = Array.isArray(splitData) ? splitData : [operation.paid_by]}
-              <div class="flex items-center gap-4 bg-card p-4 rounded-lg shadow-md">
-                <div class="text-white flex items-center justify-center rounded-lg bg-primary shrink-0 size-12">
-                  <IconComponent class="size-6" />
-                </div>
-                <div class="flex flex-col justify-center flex-grow">
-                  <p class="text-foreground text-base font-medium line-clamp-1">
-                    {operation.title}
-                  </p>
-                  <div class="flex items-center gap-2 mt-1">
-                    <p class="text-muted-foreground text-sm">
-                      Paid by: {operation.paid_by}
-                    </p>
-                    <div class="flex items-center">
-                      {#each participants.slice(0, 3) as participant, idx (participant + idx)}
-                        <div 
-                          class="size-6 rounded-full border-2 border-card flex items-center justify-center text-[10px] font-semibold text-white {getAvatarColor(participant)}"
-                          class:-ml-2={idx > 0}
-                          title={participant}
-                        >
-                          {getUserInitials(participant)}
+              <SwipeableExpense 
+                onDelete={() => deleteOperation(operation.id)}
+                onEdit={() => goto(`/groups/${group?.id}/edit/${operation.id}`)}
+              >
+                {#snippet children()}
+                  <div class="flex items-center gap-4 bg-card p-4 rounded-lg shadow-md">
+                    <div class="text-white flex items-center justify-center rounded-lg bg-primary shrink-0 size-12">
+                      <IconComponent class="size-6" />
+                    </div>
+                    <div class="flex flex-col justify-center flex-grow">
+                      <p class="text-foreground text-base font-medium line-clamp-1">
+                        {operation.title}
+                      </p>
+                      <div class="flex items-center gap-2 mt-1">
+                        <p class="text-muted-foreground text-sm">
+                          Paid by: {operation.paid_by}
+                        </p>
+                        <div class="flex items-center">
+                          {#each participants.slice(0, 3) as participant, idx (participant + idx)}
+                            <div 
+                              class="size-6 rounded-full border-2 border-card flex items-center justify-center text-[10px] font-semibold text-white {getAvatarColor(participant)}"
+                              class:-ml-2={idx > 0}
+                              title={participant}
+                            >
+                              {getUserInitials(participant)}
+                            </div>
+                          {/each}
                         </div>
-                      {/each}
+                      </div>
+                    </div>
+                    <div class="shrink-0 flex flex-col items-end">
+                      <p class="text-foreground text-base font-semibold">
+                        {formatCurrency(operation.amount, group?.currency ?? 'USD')}
+                      </p>
+                      <div class="rounded-full size-5 flex items-center justify-center mt-1 {getStatusClass(operation.split_type)}">
+                        <StatusIcon class="size-3" />
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div class="shrink-0 flex flex-col items-end">
-                  <p class="text-foreground text-base font-semibold">
-                    {formatCurrency(operation.amount, group?.currency ?? 'USD')}
-                  </p>
-                  <div class="rounded-full size-5 flex items-center justify-center mt-1 {getStatusClass(operation.split_type)}">
-                    <StatusIcon class="size-3" />
-                  </div>
-                </div>
-              </div>
+                {/snippet}
+              </SwipeableExpense>
             {/each}
           </div>
         </div>

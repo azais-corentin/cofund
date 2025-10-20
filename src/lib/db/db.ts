@@ -61,3 +61,7 @@ export const getPersister = () => {
 export const getSynchronizer = () => {
   return synchronizer;
 };
+
+export const deleteOperation = (operationId: string) => {
+  store.delRow('operations', operationId);
+};
