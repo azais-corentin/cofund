@@ -29,6 +29,7 @@ export const actions = {
     });
 
     return {
+      form,
       success: true,
       operationId,
       operationData: {

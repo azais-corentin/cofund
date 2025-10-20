@@ -19,12 +19,12 @@
   const form = superForm(data.form, {
     dataType: 'json',
     validators: typeboxClient(formSchema),
-    onResult: ({ result }) => {
+    onResult: async ({ result }) => {
       if (result.type === 'success' && result.data?.success) {
         const { operationId, operationData } = result.data;
         store.setRow('operations', operationId, serializeOperation(operationData));
 
-        goto(`/groups/${page.params.id}`);
+        await goto(`/groups/${page.params.id}`);
       }
     },
   });
@@ -46,10 +46,7 @@
 
   $effect(() => {
     $formData.split_type = splitType;
-    $formData.split = JSON.stringify({
-      type: splitType,
-      members: Array.from(selectedMembers),
-    });
+    $formData.split = JSON.stringify({ type: splitType, members: Array.from(selectedMembers) });
   });
 
   const toggleMember = (member: string) => {
@@ -158,7 +155,12 @@
         <div class="grid grid-cols-2 gap-3">
           {#if group?.users}
             {#each group.users as user}
-              {@const initials = user.split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2)}
+              {@const initials = user
+              .split(' ')
+              .map((n: string) => n[0])
+              .join('')
+              .toUpperCase()
+              .slice(0, 2)}
               <button
                 type="button"
                 onclick={() => toggleMember(user)}

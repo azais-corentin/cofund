@@ -1,60 +1,185 @@
 <script lang="ts">
   import dayjs from 'dayjs';
-  import relativeTime from 'dayjs/plugin/relativeTime';
   import { getContext } from 'svelte';
-  import { Button } from '$lib/components/ui/button';
-  import { Plus } from '@lucide/svelte';
-
-  dayjs.extend(relativeTime);
+  import { ArrowLeft, Plus, Utensils, Car, Hotel, Waves, Check, Clock, Split } from '@lucide/svelte';
+  import { useTable } from '$lib/db/hooks.svelte';
+  import { deserializeOperation, type Operation } from '$lib/db/schema';
+  import { page } from '$app/state';
 
   const groupQuery: any = getContext('groupQuery');
   const group = $derived(groupQuery?.result);
+
+  const operationsQuery = useTable<Operation>('operations', deserializeOperation);
+  const operations = $derived(
+    operationsQuery.results.filter((op) => op.group_id === page.params.id)
+  );
+
+  const totalSpent = $derived(
+    operations.reduce((sum, op) => sum + op.amount, 0)
+  );
+
+  const groupedOperations = $derived.by(() => {
+    const grouped = new Map<string, Operation[]>();
+    const sorted = [...operations].sort((a, b) => b.created_at - a.created_at);
+    
+    for (const op of sorted) {
+      const dateKey = dayjs(op.created_at).format('YYYY-MM-DD');
+      if (!grouped.has(dateKey)) {
+        grouped.set(dateKey, []);
+      }
+      grouped.get(dateKey)!.push(op);
+    }
+    
+    return Array.from(grouped.entries());
+  });
+
+  const currentMonth = $derived(
+    operations.length > 0 
+      ? dayjs(operations[0].created_at).format('MMMM YYYY')
+      : dayjs().format('MMMM YYYY')
+  );
+
+  function getCategoryIcon(title: string) {
+    const lower = title.toLowerCase();
+    if (lower.includes('dinner') || lower.includes('lunch') || lower.includes('restaurant') || lower.includes('food')) {
+      return Utensils;
+    }
+    if (lower.includes('taxi') || lower.includes('car') || lower.includes('uber')) {
+      return Car;
+    }
+    if (lower.includes('hotel') || lower.includes('accommodation')) {
+      return Hotel;
+    }
+    if (lower.includes('snorkel') || lower.includes('diving') || lower.includes('swim')) {
+      return Waves;
+    }
+    return Utensils;
+  }
+
+  function getStatusIcon(splitType: string) {
+    if (splitType === 'paid') return Check;
+    if (splitType === 'pending') return Clock;
+    return Split;
+  }
+
+  function getStatusClass(splitType: string) {
+    if (splitType === 'paid') return 'bg-[oklch(0.646_0.222_41.116)] text-white';
+    if (splitType === 'pending') return 'bg-orange-400 text-white';
+    return 'bg-blue-400 text-white';
+  }
+
+  function formatCurrency(amount: number, currencySymbol: string = '$') {
+    return `${currencySymbol}${amount.toFixed(2)}`;
+  }
+
+  function getUserInitials(name: string) {
+    return name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
+  }
+
+  function getAvatarColor(name: string) {
+    const colors = [
+      'bg-blue-500',
+      'bg-purple-500',
+      'bg-pink-500',
+      'bg-green-500',
+      'bg-yellow-500',
+      'bg-red-500',
+    ];
+    const hash = name.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+    return colors[hash % colors.length];
+  }
 </script>
 
-<!-- {data.group?.name} -->
-<p>
-  Group name: {group?.name ?? 'loading group name'}
-</p>
+<div class="relative flex min-h-screen w-full flex-col">
+  <div class="sticky top-0 z-10 flex items-center bg-background p-4 pb-2 justify-between border-b">
+    <a href="/groups" class="flex size-12 shrink-0 items-center justify-center">
+      <ArrowLeft class="size-6" />
+    </a>
+    <h2 class="text-lg font-bold flex-1 text-center">
+      {group?.name ?? 'Loading...'}
+    </h2>
+    <div class="size-12 shrink-0"></div>
+  </div>
 
-<p>
-  Created {dayjs().to(group?.created_at)}
-</p>
+  <div class="p-4">
+    <div class="flex flex-col items-stretch justify-start rounded-xl shadow-lg bg-card p-6">
+      <p class="text-muted-foreground text-base font-medium">
+        Total Money Spent
+      </p>
+      <p class="text-foreground text-4xl font-bold mt-1">
+        {formatCurrency(totalSpent, group?.currency ?? 'USD')}
+      </p>
+    </div>
+  </div>
 
-<p>Users:</p>
-<ul class="ml-6 list-disc">
-  {#if groupQuery.fetching}
-    <p>Loading...</p>
-  {:else if groupQuery.error}
-    <p>Error: {groupQuery.error.message}</p>
-  {:else if group}
-    {#each group.users ?? [] as user (user)}
-      <li class="mt-2">{user}</li>
-    {/each}
-  {/if}
-</ul>
+  <div class="sticky top-[76px] z-10 bg-background py-2 px-4">
+    <h3 class="text-xl font-bold">
+      {currentMonth}
+    </h3>
+  </div>
 
-<!-- Spacer for floating button -->
-<div class="h-24"></div>
+  <div class="flex flex-col gap-6 px-4 pb-24">
+    {#if operationsQuery.fetching}
+      <p class="text-muted-foreground text-center py-8">Loading expenses...</p>
+    {:else if operations.length === 0}
+      <p class="text-muted-foreground text-center py-8">No expenses yet. Add your first expense!</p>
+    {:else}
+      {#each groupedOperations as [dateKey, ops] (dateKey)}
+        <div class="flex flex-col gap-3">
+          <h4 class="text-muted-foreground text-sm font-semibold uppercase tracking-wide">
+            {dayjs(dateKey).format('MMM DD, YYYY')}
+          </h4>
+          <div class="flex flex-col gap-4">
+            {#each ops as operation (operation.id)}
+              {@const IconComponent = getCategoryIcon(operation.title)}
+              {@const StatusIcon = getStatusIcon(operation.split_type)}
+              {@const splitData = JSON.parse(operation.split)}
+              {@const participants = Array.isArray(splitData) ? splitData : [operation.paid_by]}
+              <div class="flex items-center gap-4 bg-card p-4 rounded-lg shadow-md">
+                <div class="text-white flex items-center justify-center rounded-lg bg-primary shrink-0 size-12">
+                  <IconComponent class="size-6" />
+                </div>
+                <div class="flex flex-col justify-center flex-grow">
+                  <p class="text-foreground text-base font-medium line-clamp-1">
+                    {operation.title}
+                  </p>
+                  <div class="flex items-center gap-2 mt-1">
+                    <p class="text-muted-foreground text-sm">
+                      Paid by: {operation.paid_by}
+                    </p>
+                    <div class="flex items-center">
+                      {#each participants.slice(0, 3) as participant, idx (participant + idx)}
+                        <div 
+                          class="size-6 rounded-full border-2 border-card flex items-center justify-center text-[10px] font-semibold text-white {getAvatarColor(participant)}"
+                          class:-ml-2={idx > 0}
+                          title={participant}
+                        >
+                          {getUserInitials(participant)}
+                        </div>
+                      {/each}
+                    </div>
+                  </div>
+                </div>
+                <div class="shrink-0 flex flex-col items-end">
+                  <p class="text-foreground text-base font-semibold">
+                    {formatCurrency(operation.amount, group?.currency ?? 'USD')}
+                  </p>
+                  <div class="rounded-full size-5 flex items-center justify-center mt-1 {getStatusClass(operation.split_type)}">
+                    <StatusIcon class="size-3" />
+                  </div>
+                </div>
+              </div>
+            {/each}
+          </div>
+        </div>
+      {/each}
+    {/if}
+  </div>
 
-<!-- Floating action button -->
-<div class="fixed bottom-0 left-0 right-0 bg-gradient-to-t from-background to-transparent pt-10 pb-5 px-5 flex justify-end pointer-events-none md:hidden">
-  <a href="/groups/{group?.id}/new" class="pointer-events-auto">
-    <Button
-      size="lg"
-      class="h-14 px-5 gap-4 pl-4 pr-6 shadow-lg bg-[oklch(0.646_0.222_41.116)] hover:bg-[oklch(0.646_0.222_41.116)]/90 text-white"
-    >
-      <Plus class="size-6" />
-      <span class="truncate">Add Expense</span>
-    </Button>
-  </a>
-</div>
-
-<!-- Desktop "Add Expense" button -->
-<div class="hidden md:flex justify-start mt-6">
-  <a href="/groups/{group?.id}/new">
-    <Button size="lg" class="gap-2">
-      <Plus class="size-5" />
-      <span>Add Expense</span>
-    </Button>
-  </a>
+  <button 
+    onclick={() => window.location.href = `/groups/${group?.id}/new`}
+    class="fixed bottom-6 right-6 flex h-16 w-16 items-center justify-center rounded-full bg-[oklch(0.646_0.222_41.116)] text-white shadow-lg transition-transform hover:scale-105 active:scale-95"
+  >
+    <Plus class="size-8" />
+  </button>
 </div>
