@@ -1,8 +1,8 @@
 <script lang="ts">
-  import '../app.css';
   import favicon from '$lib/assets/favicon.svg';
   import { pwaAssetsHead } from 'virtual:pwa-assets/head';
   import { pwaInfo } from 'virtual:pwa-info';
+  import '../../app.css';
 
   import { dev } from '$app/environment';
   import SiteFooter from '$lib/components/site-footer.svelte';
