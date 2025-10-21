@@ -22,7 +22,6 @@ export const relationships = createRelationships(store).setRelationshipDefinitio
   'group_id',
 );
 
-// Initialize persister for IndexedDB storage
 let persister: IndexedDbPersister | null = null;
 let synchronizer: Promise<WsSynchronizer<WebSocket>> | null = null;
 

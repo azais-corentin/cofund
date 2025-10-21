@@ -6,6 +6,7 @@ import type { Handle, ServerInit } from '@sveltejs/kit';
 import { AsyncLocalStorage } from 'node:async_hooks';
 import { createWsServer } from 'tinybase/synchronizers/synchronizer-ws-server';
 import { WebSocketServer } from 'ws';
+import { createPersisterForPath, destroyServerPersister, initializeServerPersister } from '$lib/db/db.server.js';
 
 await configure({
   sinks: {
@@ -38,24 +39,29 @@ export const handle: Handle = async ({ event, resolve }) => {
 };
 
 const wsLogger = getLogger(['cofund', 'ws']);
+const dbLogger = getLogger(['cofund', 'db']);
 
 export const init: ServerInit = async () => {
+  dbLogger.info('Initializing PostgreSQL persister...');
+  await initializeServerPersister();
+  dbLogger.info('PostgreSQL persister initialized');
+
   wsLogger.info('Starting WebSocket synchronization server...');
 
-  // Create WebSocket server
   const wss = new WebSocketServer({ port: parseInt(WS_PORT), host: '0.0.0.0' });
 
   wss.on('close', () => {
     wsLogger.info('WebSocket server closed');
   });
 
-  // Create TinyBase WebSocket synchronization server
-  const server = createWsServer(wss);
+  const server = createWsServer(wss, createPersisterForPath);
 
   wsLogger.info(`Websocket synchronization server started at ${PUBLIC_WS_URL}`);
 
   process.on('sveltekit:shutdown', async () => {
     await server.destroy();
     wsLogger.info('WebSocket server shut down');
+    await destroyServerPersister();
+    dbLogger.info('PostgreSQL persister destroyed');
   });
 };

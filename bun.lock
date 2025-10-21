@@ -7,8 +7,8 @@
         "@fontsource-variable/roboto": "^5.2.8",
         "@internationalized/date": "^3.10.0",
         "@jesterkit/exe-sveltekit": "^0.1.6",
-        "@logtape/logtape": "^1.1.1",
-        "@logtape/pretty": "^1.1.1",
+        "@logtape/logtape": "^1.1.2",
+        "@logtape/pretty": "^1.1.2",
         "@lucide/svelte": "^0.546.0",
         "@sveltejs/kit": "^2.47.2",
         "@sveltejs/vite-plugin-svelte": "^6.2.1",
@@ -24,6 +24,7 @@
         "mode-watcher": "^1.1.0",
         "oxlint": "^1.23.0",
         "oxlint-tsgolint": "^0.2.0",
+        "postgres": "^3.4.7",
         "sharp": "^0.34.4",
         "sharp-ico": "^0.1.5",
         "svelte": "^5.41.1",
@@ -935,6 +936,8 @@
     "possible-typed-array-names": ["possible-typed-array-names@1.1.0", "", {}, "sha512-/+5VFTchJDoVj3bhoqi6UeymcD00DAwb1nJwamzPvHEszJ4FpF6SNNbUbOS8yI56qHzdV8eK0qEfOSiodkTdxg=="],
 
     "postcss": ["postcss@8.5.6", "", { "dependencies": { "nanoid": "^3.3.11", "picocolors": "^1.1.1", "source-map-js": "^1.2.1" } }, "sha512-3Ybi1tAuwAP9s0r1UQ2J4n5Y0G05bJkpUIO0/bI9MhwmD70S5aTWbXGBwxHrelT+XM1k6dM0pk+SwNkpTRN7Pg=="],
+
+    "postgres": ["postgres@3.4.7", "", {}, "sha512-Jtc2612XINuBjIl/QTWsV5UvE8UHuNblcO3vVADSrKsrc6RqGX6lOW1cEo3CM2v0XG4Nat8nI+YM7/f26VxXLw=="],
 
     "pretty-bytes": ["pretty-bytes@6.1.1", "", {}, "sha512-mQUvGU6aUFQ+rNvTIAcZuWGRT9a6f6Yrg9bHs4ImKF+HZCEK+plBvnAZYSIQztknZF2qnzNtr6F8s0+IuptdlQ=="],
 
