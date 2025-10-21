@@ -6,6 +6,7 @@ import 'vite-plugin-pwa/svelte';
 // for information about these interfaces
 declare global {
   declare const BUILD_DATE: string;
+  declare const GIT_COMMIT: string;
 
   namespace App {
     // interface Error {}

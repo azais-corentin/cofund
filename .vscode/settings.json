@@ -44,5 +44,6 @@
   },
   "oxc.enable": true,
   "oxc.lint.run": "onType",
-  "oxc.typeAware": true
+  "oxc.typeAware": true,
+  "remote.localPortHost": "allInterfaces"
 }

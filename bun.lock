@@ -364,9 +364,9 @@
 
     "@jridgewell/trace-mapping": ["@jridgewell/trace-mapping@0.3.31", "", { "dependencies": { "@jridgewell/resolve-uri": "^3.1.0", "@jridgewell/sourcemap-codec": "^1.4.14" } }, "sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw=="],
 
-    "@logtape/logtape": ["@logtape/logtape@1.1.1", "", {}, "sha512-/zpMuB2BZnL3LnBsy6PfFJp/4qP/60U9hE5j6eFwk25wBVtLpd7/bF3B1j7cnMD37R02fFyDyyHEmRSOz6+Qfg=="],
+    "@logtape/logtape": ["@logtape/logtape@1.1.2", "", {}, "sha512-4QXa/5cwt3+cx01C1xm8iqvEXxNZMDTTbT5AFGZnwPkn2WDAyA6UP2khWBZ7FctMnvQqW3fnJ96kgBJ4ahorHw=="],
 
-    "@logtape/pretty": ["@logtape/pretty@1.1.1", "", { "peerDependencies": { "@logtape/logtape": "^1.1.1" } }, "sha512-rKqmPa+QLaQ8BsmzIl09j1PbepcoAJsJXlt5VScPcUOXhY/BaG2nF8rSuC3aS43oavHUgrbNGjgLOD3yCiYZow=="],
+    "@logtape/pretty": ["@logtape/pretty@1.1.2", "", { "peerDependencies": { "@logtape/logtape": "^1.1.2" } }, "sha512-MyeVU/VAM7r26huwa3hTDAm+MhmqjrWk9lkSNTrZIDKwRL9ym4fh3SDA7aXPh5GI2tYVjFYgn0k9HmUKfTeK/Q=="],
 
     "@lucide/svelte": ["@lucide/svelte@0.546.0", "", { "peerDependencies": { "svelte": "^5" } }, "sha512-qFVQ+BUJH9Swns7cag3Wik7VqKZfN2hwDZ2VazbZJc8VSqI0kgOZCZ2OVwrvNxdkl8Mw9M9H1ROB0BXh/WH/sA=="],
 

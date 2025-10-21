@@ -1,3 +1,5 @@
+import { WS_PORT } from '$env/static/private';
+import { PUBLIC_WS_URL } from '$env/static/public';
 import { configure, getConsoleSink, getLogger } from '@logtape/logtape';
 import { getPrettyFormatter } from '@logtape/pretty';
 import type { Handle, ServerInit } from '@sveltejs/kit';
@@ -14,7 +16,7 @@ await configure({
   loggers: [{ category: ['logtape', 'meta'], sinks: ['console'], lowestLevel: 'warning' }, {
     category: [],
     sinks: ['console'],
-    lowestLevel: process.env.NODE_ENV === 'development' ? 'debug' : 'info',
+    lowestLevel: import.meta.env.NODE_ENV === 'development' ? 'debug' : 'info',
   }],
   reset: true,
   contextLocalStorage: new AsyncLocalStorage(),
@@ -40,11 +42,8 @@ const wsLogger = getLogger(['cofund', 'ws']);
 export const init: ServerInit = async () => {
   wsLogger.info('Starting WebSocket synchronization server...');
 
-  // Get port from environment or use default
-  const WS_PORT = process.env.WS_PORT ? parseInt(process.env.WS_PORT) : 8043;
-
   // Create WebSocket server
-  const wss = new WebSocketServer({ port: WS_PORT });
+  const wss = new WebSocketServer({ port: parseInt(WS_PORT), host: '0.0.0.0' });
 
   wss.on('close', () => {
     wsLogger.info('WebSocket server closed');
@@ -53,7 +52,7 @@ export const init: ServerInit = async () => {
   // Create TinyBase WebSocket synchronization server
   const server = createWsServer(wss);
 
-  wsLogger.info(`Websocket synchronization server started at ws://localhost:${WS_PORT}`);
+  wsLogger.info(`Websocket synchronization server started at ${PUBLIC_WS_URL}`);
 
   process.on('sveltekit:shutdown', async () => {
     await server.destroy();

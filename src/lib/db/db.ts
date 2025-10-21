@@ -1,4 +1,5 @@
 import { browser } from '$app/environment';
+import { PUBLIC_WS_URL } from '$env/static/public';
 import { createMergeableStore, createRelationships } from 'tinybase';
 import {
   createIndexedDbPersister,
@@ -36,12 +37,10 @@ if (browser) {
 
   console.info('IndexedDB persister is ready');
 
-  const wsUrl = import.meta.env.PUBLIC_WS_URL || 'ws://localhost:8043';
-
   // Set up WebSocket synchronization
   try {
-    console.info(`Connecting to WebSocket server at ${wsUrl}`);
-    const ws = new WebSocket(wsUrl);
+    console.info(`Connecting to WebSocket server at ${PUBLIC_WS_URL}`);
+    const ws = new WebSocket(PUBLIC_WS_URL);
     console.info('Setting up and starting WebSocket synchronizer');
     synchronizer = createWsSynchronizer(store, ws).then(sync => sync.startSync());
   } catch (error) {

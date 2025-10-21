@@ -1,6 +1,7 @@
 import { sveltekit } from '@sveltejs/kit/vite';
 import tailwindcss from '@tailwindcss/vite';
 import { SvelteKitPWA } from '@vite-pwa/sveltekit';
+import { execSync } from 'child_process';
 import { type UserConfig } from 'vite';
 
 export default {
@@ -33,6 +34,9 @@ export default {
       },
       kit: { includeVersionFile: true },
     })],
-  server: { host: true },
-  define: { BUILD_DATE: JSON.stringify(new Date().toISOString()) },
+  server: { host: true, hmr: { host: import.meta.env.VITE_TAILSCALE_IP } },
+  define: {
+    BUILD_DATE: JSON.stringify(new Date().toISOString()),
+    GIT_COMMIT: JSON.stringify(execSync('git rev-parse --short HEAD').toString().trim()),
+  },
 } satisfies UserConfig;
