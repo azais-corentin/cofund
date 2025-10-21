@@ -13,24 +13,10 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: electric
-    command:
-      - -c
-      - listen_addresses=*
-      - -c
-      - wal_level=logical
+      POSTGRES_DB: cofund
     healthcheck:
       test: ['CMD-SHELL', 'pg_isready -U postgres']
       interval: 5s
       timeout: 5s
       retries: 5
     restart: always
-
-  electric:
-    image: electricsql/electric:latest
-    environment:
-      DATABASE_URL: postgresql://postgres:postgres@db:5432/electric?sslmode=disable
-      ELECTRIC_INSECURE: true # Set to false for production, see https://electric-sql.com/docs/guides/security
-    depends_on:
-      db:
-        condition: service_healthy
