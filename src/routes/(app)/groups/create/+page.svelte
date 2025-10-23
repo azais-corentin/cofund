@@ -5,8 +5,6 @@
   import * as Card from '$lib/components/ui/card';
   import * as Form from '$lib/components/ui/form';
   import { Input } from '$lib/components/ui/input';
-  import { store } from '$lib/db/db';
-  import { serializeGroup } from '$lib/db/schema';
   import { Minus, Plus } from '@lucide/svelte';
   import { tick } from 'svelte';
   import { type Infer, superForm, type SuperValidated } from 'sveltekit-superforms';
@@ -22,7 +20,8 @@
       if (result.type === 'success' && result.data?.success) {
         // Insert the group into TinyBase store
         const { groupId, groupData } = result.data;
-        store.setRow('groups', groupId, serializeGroup(groupData));
+
+        // TODO Update on PouchDB
 
         // Navigate to the new group
         goto(`/groups/${groupId}`);

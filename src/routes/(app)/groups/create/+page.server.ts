@@ -1,5 +1,5 @@
 import { getLogger } from '@logtape/logtape';
-import { fail } from '@sveltejs/kit';
+import { type Actions, fail } from '@sveltejs/kit';
 import { superValidate } from 'sveltekit-superforms';
 import { typebox } from 'sveltekit-superforms/adapters';
 import { formSchema } from './schema';
@@ -10,35 +10,30 @@ export const load = async () => {
 
 const logger = getLogger(['groups', 'create']);
 
-export const actions = {
+export const actions: Actions = {
   default: async (event) => {
     const form = await superValidate(event, typebox(formSchema));
     if (!form.valid) {
       return fail(400, { form });
     }
 
-    // Generate a unique ID for the group
     const groupId = crypto.randomUUID();
 
     logger.info('Validated group creation {groupId}', {
       groupId,
       name: form.data.name,
       currency: form.data.currency,
-      users: form
-        .data
-        .users
-        .map((u) => u.name),
+      users: form.data.users.map((u) => u.name),
     });
 
-    // Return success with the group data - client will handle insertion
     return {
       success: true,
       groupId,
       groupData: {
         name: form.data.name,
-        currency: form.data.currency,
+        currency: form.data.currency ?? '€',
         users: form.data.users.map((u) => u.name),
-        created_at: Date.now(),
+        created_at: new Date().toISOString(),
       },
     };
   },

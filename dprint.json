@@ -19,7 +19,6 @@
   "typescript": {
     "arrayExpression.preferHanging": "always",
     "memberExpression.linePerExpression": true,
-    "preferSingleLine": true,
     "quoteStyle": "preferSingle"
   },
   "useTabs": false,

@@ -1,5 +1,5 @@
 import { getLogger } from '@logtape/logtape';
-import { fail } from '@sveltejs/kit';
+import { type Actions, fail } from '@sveltejs/kit';
 import { superValidate } from 'sveltekit-superforms';
 import { typebox } from 'sveltekit-superforms/adapters';
 import { formSchema } from './schema';
@@ -10,7 +10,7 @@ export const load = async () => {
 
 const logger = getLogger(['groups', 'expenses', 'create']);
 
-export const actions = {
+export const actions: Actions = {
   default: async (event) => {
     const form = await superValidate(event, typebox(formSchema));
     if (!form.valid) {
@@ -36,11 +36,10 @@ export const actions = {
         group_id: event.params.id,
         title: form.data.title,
         amount: form.data.amount,
-        paid_by: form.data.paid_by,
-        date: form.data.date,
+        paid_by: [form.data.paid_by],
         split_type: form.data.split_type,
         split: form.data.split,
-        created_at: Date.now(),
+        created_at: form.data.created_at ?? new Date().toISOString(),
       },
     };
   },

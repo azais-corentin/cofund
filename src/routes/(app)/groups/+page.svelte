@@ -16,12 +16,7 @@
   import dayjs from 'dayjs';
   import relativeTime from 'dayjs/plugin/relativeTime';
 
-  import { useTable } from '$lib/db/hooks.svelte';
-  import { deserializeGroup, type Group } from '$lib/db/schema';
-
   dayjs.extend(relativeTime);
-
-  const groups = useTable<Group>('groups', deserializeGroup);
 
   // Icon mapping for different group types (based on name patterns)
   const getGroupIconComponent = (name: string) => {
@@ -92,7 +87,7 @@
 <div class="h-5"></div>
 
 <!-- Groups list -->
-<div class="flex flex-col gap-4 -mx-6 px-4 md:mx-0 md:px-0">
+<!-- <div class="flex flex-col gap-4 -mx-6 px-4 md:mx-0 md:px-0">
   {#if groups.fetching}
     <p class="text-center text-muted-foreground py-8">Loading...</p>
   {:else if groups.error}
@@ -129,13 +124,13 @@
       <p class="text-sm text-muted-foreground">Create your first group to start sharing expenses</p>
     </div>
   {/if}
-</div>
+</div> -->
 
 <!-- Spacer for floating button -->
 <div class="h-24"></div>
 
 <!-- Floating action button -->
-<div class="fixed bottom-0 left-0 right-0 bg-gradient-to-t from-background to-transparent pt-10 pb-5 px-5 flex justify-end pointer-events-none md:hidden">
+<div class="fixed bottom-0 left-0 right-0 bg-linear-to-t from-background to-transparent pt-10 pb-5 px-5 flex justify-end pointer-events-none md:hidden">
   <a href="/groups/create" class="pointer-events-auto">
     <Button
       size="lg"

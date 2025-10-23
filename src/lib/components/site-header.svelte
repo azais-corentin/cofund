@@ -8,7 +8,6 @@
   import { Plus, Trash } from '@lucide/svelte';
 
   import { goto } from '$app/navigation';
-  import { store } from '$lib/db/db';
 
   const isGroupPage = $derived(page.route.id === '/(app)/groups/[id]');
   const isCreateGroupPage = $derived(page.route.id === '/(app)/groups/create');
@@ -18,8 +17,9 @@
       return;
     }
 
-    store.delRow('groups', page.params.id);
-    goto('/groups');
+    // TODO Delete on PouchDB
+
+    await goto('/groups');
   };
 </script>
 

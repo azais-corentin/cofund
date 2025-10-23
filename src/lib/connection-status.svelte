@@ -1,8 +1,7 @@
 <script lang="ts">
   import * as Tooltip from '$lib/components/ui/tooltip';
-  import { useConnection } from '$lib/db/connection.svelte';
 
-  const { connection } = useConnection();
+  const connection = $state({ status: 'CLOSED' });
 
   const color = $derived.by(() => {
     if (connection.status === 'CLOSED') {

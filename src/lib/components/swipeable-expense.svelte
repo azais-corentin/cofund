@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { Trash2, Pencil } from '@lucide/svelte';
-  
+  import { Pencil, Trash2 } from '@lucide/svelte';
+
   interface Props {
     children?: import('svelte').Snippet;
     onDelete: () => void;
@@ -15,7 +15,7 @@
   let displayTranslateX = $state(0);
   let isSwiping = $state(false);
   let isActioning = $state(false);
-  
+
   const SWIPE_THRESHOLD = 80;
   const ACTION_THRESHOLD = 120;
   const ANIMATION_DURATION = 300;
@@ -31,7 +31,7 @@
     if (!isSwiping || isActioning) return;
     touchCurrentX = e.touches[0].clientX;
     const diff = touchCurrentX - touchStartX;
-    
+
     if (diff > 0) {
       translateX = Math.min(diff, ACTION_THRESHOLD);
       displayTranslateX = translateX;
@@ -67,7 +67,7 @@
     isActioning = true;
     translateX = window.innerWidth;
     displayTranslateX = translateX;
-    
+
     setTimeout(() => {
       onDelete();
     }, ANIMATION_DURATION);
@@ -77,7 +77,7 @@
     isActioning = true;
     translateX = -window.innerWidth;
     displayTranslateX = translateX;
-    
+
     setTimeout(() => {
       onEdit();
     }, ANIMATION_DURATION);
@@ -95,32 +95,24 @@
 </script>
 
 <div class="relative overflow-hidden">
-  <div 
+  <div
     class="absolute inset-0 bg-red-500 flex items-center justify-start px-6"
     class:hidden={displayTranslateX <= 0}
   >
-    <button
-      onclick={handleDeleteClick}
-      class="text-white"
-      aria-label="Delete expense"
-    >
+    <button onclick={handleDeleteClick} class="text-white" aria-label="Delete expense">
       <Trash2 class="size-6" />
     </button>
   </div>
-  
-  <div 
+
+  <div
     class="absolute inset-0 bg-blue-500 flex items-center justify-end px-6"
     class:hidden={displayTranslateX >= 0}
   >
-    <button
-      onclick={handleEditClick}
-      class="text-white"
-      aria-label="Edit expense"
-    >
+    <button onclick={handleEditClick} class="text-white" aria-label="Edit expense">
       <Pencil class="size-6" />
     </button>
   </div>
-  
+
   <div
     class="relative bg-card touch-pan-y"
     class:transition-transform={!isSwiping}

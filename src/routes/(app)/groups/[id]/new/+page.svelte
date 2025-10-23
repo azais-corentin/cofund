@@ -4,8 +4,6 @@
   import * as Card from '$lib/components/ui/card';
   import * as Form from '$lib/components/ui/form';
   import { Input } from '$lib/components/ui/input';
-  import { store } from '$lib/db/db';
-  import { serializeOperation } from '$lib/db/schema';
   import { getContext } from 'svelte';
   import { type Infer, superForm, type SuperValidated } from 'sveltekit-superforms';
   import { typeboxClient } from 'sveltekit-superforms/adapters';
@@ -22,7 +20,8 @@
     onResult: async ({ result }) => {
       if (result.type === 'success' && result.data?.success) {
         const { operationId, operationData } = result.data;
-        store.setRow('operations', operationId, serializeOperation(operationData));
+
+        // TODO Add to PouchDB
 
         await goto(`/groups/${page.params.id}`);
       }
@@ -41,7 +40,7 @@
   });
 
   $effect(() => {
-    $formData.date = Date.now();
+    $formData.created_at = new Date().toISOString();
   });
 
   $effect(() => {
