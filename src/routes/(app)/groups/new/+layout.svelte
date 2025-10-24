@@ -3,7 +3,7 @@
 
   let { children } = $props();
 
-  setBreadcrumb({ name: 'New group', path: '/groups/create' });
+  setBreadcrumb({ name: 'New group', path: '/groups/new' });
 </script>
 
 {@render children()}

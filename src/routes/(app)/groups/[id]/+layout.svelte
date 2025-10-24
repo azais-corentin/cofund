@@ -1,11 +1,18 @@
 <script lang="ts">
+  import { page } from '$app/state';
+  import { setBreadcrumb } from '$lib/breadcrumb-state.svelte';
+  import { Group } from '$lib/db/schema';
+  import { CoState } from 'jazz-tools/svelte';
+
   let { children } = $props();
 
-  // TODO Fetch group name from PouchDB
+  const group = new CoState(Group, page.params.id, {
+    resolve: true,
+  });
 
-  // $effect(() => {
-  //   setBreadcrumb({ name: groupName ?? '?', path: `/groups/${page.params.id}` });
-  // });
+  $effect(() => {
+    setBreadcrumb({ name: group.current?.name ?? 'Loading', path: `/groups/${page.params.id}` });
+  });
 </script>
 
 {@render children()}

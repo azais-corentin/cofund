@@ -1,14 +1,16 @@
 <script lang="ts">
-  import favicon from '$lib/assets/favicon.svg';
-  import { pwaAssetsHead } from 'virtual:pwa-assets/head';
-  import { pwaInfo } from 'virtual:pwa-info';
-  import '../../app.css';
-
   import { dev } from '$app/environment';
+  import { PUBLIC_JAZZ_API_KEY, PUBLIC_WS_URL } from '$env/static/public';
+  import favicon from '$lib/assets/favicon.svg';
   import SiteFooter from '$lib/components/site-footer.svelte';
   import SiteHeader from '$lib/components/site-header.svelte';
   import Button from '$lib/components/ui/button/button.svelte';
+  import { Account } from '$lib/db/schema';
+  import { JazzSvelteProvider } from 'jazz-tools/svelte';
   import { ModeWatcher } from 'mode-watcher';
+  import { pwaAssetsHead } from 'virtual:pwa-assets/head';
+  import { pwaInfo } from 'virtual:pwa-info';
+  import '../../app.css';
 
   const webManifest = $derived(pwaInfo ? pwaInfo.webManifest.linkTag : '');
 
@@ -34,19 +36,24 @@
 
 <ModeWatcher />
 
-<div class="relative flex min-h-svh flex-col bg-background" class:debug-layout={debugLayout}>
-  <div class="hidden md:block">
-    <SiteHeader />
-  </div>
+<JazzSvelteProvider
+  AccountSchema={Account}
+  sync={{ peer: `${PUBLIC_WS_URL}?key=${PUBLIC_JAZZ_API_KEY}` }}
+>
+  <div class="relative flex min-h-svh flex-col bg-background" class:debug-layout={debugLayout}>
+    <div class="hidden md:block">
+      <SiteHeader />
+    </div>
 
-  <main class="flex-1 px-6 pt-4 md:pt-0">
-    {@render children()}
-  </main>
+    <main class="flex-1 px-6 pt-4 md:pt-0">
+      {@render children?.()}
+    </main>
 
-  <div class="hidden md:block">
-    <SiteFooter />
+    <div class="hidden md:block">
+      <SiteFooter />
+    </div>
   </div>
-</div>
+</JazzSvelteProvider>
 
 <!-- Debug Layout Toggle Button - Only shown in development -->
 {#if dev}

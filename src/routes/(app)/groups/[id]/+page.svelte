@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { page } from '$app/state';
+  import { Group } from '$lib/db/schema';
   import {
     ArrowLeft,
     Car,
@@ -10,34 +12,15 @@
     Utensils,
     Waves,
   } from '@lucide/svelte';
-  import { getContext } from 'svelte';
+  import { CoState } from 'jazz-tools/svelte';
 
-  const groupQuery: any = getContext('groupQuery');
-  const group = $derived(groupQuery?.result);
+  const groupState = new CoState(Group, page.params.id, {
+    resolve: true,
+  });
+  const group = $derived(groupState.current);
 
-  // const totalSpent = $derived(operations.reduce((sum, op) => sum + op.amount, 0));
   const totalSpent = 0;
 
-  // const groupedOperations = $derived.by(() => {
-  //   const grouped = new Map<string, Operation[]>();
-  //   const sorted = [...operations].sort((a, b) => b.created_at - a.created_at);
-
-  //   for (const op of sorted) {
-  //     const dateKey = dayjs(op.created_at).format('YYYY-MM-DD');
-  //     if (!grouped.has(dateKey)) {
-  //       grouped.set(dateKey, []);
-  //     }
-  //     grouped.get(dateKey)!.push(op);
-  //   }
-
-  //   return Array.from(grouped.entries());
-  // });
-
-  // const currentMonth = $derived(
-  //   operations.length > 0
-  //     ? dayjs(operations[0].created_at).format('MMMM YYYY')
-  //     : dayjs().format('MMMM YYYY'),
-  // );
   const currentMonth = 'October 2025';
 
   function getCategoryIcon(title: string) {
@@ -182,7 +165,7 @@
   </div>
 
   <button
-    onclick={() => window.location.href = `/groups/${group?.id}/new`}
+    onclick={() => window.location.href = `/groups/${group?.$jazz.id}/new`}
     class="fixed bottom-6 right-6 flex h-16 w-16 items-center justify-center rounded-full bg-[oklch(0.646_0.222_41.116)] text-white shadow-lg transition-transform hover:scale-105 active:scale-95"
   >
     <Plus class="size-8" />

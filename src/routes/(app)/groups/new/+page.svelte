@@ -5,27 +5,40 @@
   import * as Card from '$lib/components/ui/card';
   import * as Form from '$lib/components/ui/form';
   import { Input } from '$lib/components/ui/input';
+  import { Account, Group } from '$lib/db/schema';
   import { Minus, Plus } from '@lucide/svelte';
+  import { AccountCoState } from 'jazz-tools/svelte';
   import { tick } from 'svelte';
-  import { type Infer, superForm, type SuperValidated } from 'sveltekit-superforms';
-  import { typeboxClient } from 'sveltekit-superforms/adapters';
-  import { type FormSchema, formSchema } from './schema';
+  import { defaults, superForm } from 'sveltekit-superforms';
+  import { typebox } from 'sveltekit-superforms/adapters';
+  import { formSchema } from './schema';
 
-  let { data }: { data: { form: SuperValidated<Infer<FormSchema>> } } = $props();
+  const me = new AccountCoState(Account, {
+    resolve: { root: { groups: true }, profile: true },
+  });
 
-  const form = superForm(data.form, {
-    dataType: 'json',
-    validators: typeboxClient(formSchema),
-    onResult: ({ result }) => {
-      if (result.type === 'success' && result.data?.success) {
-        // Insert the group into TinyBase store
-        const { groupId, groupData } = result.data;
-
-        // TODO Update on PouchDB
-
-        // Navigate to the new group
-        goto(`/groups/${groupId}`);
+  const form = superForm(defaults(typebox(formSchema)), {
+    SPA: true,
+    validators: typebox(formSchema),
+    onUpdate({ form }) {
+      if (!form.valid || !me.current) {
+        return;
       }
+
+      const group = Group.create({
+        operations: [],
+        ...form.data,
+        users: form.data.users.map(u => u.name),
+        created_at: new Date(),
+      });
+
+      console.log('Creating group', group);
+
+      me.current.root.groups.$jazz.push(group);
+
+      console.log('Navigating to group page', group.$jazz.id);
+
+      goto(`/groups/${group.$jazz.id}`);
     },
   });
 

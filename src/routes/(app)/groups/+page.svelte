@@ -1,6 +1,8 @@
 <script lang="ts">
   import { Button } from '$lib/components/ui/button';
   import { Input } from '$lib/components/ui/input';
+  import type { Group } from '$lib/db/schema';
+  import { Account } from '$lib/db/schema';
   import {
     Building2,
     Car,
@@ -15,8 +17,14 @@
   } from '@lucide/svelte';
   import dayjs from 'dayjs';
   import relativeTime from 'dayjs/plugin/relativeTime';
+  import { AccountCoState } from 'jazz-tools/svelte';
 
   dayjs.extend(relativeTime);
+
+  const account = new AccountCoState(Account, {
+    resolve: { profile: true, root: { groups: true } },
+  });
+  const me = $derived(account.current);
 
   // Icon mapping for different group types (based on name patterns)
   const getGroupIconComponent = (name: string) => {
@@ -40,12 +48,13 @@
 
   // Mock balance calculation - in a real app, this would calculate from operations
   const getBalance = (
-    groupId: string,
+    group: Group,
   ): { amount: number; status: 'owe' | 'owed' | 'settled' } => {
     // This is temporary mock data - replace with actual balance calculation
     const mockBalances: Record<string, { amount: number; status: 'owe' | 'owed' | 'settled' }> =
       {};
-    return mockBalances[groupId] || { amount: 0, status: 'settled' };
+
+    return mockBalances[group.$jazz.id] || { amount: 0, status: 'settled' };
   };
 
   const formatBalance = (
@@ -54,9 +63,11 @@
     if (balance.status === 'settled') {
       return { text: 'Settled', class: 'text-muted-foreground' };
     }
+
     if (balance.status === 'owe') {
       return { text: `You owe $${Math.abs(balance.amount)}`, class: 'text-red-500' };
     }
+
     return { text: `You are owed $${balance.amount}`, class: 'text-green-500' };
   };
 </script>
@@ -86,52 +97,71 @@
 
 <div class="h-5"></div>
 
+<div>
+  <p>Is authenticated: {account.isAuthenticated}</p>
+  <p>Profile: {me?.profile.name}</p>
+
+  <Input
+    placeholder="Update your profile name"
+    class="mt-2"
+    value={me?.profile.name ?? ''}
+    onchange={(e) => {
+      if (!me || !e.target) {
+        return;
+      }
+      me.profile.$jazz.set('name', (e.target as HTMLInputElement).value);
+    }}
+  />
+</div>
+
 <!-- Groups list -->
-<!-- <div class="flex flex-col gap-4 -mx-6 px-4 md:mx-0 md:px-0">
-  {#if groups.fetching}
+<div class="flex flex-col gap-4 -mx-6 px-4 md:mx-0 md:px-0">
+  {#each me?.root.groups.filter(g => g !== null) || [] as group}
+    <!-- {#if groups.fetching}
     <p class="text-center text-muted-foreground py-8">Loading...</p>
   {:else if groups.error}
     <p class="text-center text-destructive py-8">Error: {groups.error.message}</p>
   {:else if groups.results && groups.results.length > 0}
-    {#each groups.results as group (group.id)}
-      {@const balance = getBalance(group.id)}
-      {@const balanceFormat = formatBalance(balance)}
-      {@const IconComponent = getGroupIconComponent(group.name)}
-      <a href="/groups/{group.id}" class="block">
-        <div class="flex items-center gap-4 bg-card p-4 rounded-xl justify-between hover:bg-accent transition-colors">
-          <div class="flex items-center gap-4 flex-1 min-w-0">
-            <div class="flex items-center justify-center rounded-lg bg-secondary shrink-0 size-12">
-              <IconComponent class="size-6 text-foreground" />
-            </div>
-            <div class="flex flex-col justify-center min-w-0 flex-1">
-              <p class="text-base font-medium leading-normal truncate">{group.name}</p>
-              <p class="text-sm font-normal leading-normal text-muted-foreground truncate">
-                {group.users.length} member{group.users.length !== 1 ? 's' : ''}
-              </p>
-            </div>
+    {#each groups.results as group (group.id)} -->
+    {@const balance = getBalance(group)}
+    {@const balanceFormat = formatBalance(balance)}
+    {@const IconComponent = getGroupIconComponent(group.name)}
+    <a href="/groups/{group.$jazz.id}" class="block">
+      <div class="flex items-center gap-4 bg-card p-4 rounded-xl justify-between hover:bg-accent transition-colors">
+        <div class="flex items-center gap-4 flex-1 min-w-0">
+          <div class="flex items-center justify-center rounded-lg bg-secondary shrink-0 size-12">
+            <IconComponent class="size-6 text-foreground" />
           </div>
-          <div class="shrink-0">
-            <p class="text-base font-medium leading-normal {balanceFormat.class}">
-              {balanceFormat.text}
+          <div class="flex flex-col justify-center min-w-0 flex-1">
+            <p class="text-base font-medium leading-normal truncate">{group.name}</p>
+            <p class="text-sm font-normal leading-normal text-muted-foreground truncate">
+              {group.users.length} member{group.users.length !== 1 ? 's' : ''}
             </p>
           </div>
         </div>
-      </a>
-    {/each}
+        <div class="shrink-0">
+          <p class="text-base font-medium leading-normal {balanceFormat.class}">
+            {balanceFormat.text}
+          </p>
+        </div>
+      </div>
+    </a>
+    <!-- {/each}
   {:else}
     <div class="text-center py-12">
       <p class="text-muted-foreground mb-4">No groups yet</p>
       <p class="text-sm text-muted-foreground">Create your first group to start sharing expenses</p>
     </div>
-  {/if}
-</div> -->
+  {/if} -->
+  {/each}
+</div>
 
 <!-- Spacer for floating button -->
 <div class="h-24"></div>
 
 <!-- Floating action button -->
 <div class="fixed bottom-0 left-0 right-0 bg-linear-to-t from-background to-transparent pt-10 pb-5 px-5 flex justify-end pointer-events-none md:hidden">
-  <a href="/groups/create" class="pointer-events-auto">
+  <a href="/groups/new" class="pointer-events-auto">
     <Button
       size="lg"
       class="h-14 px-5 gap-4 pl-4 pr-6 shadow-lg bg-[oklch(0.646_0.222_41.116)] hover:bg-[oklch(0.646_0.222_41.116)]/90 text-white"
@@ -144,7 +174,7 @@
 
 <!-- Desktop "Create Group" button -->
 <div class="hidden md:flex justify-start mt-6">
-  <a href="/groups/create">
+  <a href="/groups/new">
     <Button size="lg" class="gap-2">
       <Plus class="size-5" />
       <span>Create New Group</span>

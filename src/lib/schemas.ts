@@ -68,7 +68,6 @@ export const GroupFormSchema = Type.Object({
     {
       minItems: 1,
       maxItems: 255,
-      default: [{ uuid: 0, name: '' }],
       error: 'Must have between 1 and 255 users',
     },
   ),
