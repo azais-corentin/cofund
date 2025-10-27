@@ -1,42 +1,30 @@
-# Agent Guidelines
+# Agent Guidelines for cofund
 
-## Build & Test Commands
+## Documentation
 
-- **Dev**: `bun run dev` (Vite dev server)
-- **Build**: `bun run build`
-- **Format**: `bun run format` (auto-fixes formatting)
-- **Lint**: `bun run lint` (oxlint with type checking)
-- **Type Check**: `bun run check` (svelte-check)
+- **jazz**: https://jazz.tools/llms-full.txt
+- **shadcn-svelte**: https://www.shadcn-svelte.com/llms.txt
+- **Use context7 for up to date documentation**
 
-## Code Style & Conventions
+## Commands
 
-**Imports**: Group and sort imports by type (external packages, internal paths like `$lib`, `.` relative). Use explicit named imports.
+- **Dev**: `bun vite dev` or `bun dev`
+- **Build**: `bun vite build` or `bun build`
+- **Lint**: `bun run lint` (uses oxlint with type-awareness)
+- **Type check**: `bun run check` (runs svelte-kit sync + svelte-check)
+- **Format**: `bun run format` or `dprint fmt`
+- **No test runner configured**
 
-**Formatting**: 2-space indents, 100-char line width. Use single quotes in TypeScript/JavaScript (per dprint config). Format with `dprint fmt` before committing.
+## Code Style
 
-**TypeScript**: Strict mode enforced. Use explicit types for function parameters and returns. No `any` types.
-
-**Naming**: camelCase for variables/functions, PascalCase for components/types. Use meaningful names (e.g., `deserializeGroup` not `parse`).
-
-**Components**: Svelte files use `lang="ts"`, `$bindable()` for refs, `$props()` for reactive props. Use Tailwind + `cn()` utility (from `$lib/utils.js`) for styles. Props use `WithElementRef` helper.
-
-**Error Handling**: Use try-catch with descriptive error messages. Log errors with `console.error()` and `console.info()` for key operations.
-
-**Commit Messages**: Follow Conventional Commits: `type(scope): description` (e.g., `feat(db): add synchronization`, `fix(ui): button styling`).
-
-## Key Tools & Libraries
-
-- **Framework**: SvelteKit + Svelte 5
-- **Styling**: Tailwind CSS v4 + tailwind-variants + shadcn-svelte
-- **Database**: TinyBase (IndexedDB + WebSocket sync)
-- **Forms**: sveltekit-superforms + TypeBox validation
-- **Icons**: Lucide Svelte
-
-## Documentation Lookup
-
-Use context7 tools to fetch documentation:
-
-- `context7_resolve_library_id`: First call to get library ID (e.g., `context7_resolve_library_id("SvelteKit")`)
-- `context7_get_library_docs`: Then fetch docs with the resolved ID (e.g., `context7_get_library_docs("/sveltejs/kit")`)
-- Optionally add `topic` parameter to focus on specific areas (e.g., `topic: "routing"`)
-- Optionally add `tokens` parameter to control documentation length (default: 5000)
+- **Runtime**: Bun with TypeScript strict mode
+- **Framework**: SvelteKit 2 with Svelte 5 (use runes: `$props`, `$bindable`, `$state`, etc.)
+- **Formatting**: dprint - 2 spaces, line width 100, single quotes, no semicolons
+- **Imports**: Use `.js` extensions (e.g., `from '$lib/utils.js'`), prefer named imports
+- **Types**: TypeScript strict mode, use `type` keyword for type imports when possible
+- **Schemas**: Use TypeBox for validation (see `src/lib/schemas.ts` for examples)
+- **Components**: Svelte 5 style with `<script lang="ts" module>` for exports, `$props()` for props
+- **Utilities**: Use `cn()` from `$lib/utils.js` for className merging
+- **Logging**: Use `@logtape/logtape` with structured logging (see server code examples)
+- **Commits**: Follow Conventional Commits (feat/fix/chore/docs/refactor/etc.)
+- **NO COMMENTS**: Do not add code comments unless explicitly requested
