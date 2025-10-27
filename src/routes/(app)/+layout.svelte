@@ -6,6 +6,7 @@
   import SiteHeader from '$lib/components/site-header.svelte';
   import Button from '$lib/components/ui/button/button.svelte';
   import { Account } from '$lib/db/schema';
+  import 'jazz-tools/inspector/register-custom-element';
   import { JazzSvelteProvider } from 'jazz-tools/svelte';
   import { ModeWatcher } from 'mode-watcher';
   import { pwaAssetsHead } from 'virtual:pwa-assets/head';
@@ -44,6 +45,10 @@
     <div class="hidden md:block">
       <SiteHeader />
     </div>
+
+    {#if process.env.NODE_ENV !== 'production'}
+      <jazz-inspector><!----></jazz-inspector>
+    {/if}
 
     <main class="flex-1 px-6 pt-4 md:pt-0">
       {@render children?.()}
