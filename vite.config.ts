@@ -33,7 +33,9 @@ export default {
     },
     kit: { includeVersionFile: true },
   })],
-  server: { host: true },
+  server: {
+    host: true,
+  },
   define: {
     BUILD_DATE: JSON.stringify(new Date().toISOString()),
     GIT_COMMIT: JSON.stringify(execSync('git rev-parse --short HEAD').toString().trim()),
