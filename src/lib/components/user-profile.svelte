@@ -1,20 +1,20 @@
 <script lang="ts">
-  import { AccountCoState } from 'jazz-tools/svelte'
-  import { Account } from '$lib/db/schema'
-  import { Button } from '$lib/components/ui/button'
-  import * as DropdownMenu from '$lib/components/ui/dropdown-menu'
-  import { User, LogOut, Settings } from '@lucide/svelte'
+  import { Button } from '$lib/components/ui/button';
+  import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
+  import { Account } from '$lib/db/schema';
+  import { LogOut, Settings, User } from '@lucide/svelte';
+  import { AccountCoState } from 'jazz-tools/svelte';
 
   const me = new AccountCoState(Account, {
     resolve: { profile: true },
-  })
+  });
 
-  const profile = $derived(me.current?.profile)
-  const userName = $derived(profile?.name ?? 'User')
-  const userAvatar = $derived(profile?.avatar)
+  const profile = $derived(me.current?.profile);
+  const userName = $derived(profile?.name ?? 'User');
+  const userAvatar = $derived(profile?.avatar);
 
   function handleLogOut() {
-    me.logOut()
+    me.logOut();
   }
 </script>
 

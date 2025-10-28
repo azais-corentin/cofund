@@ -1,51 +1,51 @@
 <script lang="ts">
-  import { goto } from '$app/navigation'
-  import { Button } from '$lib/components/ui/button'
-  import * as Card from '$lib/components/ui/card'
-  import * as Form from '$lib/components/ui/form'
-  import { Input } from '$lib/components/ui/input'
-  import { Account } from '$lib/db/schema'
-  import { ArrowLeft, Save, User } from '@lucide/svelte'
-  import { AccountCoState } from 'jazz-tools/svelte'
-  import { tick } from 'svelte'
-  import { defaults, superForm } from 'sveltekit-superforms'
-  import { typebox } from 'sveltekit-superforms/adapters'
-  import { formSchema } from './schema'
+  import { goto } from '$app/navigation';
+  import { Button } from '$lib/components/ui/button';
+  import * as Card from '$lib/components/ui/card';
+  import * as Form from '$lib/components/ui/form';
+  import { Input } from '$lib/components/ui/input';
+  import { Account } from '$lib/db/schema';
+  import { ArrowLeft, Save, User } from '@lucide/svelte';
+  import { AccountCoState } from 'jazz-tools/svelte';
+  import { tick } from 'svelte';
+  import { defaults, superForm } from 'sveltekit-superforms';
+  import { typebox } from 'sveltekit-superforms/adapters';
+  import { formSchema } from './schema';
 
   const me = new AccountCoState(Account, {
     resolve: { profile: true },
-  })
+  });
 
-  const profile = $derived(me.current?.profile)
+  const profile = $derived(me.current?.profile);
 
   const form = superForm(defaults(typebox(formSchema)), {
     SPA: true,
     validators: typebox(formSchema),
     async onUpdate({ form }) {
       if (!form.valid || !me.current?.profile) {
-        return
+        return;
       }
 
-      me.current.profile.$jazz.set('name', form.data.name)
+      me.current.profile.$jazz.set('name', form.data.name);
       if (form.data.bio) {
-        me.current.profile.$jazz.set('bio', form.data.bio)
+        me.current.profile.$jazz.set('bio', form.data.bio);
       } else {
-        me.current.profile.$jazz.set('bio', undefined)
+        me.current.profile.$jazz.set('bio', undefined);
       }
 
-      await tick()
-      goto('/groups')
+      await tick();
+      goto('/groups');
     },
-  })
+  });
 
-  const { form: formData, enhance } = form
+  const { form: formData, enhance } = form;
 
   $effect(() => {
     if (profile) {
-      $formData.name = profile.name || ''
-      $formData.bio = profile.bio ?? ''
+      $formData.name = profile.name || '';
+      $formData.bio = profile.bio ?? '';
     }
-  })
+  });
 </script>
 
 <div class="mx-auto max-w-2xl">
@@ -65,9 +65,7 @@
       <Card.Content class="space-y-6">
         <div class="flex justify-center">
           <div class="relative">
-            <div
-              class="flex h-24 w-24 items-center justify-center rounded-full bg-muted"
-            >
+            <div class="flex h-24 w-24 items-center justify-center rounded-full bg-muted">
               {#if profile?.avatar}
                 <img
                   src={profile.avatar}
@@ -98,11 +96,7 @@
           <Form.Control>
             {#snippet children({ props })}
               <Form.Label>Bio</Form.Label>
-              <Input
-                {...props}
-                bind:value={$formData.bio}
-                placeholder="Tell us about yourself"
-              />
+              <Input {...props} bind:value={$formData.bio} placeholder="Tell us about yourself" />
               <Form.Description>A short description about you (optional)</Form.Description>
             {/snippet}
           </Form.Control>

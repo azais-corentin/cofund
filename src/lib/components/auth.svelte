@@ -1,77 +1,77 @@
 <script lang="ts">
-  import { usePasskeyAuth } from 'jazz-tools/svelte'
-  import { Button } from '$lib/components/ui/button'
-  import { Input } from '$lib/components/ui/input'
-  import { Label } from '$lib/components/ui/label'
-  import * as Card from '$lib/components/ui/card'
-  import { LoaderCircle, Key } from '@lucide/svelte'
+  import { Button } from '$lib/components/ui/button';
+  import * as Card from '$lib/components/ui/card';
+  import { Input } from '$lib/components/ui/input';
+  import { Label } from '$lib/components/ui/label';
+  import { Key, LoaderCircle } from '@lucide/svelte';
+  import { usePasskeyAuth } from 'jazz-tools/svelte';
 
-  const auth = usePasskeyAuth({ appName: 'Cofund' })
+  const auth = usePasskeyAuth({ appName: 'Cofund' });
 
-  let username = $state('')
-  let error = $state<string | undefined>()
-  let isSignUpMode = $state(true)
-  let isLoading = $state(false)
+  let username = $state('');
+  let error = $state<string | undefined>();
+  let isSignUpMode = $state(true);
+  let isLoading = $state(false);
 
   async function handleSignUp(e: Event) {
-    e.preventDefault()
+    e.preventDefault();
 
     if (!username.trim()) {
-      error = 'Name is required'
-      return
+      error = 'Name is required';
+      return;
     }
 
-    error = undefined
-    isLoading = true
+    error = undefined;
+    isLoading = true;
     try {
-      await auth.current.signUp(username)
+      await auth.current.signUp(username);
     } catch (err) {
       if (err instanceof Error) {
         if (err.message.includes('cancelled') || err.message.includes('abort')) {
-          error = 'Passkey creation was cancelled. Please try again.'
+          error = 'Passkey creation was cancelled. Please try again.';
         } else if (err.message.includes('NotSupported')) {
-          error = 'Passkeys are not supported on this device or browser.'
+          error = 'Passkeys are not supported on this device or browser.';
         } else {
-          error = err.message
+          error = err.message;
         }
       } else {
-        error = 'Sign up failed. Please try again.'
+        error = 'Sign up failed. Please try again.';
       }
     } finally {
-      isLoading = false
+      isLoading = false;
     }
   }
 
   async function handleLogIn(e: Event) {
-    e.preventDefault()
-    error = undefined
-    isLoading = true
-    
+    e.preventDefault();
+    error = undefined;
+    isLoading = true;
+
     try {
-      await auth.current.logIn()
+      await auth.current.logIn();
     } catch (err) {
       if (err instanceof Error) {
         if (err.message.includes('cancelled') || err.message.includes('abort')) {
-          error = 'Passkey authentication was cancelled. Please try again.'
+          error = 'Passkey authentication was cancelled. Please try again.';
         } else if (err.message.includes('NotSupported')) {
-          error = 'Passkeys are not supported on this device or browser.'
+          error = 'Passkeys are not supported on this device or browser.';
         } else if (err.message.includes('NotAllowed')) {
-          error = 'Passkey authentication was not allowed. Please try again.'
+          error = 'Passkey authentication was not allowed. Please try again.';
         } else {
-          error = err.message
+          error = err.message;
         }
       } else {
-        error = 'Log in failed. Please try again.'
+        error = 'Log in failed. Please try again.';
       }
     } finally {
-      isLoading = false
+      isLoading = false;
     }
   }
 
   function toggleMode() {
-    isSignUpMode = !isSignUpMode
-    error = undefined
-    username = ''
+    isSignUpMode = !isSignUpMode;
+    error = undefined;
+    username = '';
   }
 </script>
 
@@ -80,9 +80,11 @@
     <Card.Header>
       <Card.Title>{isSignUpMode ? 'Create Account' : 'Welcome Back'}</Card.Title>
       <Card.Description>
-        {isSignUpMode
-          ? 'Create a new account using your device\'s passkey'
-          : 'Log in with your device\'s passkey'}
+        {
+          isSignUpMode
+          ? "Create a new account using your device's passkey"
+          : "Log in with your device's passkey"
+        }
       </Card.Description>
     </Card.Header>
     <Card.Content>
@@ -134,12 +136,14 @@
 
       <div class="mt-4 text-center">
         <Button variant="link" onclick={toggleMode} class="text-sm" disabled={isLoading}>
-          {isSignUpMode
+          {
+            isSignUpMode
             ? 'Already have an account? Log in'
-            : 'Need an account? Sign up'}
+            : 'Need an account? Sign up'
+          }
         </Button>
       </div>
-      
+
       <p class="mt-4 text-center text-xs text-muted-foreground">
         Passkeys are stored securely on your device and never leave it.
       </p>

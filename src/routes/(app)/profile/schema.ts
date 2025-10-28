@@ -1,4 +1,4 @@
-import Type, { type Static } from 'typebox'
+import Type, { type Static } from 'typebox';
 
 export const formSchema = Type.Object({
   name: Type.String({
@@ -12,6 +12,6 @@ export const formSchema = Type.Object({
       error: 'Bio must be at most 500 characters',
     }),
   ),
-})
+});
 
-export type FormSchema = Static<typeof formSchema>
+export type FormSchema = Static<typeof formSchema>;
