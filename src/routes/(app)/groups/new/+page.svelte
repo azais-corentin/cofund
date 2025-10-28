@@ -20,7 +20,7 @@
   const form = superForm(defaults(typebox(formSchema)), {
     SPA: true,
     validators: typebox(formSchema),
-    onUpdate({ form }) {
+    async onUpdate({ form }) {
       if (!form.valid || !me.current) {
         return;
       }
@@ -32,11 +32,7 @@
         created_at: new Date(),
       });
 
-      console.log('Creating group', group);
-
       me.current.root.groups.$jazz.push(group);
-
-      console.log('Navigating to group page', group.$jazz.id);
 
       goto(`/groups/${group.$jazz.id}`);
     },
