@@ -1,4 +1,4 @@
-import { co, z } from 'jazz-tools';
+import { co, Group as JazzGroup, z } from 'jazz-tools';
 
 export const Operation = co.map({
   created_at: z.date(),
@@ -22,27 +22,44 @@ export type Group = co.loaded<typeof Group>;
 export const ListOfGroups = co.list(Group);
 export type ListOfGroups = co.loaded<typeof ListOfGroups>;
 
+export const Root = co.map({
+  groups: ListOfGroups,
+});
+
+export const Profile = co.profile({
+  name: z.string(),
+  avatar: z.optional(z.string()),
+  bio: z.optional(z.string()),
+});
+
 export const Account = co
   .account({
-    root: co.map({
-      groups: ListOfGroups,
-    }),
-    profile: co.profile({
-      name: z.string(),
-      avatar: z.optional(z.string()),
-      bio: z.optional(z.string()),
-    }),
+    root: Root,
+    profile: Profile,
   })
   .withMigration((account, creationProps?: { name: string }) => {
-    if (!account.root) {
-      (account as any).root = {
+    if (!account.$jazz.has('root')) {
+      console.info('Initializing root for account migration');
+      account.$jazz.set('root', {
         groups: [],
-      }
+      });
     }
 
-    if (!account.profile) {
-      (account as any).profile = {
+    if (!account.$jazz.has('profile')) {
+      console.info('Initializing profile for account migration');
+
+      const profileGroup = JazzGroup.create();
+      profileGroup.makePublic();
+
+      account.$jazz.set(
+        'profile',
+        Profile.create({
+          name: creationProps?.name ?? 'New User',
+        }),
+      );
+
+      account.$jazz.set('profile', {
         name: creationProps?.name ?? 'New User',
-      }
+      });
     }
-  })
+  });
