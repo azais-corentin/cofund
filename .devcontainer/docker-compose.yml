@@ -4,6 +4,7 @@ services:
       context: ..
       dockerfile: Dockerfile
       target: devcontainer
+    network_mode: host
     volumes:
       - ../..:/workspaces:cached
     command: sleep infinity
