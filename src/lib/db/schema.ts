@@ -29,12 +29,20 @@ export const Account = co
     }),
     profile: co.profile({
       name: z.string(),
+      avatar: z.optional(z.string()),
+      bio: z.optional(z.string()),
     }),
   })
-  .withMigration((account) => {
-    if (!account.$jazz.has('root')) {
-      account.$jazz.set('root', {
+  .withMigration((account, creationProps?: { name: string }) => {
+    if (!account.root) {
+      (account as any).root = {
         groups: [],
-      });
+      }
     }
-  });
+
+    if (!account.profile) {
+      (account as any).profile = {
+        name: creationProps?.name ?? 'New User',
+      }
+    }
+  })
