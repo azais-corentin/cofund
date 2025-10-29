@@ -35,6 +35,7 @@ export default {
   })],
   server: {
     host: true,
+    allowedHosts: ['cofund.tail69158.ts.net'],
   },
   define: {
     BUILD_DATE: JSON.stringify(new Date().toISOString()),
