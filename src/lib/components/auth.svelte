@@ -2,7 +2,12 @@
   import { Button } from '$lib/components/ui/button';
   import * as Card from '$lib/components/ui/card';
   import { Input } from '$lib/components/ui/input';
-  import { Label } from '$lib/components/ui/label';
+  import {
+    FieldGroup,
+    Field,
+    FieldLabel,
+    FieldDescription,
+  } from '$lib/components/ui/field';
   import { Key, LoaderCircle } from '@lucide/svelte';
   import { usePasskeyAuth } from 'jazz-tools/svelte';
 
@@ -89,64 +94,75 @@
     </Card.Header>
     <Card.Content>
       {#if isSignUpMode}
-        <form onsubmit={handleSignUp} class="space-y-4">
-          <div class="space-y-2">
-            <Label for="username">Your Name</Label>
-            <Input
-              id="username"
-              type="text"
-              placeholder="Enter your name"
-              bind:value={username}
-              disabled={isLoading}
-              required
-            />
-          </div>
+        <form onsubmit={handleSignUp}>
+          <FieldGroup>
+            <Field>
+              <FieldLabel for="username">Your Name</FieldLabel>
+              <Input
+                id="username"
+                type="text"
+                placeholder="Enter your name"
+                bind:value={username}
+                disabled={isLoading}
+                required
+              />
+              <FieldDescription>This name will be used to identify you</FieldDescription>
+            </Field>
 
-          {#if error}
-            <p class="text-sm text-destructive">{error}</p>
-          {/if}
-
-          <Button type="submit" class="w-full" disabled={isLoading}>
-            {#if isLoading}
-              <LoaderCircle class="mr-2 h-4 w-4 animate-spin" />
-              Creating account...
-            {:else}
-              <Key class="mr-2 h-4 w-4" />
-              Create Account with Passkey
+            {#if error}
+              <p class="text-sm text-destructive">{error}</p>
             {/if}
-          </Button>
+
+            <Field>
+              <Button type="submit" class="w-full" disabled={isLoading}>
+                {#if isLoading}
+                  <LoaderCircle class="mr-2 h-4 w-4 animate-spin" />
+                  Creating account...
+                {:else}
+                  <Key class="mr-2 h-4 w-4" />
+                  Create Account with Passkey
+                {/if}
+              </Button>
+              <FieldDescription class="text-center">
+                Passkeys are stored securely on your device and never leave it.
+              </FieldDescription>
+            </Field>
+          </FieldGroup>
         </form>
       {:else}
-        <form onsubmit={handleLogIn} class="space-y-4">
-          {#if error}
-            <p class="text-sm text-destructive">{error}</p>
-          {/if}
-
-          <Button type="submit" class="w-full" disabled={isLoading}>
-            {#if isLoading}
-              <LoaderCircle class="mr-2 h-4 w-4 animate-spin" />
-              Authenticating...
-            {:else}
-              <Key class="mr-2 h-4 w-4" />
-              Log In with Passkey
+        <form onsubmit={handleLogIn}>
+          <FieldGroup>
+            {#if error}
+              <p class="text-sm text-destructive">{error}</p>
             {/if}
-          </Button>
+
+            <Field>
+              <Button type="submit" class="w-full" disabled={isLoading}>
+                {#if isLoading}
+                  <LoaderCircle class="mr-2 h-4 w-4 animate-spin" />
+                  Authenticating...
+                {:else}
+                  <Key class="mr-2 h-4 w-4" />
+                  Log In with Passkey
+                {/if}
+              </Button>
+              <FieldDescription class="text-center">
+                Passkeys are stored securely on your device and never leave it.
+              </FieldDescription>
+            </Field>
+          </FieldGroup>
         </form>
       {/if}
 
-      <div class="mt-4 text-center">
-        <Button variant="link" onclick={toggleMode} class="text-sm" disabled={isLoading}>
+      <Field class="mt-4">
+        <Button variant="link" onclick={toggleMode} class="mx-auto text-sm" disabled={isLoading}>
           {
             isSignUpMode
             ? 'Already have an account? Log in'
             : 'Need an account? Sign up'
           }
         </Button>
-      </div>
-
-      <p class="mt-4 text-center text-xs text-muted-foreground">
-        Passkeys are stored securely on your device and never leave it.
-      </p>
+      </Field>
     </Card.Content>
   </Card.Root>
 </div>
