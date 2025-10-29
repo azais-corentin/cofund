@@ -42,25 +42,27 @@
   AccountSchema={Account}
   sync={{ peer: `${PUBLIC_WS_URL}?key=${PUBLIC_JAZZ_API_KEY}` }}
 >
-  <AuthWrapper>
-    <div class="relative flex min-h-svh flex-col bg-background" class:debug-layout={debugLayout}>
-      <div class="hidden md:block">
-        <SiteHeader />
+  <div class={debugLayout ? 'debug-layout' : ''}>
+    <AuthWrapper>
+      <div class="relative flex min-h-svh flex-col bg-background">
+        <div class="hidden md:block">
+          <SiteHeader />
+        </div>
+
+        {#if process.env.NODE_ENV !== 'production'}
+          <jazz-inspector><!----></jazz-inspector>
+        {/if}
+
+        <main class="flex-1 px-6 pt-4 md:pt-0">
+          {@render children?.()}
+        </main>
+
+        <div class="hidden md:block">
+          <SiteFooter />
+        </div>
       </div>
-
-      {#if process.env.NODE_ENV !== 'production'}
-        <jazz-inspector><!----></jazz-inspector>
-      {/if}
-
-      <main class="flex-1 px-6 pt-4 md:pt-0">
-        {@render children?.()}
-      </main>
-
-      <div class="hidden md:block">
-        <SiteFooter />
-      </div>
-    </div>
-  </AuthWrapper>
+    </AuthWrapper>
+  </div>
 </JazzSvelteProvider>
 
 <!-- Debug Layout Toggle Button - Only shown in development -->
