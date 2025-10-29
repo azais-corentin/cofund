@@ -1,13 +1,12 @@
 <script lang="ts">
-  import { goto } from '$app/navigation';
   import { Button } from '$lib/components/ui/button';
   import * as Card from '$lib/components/ui/card';
   import * as Form from '$lib/components/ui/form';
   import { Input } from '$lib/components/ui/input';
   import { Account } from '$lib/db/schema';
-  import { ArrowLeft, Save, User } from '@lucide/svelte';
+  import { ArrowLeft, Check, Save, User } from '@lucide/svelte';
   import { AccountCoState } from 'jazz-tools/svelte';
-  import { tick } from 'svelte';
+  import { toast, Toaster } from 'svelte-sonner';
   import { defaults, superForm } from 'sveltekit-superforms';
   import { typebox } from 'sveltekit-superforms/adapters';
   import { formSchema } from './schema';
@@ -20,8 +19,10 @@
 
   const form = superForm(defaults(typebox(formSchema)), {
     SPA: true,
+    resetForm: false,
     validators: typebox(formSchema),
     async onUpdate({ form }) {
+      await me.current?.$jazz.ensureLoaded({ resolve: { profile: true } });
       if (!form.valid || !me.current?.profile) {
         return;
       }
@@ -33,8 +34,8 @@
         me.current.profile.$jazz.set('bio', undefined);
       }
 
-      await tick();
-      goto('/groups');
+      console.info('Showing sonner...');
+      toast.success('Changes have been saved', {});
     },
   });
 
@@ -47,6 +48,8 @@
     }
   });
 </script>
+
+<Toaster position="top-right" closeButton />
 
 <div class="mx-auto max-w-2xl">
   <div class="mb-6">
@@ -121,23 +124,11 @@
           <div class="space-y-0.5">
             <div class="text-sm font-medium">Passkey Authentication</div>
             <div class="text-sm text-muted-foreground">
-              Your account is secured with a passkey stored on this device
+              Your account is secured with a passkey
             </div>
           </div>
           <div class="flex h-10 w-10 items-center justify-center rounded-full bg-green-100 dark:bg-green-900">
-            <svg
-              class="h-5 w-5 text-green-600 dark:text-green-400"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M5 13l4 4L19 7"
-              />
-            </svg>
+            <Check class="h-5 w-5 text-green-600 dark:text-green-400" />
           </div>
         </div>
       </Card.Content>
