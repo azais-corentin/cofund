@@ -34,7 +34,7 @@
 
       me.current.root.groups.$jazz.push(group);
 
-      goto(`/groups/${group.$jazz.id}`);
+      await goto(`/groups/${group.$jazz.id}`);
     },
   });
 

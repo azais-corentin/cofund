@@ -75,10 +75,10 @@
   }
 </script>
 
-<div class="flex min-h-screen items-center justify-center bg-background p-4">
-  <Card.Root class="w-full max-w-md">
+<div class="flex min-h-screen items-center justify-center p-4">
+  <Card.Root class="mx-auto w-full max-w-md">
     <Card.Header>
-      <Card.Title>{isSignUpMode ? 'Create Account' : 'Welcome Back'}</Card.Title>
+      <Card.Title class="text-2xl">{isSignUpMode ? 'Create Account' : 'Welcome Back'}</Card.Title>
       <Card.Description>
         {
           isSignUpMode
