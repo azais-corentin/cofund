@@ -97,23 +97,6 @@
 
 <div class="h-5"></div>
 
-<div>
-  <p>Is authenticated: {account.isAuthenticated}</p>
-  <p>Profile: {me?.profile.name}</p>
-
-  <Input
-    placeholder="Update your profile name"
-    class="mt-2"
-    value={me?.profile.name ?? ''}
-    onchange={(e) => {
-      if (!me || !e.target) {
-        return;
-      }
-      me.profile.$jazz.set('name', (e.target as HTMLInputElement).value);
-    }}
-  />
-</div>
-
 <!-- Groups list -->
 <div class="flex flex-col gap-4 -mx-6 px-4 md:mx-0 md:px-0">
   {#each me?.root.groups.filter(g => g !== null) || [] as group}
