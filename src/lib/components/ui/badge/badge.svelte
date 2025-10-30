@@ -3,7 +3,7 @@
 
   export const badgeVariants = tv({
     base:
-      'focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive inline-flex w-fit shrink-0 items-center justify-center gap-1 overflow-hidden whitespace-nowrap rounded-md border px-2 py-0.5 text-xs font-medium transition-[color,box-shadow] focus-visible:ring-[3px] [&>svg]:pointer-events-none [&>svg]:size-3',
+      'focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive inline-flex w-fit shrink-0 items-center justify-center gap-1 overflow-hidden whitespace-nowrap rounded-full border px-2 py-0.5 text-xs font-medium transition-[color,box-shadow] focus-visible:ring-[3px] [&>svg]:pointer-events-none [&>svg]:size-3',
     variants: {
       variant: {
         default: 'bg-primary text-primary-foreground [a&]:hover:bg-primary/90 border-transparent',
@@ -14,7 +14,9 @@
         outline: 'text-foreground [a&]:hover:bg-accent [a&]:hover:text-accent-foreground',
       },
     },
-    defaultVariants: { variant: 'default' },
+    defaultVariants: {
+      variant: 'default',
+    },
   });
 
   export type BadgeVariant = VariantProps<typeof badgeVariants>['variant'];
@@ -31,7 +33,9 @@
     variant = 'default',
     children,
     ...restProps
-  }: WithElementRef<HTMLAnchorAttributes> & { variant?: BadgeVariant } = $props();
+  }: WithElementRef<HTMLAnchorAttributes> & {
+    variant?: BadgeVariant;
+  } = $props();
 </script>
 
 <svelte:element
