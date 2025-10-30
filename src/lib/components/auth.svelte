@@ -1,13 +1,8 @@
 <script lang="ts">
   import { Button } from '$lib/components/ui/button';
   import * as Card from '$lib/components/ui/card';
+  import { Field, FieldDescription, FieldGroup, FieldLabel } from '$lib/components/ui/field';
   import { Input } from '$lib/components/ui/input';
-  import {
-    FieldGroup,
-    Field,
-    FieldLabel,
-    FieldDescription,
-  } from '$lib/components/ui/field';
   import { Key, LoaderCircle } from '@lucide/svelte';
   import { usePasskeyAuth } from 'jazz-tools/svelte';
 
