@@ -10,16 +10,16 @@
   import { AccountCoState } from 'jazz-tools/svelte';
   import { tick } from 'svelte';
   import { defaults, superForm } from 'sveltekit-superforms';
-  import { typebox } from 'sveltekit-superforms/adapters';
+  import { zod4 } from 'sveltekit-superforms/adapters';
   import { formSchema } from './schema';
 
   const me = new AccountCoState(Account, {
     resolve: { root: { groups: true }, profile: true },
   });
 
-  const form = superForm(defaults(typebox(formSchema)), {
+  const form = superForm(defaults(zod4(formSchema)), {
     SPA: true,
-    validators: typebox(formSchema),
+    validators: zod4(formSchema),
     async onUpdate({ form }) {
       if (!form.valid || !me.current) {
         return;
@@ -27,7 +27,8 @@
 
       const group = Group.create({
         operations: [],
-        ...form.data,
+        name: form.data.name,
+        currency: form.data.currency,
         users: form.data.users.map(u => u.name),
         created_at: new Date(),
       });
@@ -131,14 +132,15 @@
                     onkeydown={(event) => handleInputKeydown(event, i)}
                   />
                   <Button
-                    aria-label="Remove user"
-                    variant="destructive"
+                    type="button"
+                    variant="outline"
+                    size="icon"
                     class="px-3"
-                    onclick={() => ($formData.users = $formData.users.filter((_, idx) =>
-                      idx !== i
-                    ))}
+                    onclick={() => {
+                      $formData.users = $formData.users.filter((_, idx) => idx !== i);
+                    }}
                   >
-                    <Minus />
+                    <Minus class="size-4" />
                   </Button>
                 </div>
               {/snippet}

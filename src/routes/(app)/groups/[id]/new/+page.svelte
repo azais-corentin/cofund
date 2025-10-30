@@ -4,48 +4,60 @@
   import * as Card from '$lib/components/ui/card';
   import * as Form from '$lib/components/ui/form';
   import { Input } from '$lib/components/ui/input';
-  import { getContext } from 'svelte';
-  import { type Infer, superForm, type SuperValidated } from 'sveltekit-superforms';
-  import { typeboxClient } from 'sveltekit-superforms/adapters';
-  import { type FormSchema, formSchema } from './schema';
+  import { Group, Operation } from '$lib/db/schema';
+  import { OperationFormSchema } from '$lib/schemas/index';
+  import { CoState } from 'jazz-tools/svelte';
+  import { untrack } from 'svelte';
+  import { SvelteSet } from 'svelte/reactivity';
+  import { defaults, superForm } from 'sveltekit-superforms';
+  import { zod4 } from 'sveltekit-superforms/adapters';
 
-  let { data }: { data: { form: SuperValidated<Infer<FormSchema>> } } = $props();
+  const groupState = new CoState(Group, page.params.id, {
+    resolve: {
+      operations: true,
+    },
+  });
 
-  const groupQuery: any = getContext('groupQuery');
-  const group = $derived(groupQuery?.result);
+  const group = $derived(groupState.current);
 
-  const form = superForm(data.form, {
+  const form = superForm(defaults(zod4(OperationFormSchema)), {
+    SPA: true,
     dataType: 'json',
-    validators: typeboxClient(formSchema),
-    onResult: async ({ result }) => {
-      if (result.type === 'success' && result.data?.success) {
-        const { operationId, operationData } = result.data;
-
-        // TODO Add to PouchDB
-
-        await goto(`/groups/${page.params.id}`);
+    validators: zod4(OperationFormSchema),
+    async onUpdate({ form }) {
+      if (!form.valid || !group) {
+        console.error(form.errors);
+        return;
       }
+
+      const data = form.data;
+      const operation = Operation.create({
+        created_at: new Date(),
+        title: data.title,
+        amount: data.amount,
+        paid_by: data.paid_by,
+        split_type: data.split_type,
+        split: data.split,
+      });
+
+      console.info('Adding operation:', operation);
+
+      group.operations.$jazz.push(operation);
+
+      await goto(`/groups/${page.params.id}`);
     },
   });
 
   const { form: formData, enhance } = form;
 
-  let splitType = $state<'equally' | 'as_parts' | 'by_amount'>('equally');
-  let selectedMembers = $state<Set<string>>(new Set());
+  let selectedMembers = new SvelteSet<string>();
 
   $effect(() => {
     if (group?.users) {
-      selectedMembers = new Set(group.users);
+      for (const user of group.users) {
+        untrack(() => selectedMembers.add(user));
+      }
     }
-  });
-
-  $effect(() => {
-    $formData.created_at = new Date().toISOString();
-  });
-
-  $effect(() => {
-    $formData.split_type = splitType;
-    $formData.split = JSON.stringify({ type: splitType, members: Array.from(selectedMembers) });
   });
 
   const toggleMember = (member: string) => {
@@ -54,7 +66,6 @@
     } else {
       selectedMembers.add(member);
     }
-    selectedMembers = new Set(selectedMembers);
   };
 </script>
 
@@ -128,22 +139,22 @@
       <div class="grid grid-cols-3 gap-2 rounded-xl bg-muted p-1">
         <button
           type="button"
-          onclick={() => splitType = 'equally'}
-          class="px-4 py-2 text-sm font-medium rounded-lg transition-colors {splitType === 'equally' ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:text-foreground'}"
+          onclick={() => $formData.split_type = 'equally'}
+          class="px-4 py-2 text-sm font-medium rounded-lg transition-colors {$formData.split_type === 'equally' ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:text-foreground'}"
         >
           Equally
         </button>
         <button
           type="button"
-          onclick={() => splitType = 'as_parts'}
-          class="px-4 py-2 text-sm font-medium rounded-lg transition-colors {splitType === 'as_parts' ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:text-foreground'}"
+          onclick={() => $formData.split_type = 'as_parts'}
+          class="px-4 py-2 text-sm font-medium rounded-lg transition-colors {$formData.split_type === 'as_parts' ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:text-foreground'}"
         >
           As Parts
         </button>
         <button
           type="button"
-          onclick={() => splitType = 'by_amount'}
-          class="px-4 py-2 text-sm font-medium rounded-lg transition-colors {splitType === 'by_amount' ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:text-foreground'}"
+          onclick={() => $formData.split_type = 'by_amount'}
+          class="px-4 py-2 text-sm font-medium rounded-lg transition-colors {$formData.split_type === 'by_amount' ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:text-foreground'}"
         >
           By Amount
         </button>

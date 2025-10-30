@@ -1,5 +1,7 @@
 <script lang="ts">
+  import { goto } from '$app/navigation';
   import { page } from '$app/state';
+  import SwipeableExpense from '$lib/components/swipeable-expense.svelte';
   import { Group } from '$lib/db/schema';
   import {
     ArrowLeft,
@@ -12,6 +14,7 @@
     Utensils,
     Waves,
   } from '@lucide/svelte';
+  import dayjs from 'dayjs';
   import { CoState } from 'jazz-tools/svelte';
 
   const groupState = new CoState(Group, page.params.id, {
@@ -19,9 +22,28 @@
   });
   const group = $derived(groupState.current);
 
-  const totalSpent = 0;
+  const operations = $derived(group?.operations ? [...group.operations] : []);
 
-  const currentMonth = 'October 2025';
+  const totalSpent = $derived(
+    operations.reduce((sum, op) => sum + (op?.amount ?? 0), 0),
+  );
+
+  const groupedOperations = $derived.by(() => {
+    const grouped = new Map<string, typeof operations>();
+
+    for (const op of operations) {
+      if (!op) continue;
+      const dateKey = dayjs(op.created_at).format('YYYY-MM-DD');
+      if (!grouped.has(dateKey)) {
+        grouped.set(dateKey, []);
+      }
+      grouped.get(dateKey)!.push(op);
+    }
+
+    return Array.from(grouped.entries()).sort((a, b) => b[0].localeCompare(a[0]));
+  });
+
+  const currentMonth = dayjs().format('MMMM YYYY');
 
   function getCategoryIcon(title: string) {
     const lower = title.toLowerCase();
@@ -69,6 +91,15 @@
     const hash = name.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
     return colors[hash % colors.length];
   }
+
+  function deleteOperation(operationIndex: number) {
+    if (!group?.operations) return;
+    group.operations.$jazz.remove(operationIndex);
+  }
+
+  function editOperation(operationId: string) {
+    goto(`/groups/${group?.$jazz.id}/edit/${operationId}`);
+  }
 </script>
 
 <div class="relative flex min-h-screen w-full flex-col">
@@ -100,7 +131,7 @@
   </div>
 
   <div class="flex flex-col gap-6 px-4 pb-24">
-    <!-- {#if operationsQuery.fetching}
+    {#if !group}
       <p class="text-muted-foreground text-center py-8">Loading expenses...</p>
     {:else if operations.length === 0}
       <p class="text-muted-foreground text-center py-8">No expenses yet. Add your first expense!</p>
@@ -111,33 +142,35 @@
             {dayjs(dateKey).format('MMM DD, YYYY')}
           </h4>
           <div class="flex flex-col gap-4">
-            {#each ops as operation (operation.id)}
-              {@const IconComponent = getCategoryIcon(operation.title)}
-              {@const StatusIcon = getStatusIcon(operation.split_type)}
-              {@const splitData = JSON.parse(operation.split)}
-              {@const participants = Array.isArray(splitData) ? splitData : [operation.paid_by]}
+            {#each ops as operation, idx (operation?.$jazz.id ?? idx)}
+              {@const IconComponent = getCategoryIcon(operation?.title ?? '')}
+              {@const StatusIcon = getStatusIcon(operation?.split_type ?? 'equally')}
+              {@const splitData = operation?.split ?? {}}
+              {@const participants = Array.isArray(splitData)
+            ? splitData
+            : (operation?.paid_by ?? [])}
               <SwipeableExpense
-                onDelete={() => deleteOperation(operation.id)}
-                onEdit={() => goto(`/groups/${group?.id}/edit/${operation.id}`)}
+                onDelete={() => deleteOperation(idx)}
+                onEdit={() => editOperation(operation?.$jazz.id ?? '')}
               >
                 {#snippet children()}
                   <div class="flex items-center gap-4 bg-card p-4 rounded-lg shadow-md">
                     <div class="text-white flex items-center justify-center rounded-lg bg-primary shrink-0 size-12">
                       <IconComponent class="size-6" />
                     </div>
-                    <div class="flex flex-col justify-center flex-grow">
+                    <div class="flex flex-col justify-center grow">
                       <p class="text-foreground text-base font-medium line-clamp-1">
-                        {operation.title}
+                        {operation?.title ?? 'Untitled'}
                       </p>
                       <div class="flex items-center gap-2 mt-1">
                         <p class="text-muted-foreground text-sm">
-                          Paid by: {operation.paid_by}
+                          Paid by: {operation?.paid_by ?? 'Unknown'}
                         </p>
                         <div class="flex items-center">
-                          {#each participants.slice(0, 3) as participant, idx (participant + idx)}
+                          {#each participants.slice(0, 3) as participant, pidx (participant + pidx)}
                             <div
                               class="size-6 rounded-full border-2 border-card flex items-center justify-center text-[10px] font-semibold text-white {getAvatarColor(participant)}"
-                              class:-ml-2={idx > 0}
+                              class:-ml-2={pidx > 0}
                               title={participant}
                             >
                               {getUserInitials(participant)}
@@ -148,9 +181,14 @@
                     </div>
                     <div class="shrink-0 flex flex-col items-end">
                       <p class="text-foreground text-base font-semibold">
-                        {formatCurrency(operation.amount, group?.currency ?? 'USD')}
+                        {
+                          formatCurrency(
+                            operation?.amount ?? 0,
+                            group?.currency ?? 'USD',
+                          )
+                        }
                       </p>
-                      <div class="rounded-full size-5 flex items-center justify-center mt-1 {getStatusClass(operation.split_type)}">
+                      <div class="rounded-full size-5 flex items-center justify-center mt-1 {getStatusClass(operation?.split_type ?? 'equally')}">
                         <StatusIcon class="size-3" />
                       </div>
                     </div>
@@ -161,11 +199,11 @@
           </div>
         </div>
       {/each}
-    {/if} -->
+    {/if}
   </div>
 
   <button
-    onclick={() => window.location.href = `/groups/${group?.$jazz.id}/new`}
+    onclick={() => goto(`/groups/${group?.$jazz.id}/new`)}
     class="fixed bottom-6 right-6 flex h-16 w-16 items-center justify-center rounded-full bg-[oklch(0.646_0.222_41.116)] text-white shadow-lg transition-transform hover:scale-105 active:scale-95"
   >
     <Plus class="size-8" />

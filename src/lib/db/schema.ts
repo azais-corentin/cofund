@@ -1,12 +1,14 @@
-import { co, Group as JazzGroup, z } from 'jazz-tools';
+import { Username } from '$lib/schemas/common';
+import { co, Group as JazzGroup } from 'jazz-tools';
+import { z } from 'zod';
 
 export const Operation = co.map({
   created_at: z.date(),
   title: z.string(),
   amount: z.number(),
-  paid_by: z.array(z.string()),
+  paid_by: Username,
   split_type: z.enum(['equally', 'as_parts', 'by_amount']),
-  split: z.string(),
+  split: z.record(Username, z.number()),
 });
 export type Operation = co.loaded<typeof Operation>;
 
