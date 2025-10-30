@@ -1,6 +1,5 @@
-export { SplitType, Username } from './common.js';
-export { GroupFormSchema, GroupSchema } from './group.js';
-export type { Group } from './group.js';
+export { ShortText, SplitType } from './common.js';
+export { type Group, GroupFormSchema, GroupSchema } from './group.js';
 export {
   type Operation,
   type OperationForm,

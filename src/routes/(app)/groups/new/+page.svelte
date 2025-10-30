@@ -6,20 +6,20 @@
   import * as Form from '$lib/components/ui/form';
   import { Input } from '$lib/components/ui/input';
   import { Account, Group } from '$lib/db/schema';
+  import { GroupFormSchema } from '$lib/schemas';
   import { Minus, Plus } from '@lucide/svelte';
   import { AccountCoState } from 'jazz-tools/svelte';
   import { tick } from 'svelte';
   import { defaults, superForm } from 'sveltekit-superforms';
   import { zod4 } from 'sveltekit-superforms/adapters';
-  import { formSchema } from './schema';
 
   const me = new AccountCoState(Account, {
     resolve: { root: { groups: true }, profile: true },
   });
 
-  const form = superForm(defaults(zod4(formSchema)), {
+  const form = superForm(defaults(zod4(GroupFormSchema)), {
     SPA: true,
-    validators: zod4(formSchema),
+    validators: zod4(GroupFormSchema),
     async onUpdate({ form }) {
       if (!form.valid || !me.current) {
         return;
@@ -29,7 +29,7 @@
         operations: [],
         name: form.data.name,
         currency: form.data.currency,
-        users: form.data.users.map(u => u.name),
+        users: form.data.users,
         created_at: new Date(),
       });
 

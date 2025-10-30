@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { SplitType, Username } from './common.js';
+import { ShortText, SplitType } from './common.js';
 
 export const OperationSchema = z.object({
   id: z.uuid(),
@@ -7,9 +7,9 @@ export const OperationSchema = z.object({
   created_at: z.iso.datetime(),
   title: z.string().min(2).max(255),
   amount: z.number().min(0.01),
-  paid_by: Username,
+  paid_by: ShortText,
   split_type: SplitType,
-  split: z.record(Username, z.number()),
+  split: z.record(ShortText, z.number()),
 });
 
 export type Operation = z.infer<typeof OperationSchema>;
