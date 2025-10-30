@@ -3,6 +3,7 @@
   import { Badge } from '$lib/components/ui/badge';
   import { Button } from '$lib/components/ui/button';
   import * as Card from '$lib/components/ui/card';
+  import { CurrencySelector } from '$lib/components/ui/currency-selector';
   import * as Form from '$lib/components/ui/form';
   import { Input } from '$lib/components/ui/input';
   import { Account, Group } from '$lib/db/schema';
@@ -83,6 +84,44 @@
       removeUser(i);
     }
   };
+
+  const getCurrencySymbols = (locale: string = 'en-US'): string[] => {
+    const currencyCodes: string[] = Intl.supportedValuesOf('currency');
+    const currencySymbols = new Set<string>();
+
+    for (const code of currencyCodes) {
+      try {
+        const formatter = new Intl.NumberFormat(locale, {
+          style: 'currency',
+          currency: code,
+          currencyDisplay: 'narrowSymbol',
+        });
+        const parts = formatter.formatToParts(0);
+        const currencyPart = parts.find(part => part.type === 'currency');
+        if (currencyPart && currencyPart.value != code) {
+          currencySymbols.add(currencyPart.value);
+        }
+      } catch (e) {}
+    }
+    for (const code of currencyCodes) {
+      try {
+        const formatter = new Intl.NumberFormat(locale, {
+          style: 'currency',
+          currency: code,
+          currencyDisplay: 'symbol',
+        });
+        const parts = formatter.formatToParts(0);
+        const currencyPart = parts.find(part => part.type === 'currency');
+        if (currencyPart && currencyPart.value != code) {
+          currencySymbols.add(currencyPart.value);
+        }
+      } catch (e) {}
+    }
+
+    return Array.from(currencySymbols.values()).sort();
+  };
+
+  const allSymbols = getCurrencySymbols();
 </script>
 
 <form method="POST" use:enhance class="flex flex-col gap-6">
@@ -104,7 +143,12 @@
         <Form.Control>
           {#snippet children({ props })}
             <Form.Label>Currency symbol</Form.Label>
-            <Input {...props} bind:value={$formData.currency} placeholder="$, €, £, ..." />
+            <CurrencySelector
+              {...props}
+              symbols={allSymbols}
+              bind:value={$formData.currency}
+              placeholder="Select currency..."
+            />
             <Form.Description>We'll use it to display amounts</Form.Description>
           {/snippet}
         </Form.Control>
