@@ -1,11 +1,11 @@
 <script lang="ts">
   import { goto } from '$app/navigation';
-  import { Badge } from '$lib/components/ui/badge';
-  import { Button } from '$lib/components/ui/button';
-  import * as Card from '$lib/components/ui/card';
-  import { CurrencySelector } from '$lib/components/ui/currency-selector';
-  import * as Form from '$lib/components/ui/form';
-  import { Input } from '$lib/components/ui/input';
+  import { Badge } from '$lib/components/shadcn/badge';
+  import { Button } from '$lib/components/shadcn/button';
+  import * as Card from '$lib/components/shadcn/card';
+  import { CurrencySelector } from '$lib/components/shadcn/currency-selector';
+  import * as Form from '$lib/components/shadcn/form';
+  import { Input } from '$lib/components/shadcn/input';
   import { Account, Group } from '$lib/db/schema';
   import { GroupFormSchema } from '$lib/schemas';
   import { Minus, Plus } from '@lucide/svelte';

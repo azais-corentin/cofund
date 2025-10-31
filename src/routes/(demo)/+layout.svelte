@@ -2,8 +2,8 @@
   import '../../app.css';
 
   import { dev } from '$app/environment';
+  import Button from '$lib/components/shadcn/button/button.svelte';
   import SiteFooter from '$lib/components/site-footer.svelte';
-  import Button from '$lib/components/ui/button/button.svelte';
   import { ModeWatcher } from 'mode-watcher';
 
   let { children } = $props();

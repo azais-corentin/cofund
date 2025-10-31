@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { Button } from '$lib/components/ui/button';
-  import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
+  import { Button } from '$lib/components/shadcn/button';
+  import * as DropdownMenu from '$lib/components/shadcn/dropdown-menu';
   import { Account } from '$lib/db/schema';
   import { LogOut, Settings, User } from '@lucide/svelte';
   import { AccountCoState } from 'jazz-tools/svelte';

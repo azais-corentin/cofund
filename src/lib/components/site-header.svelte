@@ -4,7 +4,7 @@
   import Breadcrumbs from '$lib/breadcrumbs.svelte';
   import ConnectionStatus from '$lib/connection-status.svelte';
 
-  import { Button } from '$lib/components/ui/button';
+  import { Button } from '$lib/components/shadcn/button';
   import { Plus, Trash } from '@lucide/svelte';
 
   import { goto } from '$app/navigation';

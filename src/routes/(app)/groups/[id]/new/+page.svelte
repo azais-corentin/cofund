@@ -1,9 +1,9 @@
 <script lang="ts">
   import { goto } from '$app/navigation';
   import { page } from '$app/state';
-  import * as Card from '$lib/components/ui/card';
-  import * as Form from '$lib/components/ui/form';
-  import { Input } from '$lib/components/ui/input';
+  import * as Card from '$lib/components/shadcn/card';
+  import * as Form from '$lib/components/shadcn/form';
+  import { Input } from '$lib/components/shadcn/input';
   import { Group, Operation } from '$lib/db/schema';
   import { OperationFormSchema } from '$lib/schemas/index';
   import { CoState } from 'jazz-tools/svelte';

@@ -1,8 +1,8 @@
 <script lang="ts">
-  import { Button } from '$lib/components/ui/button';
-  import * as Card from '$lib/components/ui/card';
-  import { Field, FieldDescription, FieldGroup, FieldLabel } from '$lib/components/ui/field';
-  import { Input } from '$lib/components/ui/input';
+  import { Button } from '$lib/components/shadcn/button';
+  import * as Card from '$lib/components/shadcn/card';
+  import { Field, FieldDescription, FieldGroup, FieldLabel } from '$lib/components/shadcn/field';
+  import { Input } from '$lib/components/shadcn/input';
   import { Key, LoaderCircle } from '@lucide/svelte';
   import { usePasskeyAuth } from 'jazz-tools/svelte';
 

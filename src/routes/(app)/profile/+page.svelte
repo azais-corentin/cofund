@@ -1,8 +1,8 @@
 <script lang="ts">
-  import { Button } from '$lib/components/ui/button';
-  import * as Card from '$lib/components/ui/card';
-  import * as Form from '$lib/components/ui/form';
-  import { Input } from '$lib/components/ui/input';
+  import { Button } from '$lib/components/shadcn/button';
+  import * as Card from '$lib/components/shadcn/card';
+  import * as Form from '$lib/components/shadcn/form';
+  import { Input } from '$lib/components/shadcn/input';
   import { Account } from '$lib/db/schema';
   import { ArrowLeft, Check, Save, User } from '@lucide/svelte';
   import { AccountCoState } from 'jazz-tools/svelte';

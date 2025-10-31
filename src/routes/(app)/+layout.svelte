@@ -3,9 +3,9 @@
   import { PUBLIC_JAZZ_API_KEY, PUBLIC_WS_URL } from '$env/static/public';
   import favicon from '$lib/assets/favicon.svg';
   import AuthWrapper from '$lib/components/auth-wrapper.svelte';
+  import Button from '$lib/components/shadcn/button/button.svelte';
   import SiteFooter from '$lib/components/site-footer.svelte';
   import SiteHeader from '$lib/components/site-header.svelte';
-  import Button from '$lib/components/ui/button/button.svelte';
   import { Account } from '$lib/db/schema';
   import 'jazz-tools/inspector/register-custom-element';
   import { JazzSvelteProvider } from 'jazz-tools/svelte';

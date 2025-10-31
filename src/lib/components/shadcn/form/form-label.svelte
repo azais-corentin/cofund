@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Label } from '$lib/components/ui/label/index.js';
+  import { Label } from '$lib/components/shadcn/label/index.js';
   import { cn, type WithoutChild } from '$lib/utils.js';
   import * as FormPrimitive from 'formsnap';
 
