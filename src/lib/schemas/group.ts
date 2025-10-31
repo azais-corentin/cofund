@@ -11,9 +11,20 @@ export const GroupSchema = z.object({
 
 export type Group = z.infer<typeof GroupSchema>;
 
-export const GroupFormSchema = GroupSchema.omit({
-  id: true,
-  created_at: true,
-});
+export const GroupFormSchema = GroupSchema
+  .omit({
+    id: true,
+    created_at: true,
+    users: true,
+  })
+  .extend({
+    users: z
+      .array(z.object({
+        index: z.number(),
+        name: ShortText,
+      }))
+      .min(1)
+      .max(255),
+  });
 
 export type GroupForm = z.infer<typeof GroupFormSchema>;

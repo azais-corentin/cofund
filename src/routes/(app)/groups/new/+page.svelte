@@ -30,7 +30,7 @@
         operations: [],
         name: form.data.name,
         currency: form.data.currency,
-        users: form.data.users,
+        users: form.data.users.map(u => u.name),
         created_at: new Date(),
       });
 
@@ -49,7 +49,7 @@
   const addNewUser = async (index?: number) => {
     const newIndex = (index ?? $formData.users.length - 1) + 1;
 
-    $formData.users = $formData.users.toSpliced(newIndex, 0, { uuid: globalIndex++, name: '' });
+    $formData.users = $formData.users.toSpliced(newIndex, 0, { index: globalIndex++, name: '' });
     userInputs.splice(newIndex, 0, null);
     await tick();
     console.log('Focusing new user input');
@@ -163,7 +163,7 @@
     </Card.Header>
     <Card.Content>
       <Form.Field {form} name="users">
-        {#each $formData.users as user, i (user.uuid)}
+        {#each $formData.users as user, i (user.index)}
           <Form.Field {form} name="users[{i}].name" class="mb-4">
             <Form.Control>
               {#snippet children({ props })}
