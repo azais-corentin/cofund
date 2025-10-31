@@ -1,7 +1,9 @@
 {
   "dockerfile": {},
   "indentWidth": 2,
-  "json": {},
+  "json": {
+    "trailingCommas": "never"
+  },
   "lineWidth": 100,
   "malva": {
     "quotes": "preferSingle"

@@ -3,19 +3,19 @@
   "keybinds": {
     "input_newline": "enter",
     "input_submit": "alt+enter",
-    "command_list": "alt+p",
+    "command_list": "alt+p"
   },
   "mcp": {
     "context7": {
       "type": "remote",
       "url": "https://mcp.context7.com/mcp",
       "headers": {
-        "CONTEXT7_API_KEY": "{env:CONTEXT7_API_KEY}",
-      },
+        "CONTEXT7_API_KEY": "{env:CONTEXT7_API_KEY}"
+      }
     },
     "svelte": {
       "type": "remote",
-      "url": "https://mcp.svelte.dev/mcp",
-    },
-  },
+      "url": "https://mcp.svelte.dev/mcp"
+    }
+  }
 }
