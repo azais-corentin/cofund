@@ -37,11 +37,11 @@
   },
   "dependi.npm.lockFileEnabled": true,
   "diffEditor.experimental.showMoves": true,
-  "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
     "source.addMissingImports.ts": "always",
     "source.organizeImports": "always"
   },
+  "editor.formatOnSave": true,
   "oxc.enable": true,
   "oxc.lint.run": "onType",
   "oxc.typeAware": true,
