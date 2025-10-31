@@ -1,0 +1,17 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "assets": {
+    "binding": "ASSETS",
+    "directory": ".svelte-kit/cloudflare"
+  },
+  "compatibility_date": "2025-09-15",
+  "main": ".svelte-kit/cloudflare/_worker.js",
+  "name": "cofund",
+  "routes": [
+    {
+      "custom_domain": true,
+      "pattern": "cofund.nelieru.cc",
+      "zone_id": "e1714f1a0f89e367cb4353bb5608f99c"
+    }
+  ]
+}
