@@ -3,14 +3,8 @@
   "name": "cofund",
   "main": ".svelte-kit/cloudflare/_worker.js",
   "compatibility_date": "2025-09-15",
-  "build": {
-    "command": "bun run build"
-  },
   "assets": {
     "binding": "ASSETS",
     "directory": ".svelte-kit/cloudflare"
-  },
-  "vars": {
-    "PUBLIC_WS_URL": "wss://cloud.jazz.tools/"
   }
 }
