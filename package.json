@@ -4,12 +4,12 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "dev": "bun vite dev",
-    "build": "bun vite build",
-    "prepare": "bun svelte-kit sync || echo ''",
+    "dev": "bun --bun vite dev",
+    "build": "bun --bun vite build",
+    "prepare": "bun --bun svelte-kit sync || echo ''",
     "format": "dprint fmt",
-    "lint": "oxlint --type-aware",
-    "check": "bun run prepare && bun svelte-check --tsconfig ./tsconfig.json",
+    "lint": "bun --bun oxlint --type-aware",
+    "check": "bun run prepare && bun --bun svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "bun run check --watch"
   },
   "devDependencies": {
