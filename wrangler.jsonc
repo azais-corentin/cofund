@@ -9,5 +9,8 @@
   "assets": {
     "binding": "ASSETS",
     "directory": ".svelte-kit/cloudflare"
+  },
+  "vars": {
+    "PUBLIC_WS_URL": "wss://cloud.jazz.tools/"
   }
 }
