@@ -6,11 +6,14 @@
   "scripts": {
     "dev": "bun --bun vite dev",
     "build": "bun --bun vite build",
-    "prepare": "bun --bun svelte-kit sync || echo ''",
+    "preview": "bun run build && wrangler dev",
     "format": "dprint fmt",
     "lint": "bun --bun oxlint --type-aware",
+    "prepare": "bun --bun svelte-kit sync",
     "check": "bun run prepare && bun --bun svelte-check --tsconfig ./tsconfig.json",
-    "check:watch": "bun run check --watch"
+    "check:watch": "bun run check --watch",
+    "deploy": "npm run build && bun --bun wrangler deploy",
+    "cf-typegen": "bun --bun wrangler types ./src/worker-configuration.d.ts"
   },
   "devDependencies": {
     "@fontsource-variable/roboto": "^5.2.8",
