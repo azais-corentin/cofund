@@ -2,7 +2,7 @@
   import '../../app.css';
 
   import { dev } from '$app/environment';
-  import SiteFooter from '$lib/components/site-footer.svelte';
+  import SiteFooter from '$lib/components/desktop/footer.svelte';
   import Button from '$shadcn/button/button.svelte';
   import { ModeWatcher } from 'mode-watcher';
 
