@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Toaster } from '$lib/components/shadcn/sonner/index.js';
+  import { Toaster } from '$shadcn/sonner/index.js';
   import { toast } from 'svelte-sonner';
   import { useRegisterSW } from 'virtual:pwa-register/svelte';
 

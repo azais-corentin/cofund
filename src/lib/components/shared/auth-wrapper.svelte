@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Auth from '$lib/components/auth.svelte';
+  import Auth from '$lib/components/shared/auth.svelte';
   import { useIsAuthenticated } from 'jazz-tools/svelte';
   import type { Snippet } from 'svelte';
 

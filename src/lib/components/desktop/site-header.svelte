@@ -1,13 +1,16 @@
 <script lang="ts">
+  import { goto } from '$app/navigation';
   import { page } from '$app/state';
-
-  import Breadcrumbs from '$lib/breadcrumbs.svelte';
-  import ConnectionStatus from '$lib/connection-status.svelte';
-
-  import { Button } from '$lib/components/shadcn/button';
+  import Breadcrumbs from '$lib/components/shared/breadcrumbs.svelte';
+  import ConnectionStatus from '$lib/components/shared/connection-status.svelte';
+  import { Button } from '$shadcn/button';
   import { Plus, Trash } from '@lucide/svelte';
 
-  import { goto } from '$app/navigation';
+  interface Props {
+    class?: string;
+  }
+
+  let { class: className = '' }: Props = $props();
 
   const isGroupPage = $derived(page.route.id === '/(app)/groups/[id]');
   const isCreateGroupPage = $derived(page.route.id === '/(app)/groups/new');
@@ -23,7 +26,7 @@
   };
 </script>
 
-<header class="sticky top-0 w-full px-6">
+<header class="sticky top-0 w-full px-6 {className}">
   <div class="flex h-16 flex-row items-center gap-2">
     <ConnectionStatus />
     <Breadcrumbs class="flex-1" />

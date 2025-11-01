@@ -1,5 +1,5 @@
 <script lang="ts">
-  import * as Tooltip from '$lib/components/shadcn/tooltip';
+  import * as Tooltip from '$shadcn/tooltip';
 
   const connection = $state({ status: 'CLOSED' });
 

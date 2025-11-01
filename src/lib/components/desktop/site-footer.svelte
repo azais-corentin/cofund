@@ -1,4 +1,12 @@
-<footer class="flex h-16 items-center justify-between">
+<script lang="ts">
+  interface Props {
+    class?: string;
+  }
+
+  let { class: className = '' }: Props = $props();
+</script>
+
+<footer class="flex h-16 items-center justify-between {className}">
   <div class="w-full text-center text-xs leading-loose text-muted-foreground">
     <div>
       Built by <a

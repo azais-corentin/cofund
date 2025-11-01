@@ -1,7 +1,7 @@
 <script lang="ts">
-  import { Button } from '$lib/components/shadcn/button';
-  import * as DropdownMenu from '$lib/components/shadcn/dropdown-menu';
   import { Account } from '$lib/db/schema';
+  import { Button } from '$shadcn/button';
+  import * as DropdownMenu from '$shadcn/dropdown-menu';
   import { LogOut, Settings, User } from '@lucide/svelte';
   import { AccountCoState } from 'jazz-tools/svelte';
 

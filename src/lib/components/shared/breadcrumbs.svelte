@@ -1,5 +1,5 @@
 <script lang="ts">
-  import * as Breadcrumb from '$lib/components/shadcn/breadcrumb';
+  import * as Breadcrumb from '$shadcn/breadcrumb';
   import { getBreadcrumbs } from './breadcrumb-state.svelte';
 
   let props = $props();

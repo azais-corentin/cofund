@@ -2,10 +2,10 @@
   import { dev } from '$app/environment';
   import { PUBLIC_JAZZ_API_KEY, PUBLIC_WS_URL } from '$env/static/public';
   import favicon from '$lib/assets/favicon.svg';
-  import AuthWrapper from '$lib/components/auth-wrapper.svelte';
-  import Button from '$lib/components/shadcn/button/button.svelte';
-  import SiteFooter from '$lib/components/site-footer.svelte';
-  import SiteHeader from '$lib/components/site-header.svelte';
+  import DesktopFooter from '$lib/components/desktop/site-footer.svelte';
+  import DesktopHeader from '$lib/components/desktop/site-header.svelte';
+  import MobileHeader from '$lib/components/mobile/mobile-header.svelte';
+  import AuthWrapper from '$lib/components/shared/auth-wrapper.svelte';
   import { Account } from '$lib/db/schema';
   import Button from '$shadcn/button/button.svelte';
   import 'jazz-tools/inspector/register-custom-element';
@@ -46,9 +46,11 @@
   <div class={debugLayout ? 'debug-layout' : ''}>
     <AuthWrapper>
       <div class="relative flex min-h-svh flex-col bg-background">
-        <div class="hidden md:block">
-          <SiteHeader />
-        </div>
+        <!-- Desktop header: hidden on mobile, visible on desktop -->
+        <DesktopHeader class="hidden md:block" />
+
+        <!-- Mobile header: visible on mobile, hidden on desktop -->
+        <MobileHeader class="block md:hidden" />
 
         {#if process.env.NODE_ENV !== 'production'}
           <jazz-inspector><!----></jazz-inspector>
@@ -58,9 +60,8 @@
           {@render children?.()}
         </main>
 
-        <div class="hidden md:block">
-          <SiteFooter />
-        </div>
+        <!-- Desktop footer: hidden on mobile, visible on desktop -->
+        <DesktopFooter class="hidden md:block" />
       </div>
     </AuthWrapper>
   </div>
@@ -79,6 +80,6 @@
   </Button>
 {/if}
 
-{#await import('$lib/ReloadPrompt.svelte') then { default: ReloadPrompt }}
+{#await import('$lib/components/shared/ReloadPrompt.svelte') then { default: ReloadPrompt }}
   <ReloadPrompt />
 {/await}

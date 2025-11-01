@@ -1,7 +1,7 @@
 <script lang="ts">
   import { goto } from '$app/navigation';
   import { page } from '$app/state';
-  import SwipeableExpense from '$lib/components/swipeable-expense.svelte';
+  import SwipeableExpense from '$lib/components/mobile/swipeable-expense.svelte';
   import { Group } from '$lib/db/schema';
   import {
     ArrowLeft,

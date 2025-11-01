@@ -1,6 +1,6 @@
 <script lang="ts">
   import { page } from '$app/state';
-  import { setBreadcrumb } from '$lib/breadcrumb-state.svelte';
+  import { setBreadcrumb } from '$lib/components/shared/breadcrumb-state.svelte';
 
   let { children } = $props();
 
