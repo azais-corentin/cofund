@@ -1,9 +1,9 @@
 <script lang="ts">
-  import { Button } from '$lib/components/shadcn/button';
-  import * as Card from '$lib/components/shadcn/card';
-  import * as Form from '$lib/components/shadcn/form';
-  import { Input } from '$lib/components/shadcn/input';
   import { Account } from '$lib/db/schema';
+  import { Button } from '$shadcn/button';
+  import * as Card from '$shadcn/card';
+  import * as Form from '$shadcn/form';
+  import { Input } from '$shadcn/input';
   import { ArrowLeft, Check, Save, User } from '@lucide/svelte';
   import { AccountCoState } from 'jazz-tools/svelte';
   import { toast, Toaster } from 'svelte-sonner';

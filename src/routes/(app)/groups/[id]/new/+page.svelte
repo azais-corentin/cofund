@@ -1,11 +1,11 @@
 <script lang="ts">
   import { goto } from '$app/navigation';
   import { page } from '$app/state';
-  import * as Card from '$lib/components/shadcn/card';
-  import * as Form from '$lib/components/shadcn/form';
-  import { Input } from '$lib/components/shadcn/input';
   import { Group, Operation } from '$lib/db/schema';
   import { OperationFormSchema } from '$lib/schemas/index';
+  import * as Card from '$shadcn/card';
+  import * as Form from '$shadcn/form';
+  import { Input } from '$shadcn/input';
   import { CoState } from 'jazz-tools/svelte';
   import { untrack } from 'svelte';
   import { SvelteSet } from 'svelte/reactivity';

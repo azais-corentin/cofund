@@ -7,6 +7,7 @@
   import SiteFooter from '$lib/components/site-footer.svelte';
   import SiteHeader from '$lib/components/site-header.svelte';
   import { Account } from '$lib/db/schema';
+  import Button from '$shadcn/button/button.svelte';
   import 'jazz-tools/inspector/register-custom-element';
   import { JazzSvelteProvider } from 'jazz-tools/svelte';
   import { ModeWatcher } from 'mode-watcher';

@@ -1,8 +1,8 @@
 <script lang="ts">
-  import { Button } from '$lib/components/shadcn/button/index.js';
-  import * as Command from '$lib/components/shadcn/command/index.js';
-  import * as Popover from '$lib/components/shadcn/popover/index.js';
   import { cn } from '$lib/utils.js';
+  import { Button } from '$shadcn/button/index.js';
+  import * as Command from '$shadcn/command/index.js';
+  import * as Popover from '$shadcn/popover/index.js';
   import { Check, ChevronsUpDown } from '@lucide/svelte';
 
   let {

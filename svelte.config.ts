@@ -4,7 +4,13 @@ import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 
 const config: Config = {
   preprocess: vitePreprocess(),
-  kit: { adapter: adapter(), serviceWorker: { register: false } },
+  kit: {
+    adapter: adapter(),
+    serviceWorker: { register: false },
+    alias: {
+      '$shadcn': 'src/lib/components/shared/shadcn',
+    },
+  },
 };
 
 export default config;

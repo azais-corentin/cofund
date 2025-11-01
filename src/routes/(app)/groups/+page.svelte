@@ -1,8 +1,8 @@
 <script lang="ts">
-  import { Button } from '$lib/components/shadcn/button';
-  import { Input } from '$lib/components/shadcn/input';
   import type { Group } from '$lib/db/schema';
   import { Account } from '$lib/db/schema';
+  import { Button } from '$shadcn/button';
+  import { Input } from '$shadcn/input';
   import {
     Building2,
     Car,
