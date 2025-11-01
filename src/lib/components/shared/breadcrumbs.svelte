@@ -1,26 +1,33 @@
 <script lang="ts">
+  import { page } from '$app/state';
   import * as Breadcrumb from '$shadcn/breadcrumb';
-  import { getBreadcrumbs } from './breadcrumb-state.svelte';
 
   let props = $props();
 
-  let items = $derived(getBreadcrumbs());
+  interface BreadcrumbItem {
+    name: string;
+    path: string;
+  }
+
+  const breadcrumbs: BreadcrumbItem[] = $derived(page.data.breadcrumbs);
 </script>
 
 <Breadcrumb.Root {...props}>
   <Breadcrumb.List class="text-3xl font-semibold">
-    {#each items as item, index (item.path)}
+    {#each breadcrumbs as breadcrumb, index (breadcrumb.path)}
+      {@const path = breadcrumbs.slice(0, index).reduce((acc, curr) => acc + '/' + curr.path, '')
+        + '/' + breadcrumb.path}
       <Breadcrumb.Item>
-        {#if item.path}
-          <Breadcrumb.Link href={item.path}>
-            {item.name}
+        {#if breadcrumb.path}
+          <Breadcrumb.Link href={path}>
+            {breadcrumb.name}
           </Breadcrumb.Link>
-          {#if index < items.length - 1}
+          {#if index < breadcrumbs.length - 1}
             <Breadcrumb.Separator />
           {/if}
         {:else}
           <Breadcrumb.Page>
-            {item.name}
+            {breadcrumb.name}
           </Breadcrumb.Page>
         {/if}
       </Breadcrumb.Item>

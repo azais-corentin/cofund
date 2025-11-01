@@ -42,6 +42,7 @@
 <JazzSvelteProvider
   AccountSchema={Account}
   sync={{ peer: `${PUBLIC_WS_URL}?key=${PUBLIC_JAZZ_API_KEY}` }}
+  enableSSR
 >
   <div class={debugLayout ? 'debug-layout' : ''}>
     <AuthWrapper>
