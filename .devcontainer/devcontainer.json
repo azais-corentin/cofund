@@ -12,7 +12,8 @@
         "Gxl.git-graph-3",
         "hverlin.mise-vscode",
         "oxc.oxc-vscode",
-        "svelte.svelte-vscode"
+        "svelte.svelte-vscode",
+        "yzhang.markdown-all-in-one"
       ]
     }
   }
