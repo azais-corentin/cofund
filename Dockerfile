@@ -19,6 +19,7 @@ RUN ~/.local/bin/mise use -g usage bun github:dprint/dprint github:sst/opencode
 RUN mkdir -p ~/.local/share/bash-completion/completions/ && \
     ~/.local/bin/mise exec -- usage generate c bash mise --usage-cmd "mise usage" --include-bash-completion-lib > ~/.local/share/bash-completion/completions/mise && \
     ~/.local/bin/mise exec -- dprint completions bash > ~/.local/share/bash-completion/completions/dprint
+RUN ~/.local/bin/mise settings experimental=true
 
 FROM oven/bun:1 AS builder
 WORKDIR /app
