@@ -6,12 +6,13 @@
   "customizations": {
     "vscode": {
       "extensions": [
-        "Gxl.git-graph-3",
-        "svelte.svelte-vscode",
         "bradlc.vscode-tailwindcss",
+        "dprint.dprint",
         "fill-labs.dependi",
+        "Gxl.git-graph-3",
+        "hverlin.mise-vscode",
         "oxc.oxc-vscode",
-        "dprint.dprint"
+        "svelte.svelte-vscode"
       ]
     }
   }
