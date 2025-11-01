@@ -1,27 +1,20 @@
 <script lang="ts">
   import * as Tooltip from '$shadcn/tooltip';
 
-  const connection = $state({ status: 'CLOSED' });
+  import { SyncConnectionStatus } from 'jazz-tools/svelte';
 
-  const color = $derived.by(() => {
-    if (connection.status === 'CLOSED') {
-      return 'bg-red-600';
-    }
-    if (connection.status === 'CONNECTING') {
-      return 'bg-yellow-600';
-    }
-
-    return 'bg-green-600';
-  });
+  const connectionStatus = new SyncConnectionStatus();
+  const connected = $derived(connectionStatus.current);
 </script>
 
 <Tooltip.Provider delayDuration={0}>
   <Tooltip.Root>
     <Tooltip.Trigger>
-      <div class="inline-block h-3 w-3 rounded-full {color}"></div>
+      <div class="inline-block h-3 w-3 rounded-full {connected ? 'bg-green-600' : 'bg-yellow-600'}">
+      </div>
     </Tooltip.Trigger>
     <Tooltip.Content>
-      <p class="capitalize">{connection.status.toLocaleLowerCase()}</p>
+      <p class="capitalize">{connected ? 'Online' : 'Offline'}</p>
     </Tooltip.Content>
   </Tooltip.Root>
 </Tooltip.Provider>
