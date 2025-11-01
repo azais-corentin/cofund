@@ -23,6 +23,9 @@
   "[markdown]": {
     "editor.defaultFormatter": "dprint.dprint"
   },
+  "[shellscript]": {
+    "editor.defaultFormatter": "dprint.dprint"
+  },
   "[svelte]": {
     "editor.defaultFormatter": "dprint.dprint"
   },
