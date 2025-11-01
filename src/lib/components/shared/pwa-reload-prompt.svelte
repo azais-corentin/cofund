@@ -26,11 +26,11 @@
       }
     },
     onRegisterError(error) {
-      console.log('SW registration error', error);
+      console.log('Service worker registration error', error);
     },
   });
 
-  const handleReload = () => {
+  const handleUpdate = () => {
     if (toastId) toast.dismiss(toastId);
     updateServiceWorker(true);
   };
@@ -43,31 +43,25 @@
 
   $effect(() => {
     if ($offlineReady) {
-      toastId = toast('App ready to work offline', {
-        duration: Infinity,
-        action: {
-          label: 'Close',
-          onClick: handleClose,
-        },
+      toastId = toast.info('Ready to work offline', {
+        duration: 5000,
+        onDismiss: handleClose,
       });
     } else if ($needRefresh) {
-      toastId = toast('New content available', {
-        description: 'Click reload to update the app.',
+      toastId = toast.info('New version available', {
+        description: 'Click to update the app',
         duration: Infinity,
+        onDismiss: handleClose,
         action: {
-          label: 'Reload',
-          onClick: handleReload,
-        },
-        cancel: {
-          label: 'Close',
-          onClick: handleClose,
+          label: 'Update',
+          onClick: handleUpdate,
         },
       });
     }
   });
 </script>
 
-<Toaster position="bottom-right" />
+<Toaster position="bottom-right" closeButton richColors />
 
 <div class="hidden">
   {buildDate}
