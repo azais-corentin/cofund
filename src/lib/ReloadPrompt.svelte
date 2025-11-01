@@ -1,8 +1,12 @@
 <script lang="ts">
   import { useRegisterSW } from 'virtual:pwa-register/svelte';
+  import { toast } from 'svelte-sonner';
+  import { Toaster } from '$lib/components/shadcn/sonner/index.js';
 
   // replaced dynamically
   const buildDate = BUILD_DATE;
+
+  let toastId = $state<string | number | undefined>(undefined);
 
   const { offlineReady, needRefresh, updateServiceWorker } = useRegisterSW({
     onRegisteredSW(swUrl, r) {
@@ -25,60 +29,46 @@
       console.log('SW registration error', error);
     },
   });
-  const close = () => {
+
+  const handleReload = () => {
+    if (toastId) toast.dismiss(toastId);
+    updateServiceWorker(true);
+  };
+
+  const handleClose = () => {
+    if (toastId) toast.dismiss(toastId);
     offlineReady.set(false);
     needRefresh.set(false);
   };
 
-  const toast = $derived($offlineReady || $needRefresh);
+  $effect(() => {
+    if ($offlineReady) {
+      toastId = toast('App ready to work offline', {
+        duration: Infinity,
+        action: {
+          label: 'Close',
+          onClick: handleClose,
+        },
+      });
+    } else if ($needRefresh) {
+      toastId = toast('New content available', {
+        description: 'Click reload to update the app.',
+        duration: Infinity,
+        action: {
+          label: 'Reload',
+          onClick: handleReload,
+        },
+        cancel: {
+          label: 'Close',
+          onClick: handleClose,
+        },
+      });
+    }
+  });
 </script>
 
-{#if toast}
-  <div class="pwa-toast" role="alert">
-    <div class="message">
-      {#if $offlineReady}
-        <span> App ready to work offline </span>
-      {:else}
-        <span> New content available, click on reload button to update. </span>
-      {/if}
-    </div>
-    {#if $needRefresh}
-      <button onclick={() => updateServiceWorker(true)}>Reload</button>
-    {/if}
-    <button onclick={close}>Close</button>
-  </div>
-{/if}
+<Toaster position="bottom-right" />
 
-<div class="pwa-date">
+<div class="hidden">
   {buildDate}
 </div>
-
-<style>
-  .pwa-date {
-    display: none;
-    visibility: hidden;
-  }
-  .pwa-toast {
-    position: fixed;
-    right: 0;
-    bottom: 0;
-    margin: 16px;
-    padding: 12px;
-    border: 1px solid #8885;
-    border-radius: 4px;
-    z-index: 2;
-    text-align: left;
-    box-shadow: 3px 4px 5px 0 #8885;
-    background-color: white;
-  }
-  .pwa-toast .message {
-    margin-bottom: 8px;
-  }
-  .pwa-toast button {
-    border: 1px solid #8885;
-    outline: none;
-    margin-right: 5px;
-    border-radius: 2px;
-    padding: 3px 10px;
-  }
-</style>
