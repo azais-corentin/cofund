@@ -1,7 +1,7 @@
 <script lang="ts">
-  import { useRegisterSW } from 'virtual:pwa-register/svelte';
-  import { toast } from 'svelte-sonner';
   import { Toaster } from '$lib/components/shadcn/sonner/index.js';
+  import { toast } from 'svelte-sonner';
+  import { useRegisterSW } from 'virtual:pwa-register/svelte';
 
   // replaced dynamically
   const buildDate = BUILD_DATE;
