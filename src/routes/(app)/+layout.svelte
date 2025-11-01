@@ -76,6 +76,6 @@
   </Button>
 {/if}
 
-{#await import('$lib/components/shared/ReloadPrompt.svelte') then { default: ReloadPrompt }}
+{#await import('$lib/components/shared/pwa-reload-prompt.svelte') then { default: ReloadPrompt }}
   <ReloadPrompt />
 {/await}
