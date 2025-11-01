@@ -12,13 +12,19 @@ export const Operation = co.map({
 });
 export type Operation = co.loaded<typeof Operation>;
 
-export const Group = co.map({
-  name: z.string(),
-  currency: z.string(),
-  users: z.array(z.string()),
-  created_at: z.date(),
-  operations: co.list(Operation),
-});
+export const Group = co
+  .map({
+    name: z.string(),
+    currency: z.string(),
+    users: z.array(z.string()),
+    created_at: z.date(),
+    operations: co.list(Operation),
+  })
+  .withMigration(group => {
+    // TODO: We make the group public for easy SSR access
+    // We should probably have a better way to handle this in the future
+    group.$jazz.owner.makePublic();
+  });
 export type Group = co.loaded<typeof Group>;
 
 export const ListOfGroups = co.list(Group);
@@ -45,6 +51,9 @@ export const Account = co
       account.$jazz.set('root', {
         groups: [],
       });
+      // TODO: We make the groups public for easy SSR access
+      // We should probably have a better way to handle this in the future
+      account.root?.groups?.$jazz.owner.makePublic();
     }
 
     if (!account.$jazz.has('profile')) {
