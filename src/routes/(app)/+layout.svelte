@@ -2,9 +2,9 @@
   import { dev } from '$app/environment';
   import { PUBLIC_JAZZ_API_KEY, PUBLIC_WS_URL } from '$env/static/public';
   import favicon from '$lib/assets/favicon.svg';
-  import DesktopFooter from '$lib/components/desktop/site-footer.svelte';
-  import DesktopHeader from '$lib/components/desktop/site-header.svelte';
-  import MobileHeader from '$lib/components/mobile/mobile-header.svelte';
+  import DesktopFooter from '$lib/components/desktop/footer.svelte';
+  import DesktopHeader from '$lib/components/desktop/header.svelte';
+  import MobileHeader from '$lib/components/mobile/header.svelte';
   import AuthWrapper from '$lib/components/shared/auth-wrapper.svelte';
   import { Account } from '$lib/db/schema';
   import Button from '$shadcn/button/button.svelte';
@@ -46,10 +46,7 @@
   <div class={debugLayout ? 'debug-layout' : ''}>
     <AuthWrapper>
       <div class="relative flex min-h-svh flex-col bg-background">
-        <!-- Desktop header: hidden on mobile, visible on desktop -->
         <DesktopHeader class="hidden md:block" />
-
-        <!-- Mobile header: visible on mobile, hidden on desktop -->
         <MobileHeader class="block md:hidden" />
 
         {#if process.env.NODE_ENV !== 'production'}
@@ -60,7 +57,6 @@
           {@render children?.()}
         </main>
 
-        <!-- Desktop footer: hidden on mobile, visible on desktop -->
         <DesktopFooter class="hidden md:block" />
       </div>
     </AuthWrapper>
