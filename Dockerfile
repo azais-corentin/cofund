@@ -14,8 +14,9 @@ USER vscode
 # Install mise
 RUN curl https://mise.run/bash | sh
 RUN echo 'eval "$(mise activate bash)"' >> ~/.bashrc
-# Install bun, dprint, opencode
-RUN ~/.local/bin/mise use -g bun github:dprint/dprint github:sst/opencode
+# Install bun, dprint, opencode, jdx/usage
+RUN ~/.local/bin/mise use -g bun github:dprint/dprint github:sst/opencode usage
+RUN mkdir -p ~/.local/share/bash-completion/completions/ && ~/.local/bin/mise completion bash --include-bash-completion-lib > ~/.local/share/bash-completion/completions/mise
 
 FROM oven/bun:1 AS builder
 WORKDIR /app
