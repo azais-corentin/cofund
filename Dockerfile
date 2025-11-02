@@ -15,7 +15,7 @@ USER vscode
 RUN curl https://mise.run/bash | sh
 RUN echo 'eval "$(mise activate bash)"' >> ~/.bashrc
 # Install tools via mise
-RUN ~/.local/bin/mise use -g usage bun github:dprint/dprint github:sst/opencode
+RUN ~/.local/bin/mise use -g usage shfmt bun github:dprint/dprint github:sst/opencode
 RUN mkdir -p ~/.local/share/bash-completion/completions/ && \
     ~/.local/bin/mise exec -- usage generate c bash mise --usage-cmd "mise usage" --include-bash-completion-lib > ~/.local/share/bash-completion/completions/mise && \
     ~/.local/bin/mise exec -- dprint completions bash > ~/.local/share/bash-completion/completions/dprint
