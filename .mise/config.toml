@@ -4,6 +4,7 @@
 bun = "latest"
 rg = "latest"
 shfmt = "latest"
+trufflehog = "latest"
 
 # These completion hooks add about 25ms to shell startup time.
 [hooks.enter]
