@@ -15,9 +15,6 @@
       "zone_id": "e1714f1a0f89e367cb4353bb5608f99c"
     }
   ],
-  "build": {
-    "command": "CF_PAGES=true bun run build"
-  },
   "observability": {
     "logs": {
       "enabled": true,
