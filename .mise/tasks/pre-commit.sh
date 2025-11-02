@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
 #MISE description="Run pre-commit hooks"
+set -e
+
 bun format:check
-trufflehog git file://. --since-commit HEAD --results=verified,unknown --fail
+gitleaks git --pre-commit --redact --staged --verbose

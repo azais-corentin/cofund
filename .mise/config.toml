@@ -4,7 +4,7 @@
 bun = "latest"
 rg = "latest"
 shfmt = "latest"
-trufflehog = "latest"
+gitleaks = "latest"
 gh = "latest"
 
 # These completion hooks add about 25ms to shell startup time.

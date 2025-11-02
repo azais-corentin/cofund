@@ -1,3 +1,5 @@
+name: Gitleaks Scan
+
 on:
   push:
     branches:
@@ -6,13 +8,15 @@ on:
 
 jobs:
   checks-leaks:
+    name: Gitleaks Scan
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v5
         with:
           fetch-depth: 0
-      - name: Secret Scanning
-        uses: trufflesecurity/trufflehog@main
-        with:
-          extra_args: --results=verified,unknown
+      - name: Gitleaks Scan
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITLEAKS_NOTIFY_USER_LIST: '@azais-corentin'
