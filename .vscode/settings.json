@@ -8,6 +8,9 @@
   "[dockerfile]": {
     "editor.defaultFormatter": "dprint.dprint"
   },
+  "[github-actions-workflow]": {
+    "editor.defaultFormatter": "dprint.dprint"
+  },
   "[html]": {
     "editor.defaultFormatter": "dprint.dprint"
   },
