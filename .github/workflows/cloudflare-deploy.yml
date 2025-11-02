@@ -65,6 +65,9 @@ jobs:
           name: build-output
           path: .svelte-kit
 
+      - name: Install wrangler
+        run: bun install -g wrangler
+
       - name: Deploy
         uses: cloudflare/wrangler-action@v3
         with:
