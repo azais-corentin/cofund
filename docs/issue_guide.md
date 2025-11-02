@@ -16,6 +16,6 @@
 4. After the pull request is reviewed and approved, merge it using:
 
    ```shell
-   gh pr merge -m -d
+   gh pr merge -m -d -s
    ```
    This command merges the pull request and deletes the branch.
