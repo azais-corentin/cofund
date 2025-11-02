@@ -21,7 +21,7 @@ jobs:
       PUBLIC_WS_URL: ${{ vars.PUBLIC_WS_URL }}
     steps:
       - name: Setup environment
-        uses: ./.github/actions/setup-build-environment.yml
+        uses: ./.github/actions/setup-build-environment
 
       - name: Cache Bun dependencies
         uses: actions/cache@v4
