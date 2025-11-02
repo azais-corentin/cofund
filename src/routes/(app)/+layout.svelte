@@ -8,12 +8,15 @@
   import AuthWrapper from '$lib/components/shared/auth-wrapper.svelte';
   import { Account } from '$lib/db/schema';
   import Button from '$shadcn/button/button.svelte';
-  import 'jazz-tools/inspector/register-custom-element';
   import { JazzSvelteProvider } from 'jazz-tools/svelte';
   import { ModeWatcher } from 'mode-watcher';
   import { pwaAssetsHead } from 'virtual:pwa-assets/head';
   import { pwaInfo } from 'virtual:pwa-info';
   import '../../app.css';
+
+  if (!import.meta.env.PROD) {
+    import('jazz-tools/inspector/register-custom-element');
+  }
 
   const webManifest = $derived(pwaInfo ? pwaInfo.webManifest.linkTag : '');
 
