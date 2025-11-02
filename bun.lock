@@ -669,29 +669,29 @@
 
     "clsx": ["clsx@2.1.1", "", {}, "sha512-eYm0QWBtUrBWZWG0d386OGAw16Z995PiOVo2B7bjWSbHedGl5e0ZWaq65kOGgUSNesEIDkB9ISbTg/JK9dhCZA=="],
 
-    "cojson": ["cojson@0.18.33", "", { "dependencies": { "@noble/ciphers": "^1.3.0", "@noble/curves": "^1.9.1", "@noble/hashes": "^1.8.0", "@opentelemetry/api": "^1.9.0", "@scure/base": "1.2.1", "cojson-core-napi": "0.18.33", "cojson-core-wasm": "0.18.33", "neverthrow": "^7.0.1", "unicode-segmenter": "^0.12.0" } }, "sha512-lboHOGsjFDpUNvjh1bOsX+hndeBocS1tsxGDuw6ufQQTixQEo/zM/nNn0VVj6fN9v5QUxcDVczkBMWM9kskcvA=="],
+    "cojson": ["cojson@0.18.36", "", { "dependencies": { "@noble/ciphers": "^1.3.0", "@noble/curves": "^1.9.1", "@noble/hashes": "^1.8.0", "@opentelemetry/api": "^1.9.0", "@scure/base": "1.2.1", "cojson-core-napi": "0.18.36", "cojson-core-wasm": "0.18.36", "unicode-segmenter": "^0.12.0" } }, "sha512-AmBamOTg5U8opdY+Mbmi69ll1ewfR1hWKAJGq6MGb50MRe2nEAJLja/4vK2MXXmOJkNHWyg7HkEGfoY+k8mUjg=="],
 
-    "cojson-core-napi": ["cojson-core-napi@0.18.33", "", { "optionalDependencies": { "cojson-core-napi-darwin-arm64": "0.18.33", "cojson-core-napi-darwin-x64": "0.18.33", "cojson-core-napi-linux-arm-gnueabihf": "0.18.33", "cojson-core-napi-linux-arm64-gnu": "0.18.33", "cojson-core-napi-linux-arm64-musl": "0.18.33", "cojson-core-napi-linux-x64-gnu": "0.18.33", "cojson-core-napi-linux-x64-musl": "0.18.33" } }, "sha512-USE1kY45N6qm3lSqdTTEf9N86vlnx4QtjKtMoCtEK0G6nussXRDBNi+EPKmSjmdZuiKRP8E9BKgAxhLYbqqEqg=="],
+    "cojson-core-napi": ["cojson-core-napi@0.18.36", "", { "optionalDependencies": { "cojson-core-napi-darwin-arm64": "0.18.36", "cojson-core-napi-darwin-x64": "0.18.36", "cojson-core-napi-linux-arm-gnueabihf": "0.18.36", "cojson-core-napi-linux-arm64-gnu": "0.18.36", "cojson-core-napi-linux-arm64-musl": "0.18.36", "cojson-core-napi-linux-x64-gnu": "0.18.36", "cojson-core-napi-linux-x64-musl": "0.18.36" } }, "sha512-woTtMFm/6wN8+yw58ge/u3opv+eXvv2GwHA7BHaBnHHEenA2PKeR4b7N6l1RRCjx02L3lvc5LTLe/vCJeW8Rww=="],
 
-    "cojson-core-napi-darwin-arm64": ["cojson-core-napi-darwin-arm64@0.18.33", "", { "os": "darwin", "cpu": "arm64" }, "sha512-XIAx+WHhiSmvcQwTd5uxassJA+e2mBlvQ+wXImnHa901QLztpyoU6xsiJyfHgZeix56HQuipQMPWVfSXNkO2qQ=="],
+    "cojson-core-napi-darwin-arm64": ["cojson-core-napi-darwin-arm64@0.18.36", "", { "os": "darwin", "cpu": "arm64" }, "sha512-oqDF2Xjmq6RNc62YkY4K7yX6KAdsdM5jaMzWT8CgPK59OmcNCcTnV/bFlrWvend8JOe6tAXVKF/L+oGl9rhJhQ=="],
 
-    "cojson-core-napi-darwin-x64": ["cojson-core-napi-darwin-x64@0.18.33", "", { "os": "darwin", "cpu": "x64" }, "sha512-tbp0LN4TzDR/OWwl+LH3SO4VuHqrEOebbvaRDBcBAatWM+tBVu63wqpWqEGAPi1HSaCHFVsiJtXeR2P+ELAJgQ=="],
+    "cojson-core-napi-darwin-x64": ["cojson-core-napi-darwin-x64@0.18.36", "", { "os": "darwin", "cpu": "x64" }, "sha512-qXm2MxclRGDeEtB8COlS1bxnTlXJM2m81UoOhRr0IWWR5/8oD5KhrIu93BAmYhMhBf1qrxKhh5eWf48FX3DqnA=="],
 
-    "cojson-core-napi-linux-arm-gnueabihf": ["cojson-core-napi-linux-arm-gnueabihf@0.18.33", "", { "os": "linux", "cpu": "arm" }, "sha512-5PA8wz9JSA7pbu5drjB1q2uiCkFG4RzFa4K1KN6KtHHfW+XJ2xnf28AoUsW5uQtRkc86S3rh9VgBmWyZJgsrKg=="],
+    "cojson-core-napi-linux-arm-gnueabihf": ["cojson-core-napi-linux-arm-gnueabihf@0.18.36", "", { "os": "linux", "cpu": "arm" }, "sha512-GX0jKWzhgAg5z+N7gZtJH55JAqH9iGUc939k6teGvgHn2svfMDDUoFUfW1aBDHhDO8NhBOYLtzLcgy2mw3YvWw=="],
 
-    "cojson-core-napi-linux-arm64-gnu": ["cojson-core-napi-linux-arm64-gnu@0.18.33", "", { "os": "linux", "cpu": "arm64" }, "sha512-3hJtIY4bj15gQ/0/czUnAUmw42+UXZicIjuhbm/N+Cnu0jQlWUZh2VJAqjPH9qFB0o79wpyYSt5BXZs1/wiu/w=="],
+    "cojson-core-napi-linux-arm64-gnu": ["cojson-core-napi-linux-arm64-gnu@0.18.36", "", { "os": "linux", "cpu": "arm64" }, "sha512-o6i2FDmQAx0zsunB4xPgoW3/HoELxd1aL9VT2EhE81d9PHpzpgfBZKW8SuBCRv8jYCx1hwe9M9TxPt/WufpVkQ=="],
 
-    "cojson-core-napi-linux-arm64-musl": ["cojson-core-napi-linux-arm64-musl@0.18.33", "", { "os": "linux", "cpu": "arm64" }, "sha512-Fyhk6RU4M2fLh7FgBQlcDsynj9ufd40T6QLU14iKFKhHpdje2AeI6bVybYLIjRyOXK1uSKzy7VphA/Wrm5VUbw=="],
+    "cojson-core-napi-linux-arm64-musl": ["cojson-core-napi-linux-arm64-musl@0.18.36", "", { "os": "linux", "cpu": "arm64" }, "sha512-+c94AWWwLDbLpKj98TuBEkQZJBedPRo/Z7KgBcl4JzxSrufGZ1cgt4bP7cpYBC3W6s9CP9o66K/XMRAzVOSo2Q=="],
 
-    "cojson-core-napi-linux-x64-gnu": ["cojson-core-napi-linux-x64-gnu@0.18.33", "", { "os": "linux", "cpu": "x64" }, "sha512-jQBxcqo78fK4fknvGcr0XWS/X7uuecWRrwvPrQll6mr6fI6Paxz7jK4V7kBbJqoWFNYxn1bsOTNxyiPRDY9xBw=="],
+    "cojson-core-napi-linux-x64-gnu": ["cojson-core-napi-linux-x64-gnu@0.18.36", "", { "os": "linux", "cpu": "x64" }, "sha512-3JZTQRGPzjZ/CkL9LGf+Aj7R4tUFzJZ5cIqMI+EHBV++YOOEWpCiEX/zFJNnQd2TCT2WxfpbiqWIGMKCPe/z2A=="],
 
-    "cojson-core-napi-linux-x64-musl": ["cojson-core-napi-linux-x64-musl@0.18.33", "", { "os": "linux", "cpu": "x64" }, "sha512-ocgfvEiL4f7zQAhSqnicfSSr7Gsk/TGjfL0N2mRtn2T0topC/juhzidgAeWbVsBdqkBwuzPj44DsBQ0DgBj5NA=="],
+    "cojson-core-napi-linux-x64-musl": ["cojson-core-napi-linux-x64-musl@0.18.36", "", { "os": "linux", "cpu": "x64" }, "sha512-WBpHCacFzjwZ6a73Tofd52n2ur8MGeUQ357e8SkHHFJHOq0f5RenO0rhtKx9B0FvAEjHICift0qkcl3nLmTdcg=="],
 
-    "cojson-core-wasm": ["cojson-core-wasm@0.18.33", "", {}, "sha512-OzAcA/YgjdjooN1cCB81KyIfFL3XydY8iuzKFzWQkVK5qFLnkjdsP2kFAnLiGlZcYcoud6klLLIFqVk2hsIlRg=="],
+    "cojson-core-wasm": ["cojson-core-wasm@0.18.36", "", {}, "sha512-44S3PjXTuBsHuz87yZDfZt3U4Tff0/d6eTn7HZVZxoWahw4KSy3dmg89jhkl5/732bOHanencGFqA6XyWm6/jA=="],
 
-    "cojson-storage-indexeddb": ["cojson-storage-indexeddb@0.18.33", "", { "dependencies": { "cojson": "0.18.33" } }, "sha512-4zaNU8+Gwweeqx3MBxZwZjBZN68+RRnauf9FYYDzt3Otx2Xf3ihNl5Ppl0bxpcfF8SioxvPcTx7aYNQdDn30cg=="],
+    "cojson-storage-indexeddb": ["cojson-storage-indexeddb@0.18.36", "", { "dependencies": { "cojson": "0.18.36" } }, "sha512-roH0oHMgrZluKmMh1w0qfAhEdXBpkMDwADAIb9S9GKdXdOaxGEl1Dgr+Mg94V0UXQxPSdfu4mTWBnJwABP77Fw=="],
 
-    "cojson-transport-ws": ["cojson-transport-ws@0.18.33", "", { "dependencies": { "@opentelemetry/api": "^1.9.0", "cojson": "0.18.33" } }, "sha512-2X8bYHZdgSap2HD6mhyBuw8GXiqTuIdbY5WCZUoglmhTlDWvb6vNdOKasOm3cV8wMBzmwFdned72tx3ZITYW7g=="],
+    "cojson-transport-ws": ["cojson-transport-ws@0.18.36", "", { "dependencies": { "@opentelemetry/api": "^1.9.0", "cojson": "0.18.36" } }, "sha512-yNj0NeQ4z3unhzF3Pmq+XVfs6exgiLVQMDlWhgaabnuiWSj7iAm5DfuBWLxstiB5Cv+xeLFCpfL8u2kI+3fO3A=="],
 
     "color": ["color@4.2.3", "", { "dependencies": { "color-convert": "^2.0.1", "color-string": "^1.9.0" } }, "sha512-1rXeuUUiGGrykh+CeBdu5Ie7OJwinCgQY0bc7GCRxy5xVHy+moaqkpL/jqQq0MtQOeYcrqEz4abc5f0KtU7W4A=="],
 
@@ -945,7 +945,7 @@
 
     "jake": ["jake@10.9.4", "", { "dependencies": { "async": "^3.2.6", "filelist": "^1.0.4", "picocolors": "^1.1.1" }, "bin": { "jake": "bin/cli.js" } }, "sha512-wpHYzhxiVQL+IV05BLE2Xn34zW1S223hvjtqk0+gsPrwd/8JNLXJgZZM/iPFsYc1xyphF+6M6EvdE5E9MBGkDA=="],
 
-    "jazz-tools": ["jazz-tools@0.18.33", "", { "dependencies": { "@manuscripts/prosemirror-recreate-steps": "^0.1.4", "@scure/base": "1.2.1", "@scure/bip39": "^1.3.0", "@tiptap/core": "^2.12.0", "clsx": "^2.0.0", "cojson": "0.18.33", "cojson-storage-indexeddb": "0.18.33", "cojson-transport-ws": "0.18.33", "fast-myers-diff": "^3.2.0", "goober": "^2.1.18", "prosemirror-example-setup": "^1.2.2", "prosemirror-menu": "^1.2.4", "prosemirror-model": "^1.21.1", "prosemirror-schema-basic": "^1.2.2", "prosemirror-state": "^1.4.3", "prosemirror-transform": "^1.9.0", "use-sync-external-store": "^1.5.0", "zod": "4.1.11" }, "peerDependencies": { "@bam.tech/react-native-image-resizer": "*", "@op-engineering/op-sqlite": "*", "@react-native-community/netinfo": "*", "better-auth": "^1.3.2", "expo-file-system": "*", "expo-image-manipulator": "*", "expo-secure-store": "*", "expo-sqlite": "*", "react": "*", "react-dom": "*", "react-native": "*", "react-native-fast-encoder": "^0.2.0", "react-native-mmkv": "^3.3.0", "react-native-nitro-modules": "^0.26.4", "react-native-quick-crypto": "^1.0.0-beta.18", "sharp": "^0.33.5", "svelte": "^5.0.0" }, "optionalPeers": ["@bam.tech/react-native-image-resizer", "@op-engineering/op-sqlite", "@react-native-community/netinfo", "better-auth", "expo-file-system", "expo-image-manipulator", "expo-secure-store", "expo-sqlite", "react", "react-dom", "react-native", "react-native-fast-encoder", "react-native-mmkv", "react-native-nitro-modules", "react-native-quick-crypto", "sharp", "svelte"] }, "sha512-J0UJixwuEi86rP2xZksFoGE8GFn9nAhSdC3bnnDFhUiz1sdE5VrX6xwieHohmOXBAlLe1A7EG8MDbv0yUuEHZw=="],
+    "jazz-tools": ["jazz-tools@0.18.36", "", { "dependencies": { "@manuscripts/prosemirror-recreate-steps": "^0.1.4", "@scure/base": "1.2.1", "@scure/bip39": "^1.3.0", "@tiptap/core": "^2.12.0", "clsx": "^2.0.0", "cojson": "0.18.36", "cojson-storage-indexeddb": "0.18.36", "cojson-transport-ws": "0.18.36", "fast-myers-diff": "^3.2.0", "goober": "^2.1.18", "prosemirror-example-setup": "^1.2.2", "prosemirror-menu": "^1.2.4", "prosemirror-model": "^1.21.1", "prosemirror-schema-basic": "^1.2.2", "prosemirror-state": "^1.4.3", "prosemirror-transform": "^1.9.0", "use-sync-external-store": "^1.5.0", "zod": "4.1.11" }, "peerDependencies": { "@bam.tech/react-native-image-resizer": "*", "@op-engineering/op-sqlite": "*", "@react-native-community/netinfo": "*", "better-auth": "^1.3.2", "expo-file-system": "*", "expo-image-manipulator": "*", "expo-secure-store": "*", "expo-sqlite": "*", "react": "*", "react-dom": "*", "react-native": "*", "react-native-fast-encoder": "^0.2.0", "react-native-mmkv": "^3.3.0", "react-native-nitro-modules": "^0.26.4", "react-native-quick-crypto": "^1.0.0-beta.18", "sharp": "^0.33.5", "svelte": "^5.0.0" }, "optionalPeers": ["@bam.tech/react-native-image-resizer", "@op-engineering/op-sqlite", "@react-native-community/netinfo", "better-auth", "expo-file-system", "expo-image-manipulator", "expo-secure-store", "expo-sqlite", "react", "react-dom", "react-native", "react-native-fast-encoder", "react-native-mmkv", "react-native-nitro-modules", "react-native-quick-crypto", "sharp", "svelte"] }, "sha512-3vlUOabNXYiJfbW4UdeA0tK3suvdrwSntz7H8unrC/1sU48WJnAknsFBHhlSoupqDjI9FP9zzGB42Xiv6TWL3Q=="],
 
     "jiti": ["jiti@2.6.1", "", { "bin": { "jiti": "lib/jiti-cli.mjs" } }, "sha512-ekilCSN1jwRvIbgeg/57YFh8qQDNbwDb9xT/qu2DAHbFFZUicIl4ygVaAvzveMhMVr3LnpSKTNnwt8PoOfmKhQ=="],
 
@@ -1042,8 +1042,6 @@
     "ms": ["ms@2.1.3", "", {}, "sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA=="],
 
     "nanoid": ["nanoid@3.3.11", "", { "bin": { "nanoid": "bin/nanoid.cjs" } }, "sha512-N8SpfPUnUp1bK+PMYW8qSWdl9U+wwNWI4QKxOYDy9JAro3WMX7p2OeVRF9v+347pnakNevPmiHhNmZ2HbFA76w=="],
-
-    "neverthrow": ["neverthrow@7.2.0", "", {}, "sha512-iGBUfFB7yPczHHtA8dksKTJ9E8TESNTAx1UQWW6TzMF280vo9jdPYpLUXrMN1BCkPdHFdNG3fxOt2CUad8KhAw=="],
 
     "node-releases": ["node-releases@2.0.21", "", {}, "sha512-5b0pgg78U3hwXkCM8Z9b2FJdPZlr9Psr9V2gQPESdGHqbntyFJKFW4r5TeWGFzafGY3hzs1JC62VEQMbl1JFkw=="],
 
