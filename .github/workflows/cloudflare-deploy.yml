@@ -32,10 +32,6 @@ jobs:
         run: bun install --frozen-lockfile
       - name: Build application
         run: bun run build
-      - name: Verify build output
-        run: ls -la
-      - name: Verify build output 2
-        run: ls -la .svelte-kit/
       - name: Upload build artifacts
         uses: actions/upload-artifact@v5
         with:
