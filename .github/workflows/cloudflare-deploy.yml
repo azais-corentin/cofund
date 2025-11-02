@@ -20,8 +20,11 @@ jobs:
       PUBLIC_JAZZ_API_KEY: ${{ secrets.PUBLIC_JAZZ_API_KEY }}
       PUBLIC_WS_URL: ${{ vars.PUBLIC_WS_URL }}
     steps:
-      - name: Setup environment
-        uses: ./.github/actions/setup-build-environment
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
 
       - name: Cache Bun dependencies
         uses: actions/cache@v4
@@ -50,8 +53,11 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - name: Setup environment
-        uses: ./.github/actions/setup-build-environment.yml
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
 
       - name: Download build artifacts
         uses: actions/download-artifact@v5
