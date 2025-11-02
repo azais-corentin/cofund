@@ -1,5 +1,5 @@
-# devcontainer     : Development container with necessary tools
-# production-build : Build the production application
+# builder : Build the production application
+# runner  : Final production image
 # production       : Final production image
 
 FROM mcr.microsoft.com/devcontainers/base:debian AS devcontainer
@@ -21,21 +21,25 @@ RUN mkdir -p ~/.local/share/bash-completion/completions/ && \
     ~/.local/bin/mise exec -- dprint completions bash > ~/.local/share/bash-completion/completions/dprint
 RUN ~/.local/bin/mise settings experimental=true
 
-FROM oven/bun:1 AS builder
+FROM oven/bun:1-slim AS builder
 WORKDIR /app
+ENV ADAPTER=exe
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends git-core && \
+    rm -rf /var/lib/apt/lists/*
 
 COPY package.json bun.lock .
 RUN bun install --frozen-lockfile
 
 COPY . .
-RUN bun run build
+RUN bun run build -m production
 
-FROM gcr.io/distroless/base:nonroot AS runner
-
+FROM gcr.io/distroless/base-nossl AS runner
 WORKDIR /app
+ENV NODE_ENV=production
 
 COPY --from=builder /app/dist/cofund .
 
-ENV NODE_ENV=production
 EXPOSE 3000/tcp
 ENTRYPOINT ["/app/cofund"]

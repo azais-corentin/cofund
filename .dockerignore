@@ -1,5 +1,4 @@
 .devcontainer
-.git
 .github
 .svelte-kit
 .vscode
