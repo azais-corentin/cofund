@@ -29,7 +29,7 @@
   },
   "exec": {
     "commands": [{
-      "command": "shfmt",
+      "command": "mise exec -- shfmt",
       "exts": ["sh", "bash"]
     }]
   },
