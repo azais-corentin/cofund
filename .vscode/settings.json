@@ -38,6 +38,9 @@
   "[yaml]": {
     "editor.defaultFormatter": "dprint.dprint"
   },
+  "debug.javascript.defaultRuntimeExecutable": {
+    "pwa-node": "${workspaceFolder}/.vscode/mise-tools/node"
+  },
   "dependi.npm.lockFileEnabled": true,
   "diffEditor.experimental.showMoves": true,
   "editor.codeActionsOnSave": {
@@ -45,6 +48,7 @@
     "source.organizeImports": "always"
   },
   "editor.formatOnSave": true,
+  "mise.configureExtensionsUseSymLinks": true,
   "oxc.enable": true,
   "oxc.lint.run": "onType",
   "oxc.typeAware": true,
