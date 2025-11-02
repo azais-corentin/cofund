@@ -40,6 +40,7 @@ jobs:
         uses: actions/upload-artifact@v5
         with:
           name: build-output
+          include-hidden-files: true # Needed for the .svelte-kit folder
           path: .svelte-kit/
 
   deploy:
