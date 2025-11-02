@@ -5,6 +5,7 @@
     "directory": ".svelte-kit/cloudflare"
   },
   "compatibility_date": "2025-10-11",
+  "compatibility_flags": ["nodejs_compat"],
   "main": ".svelte-kit/cloudflare/_worker.js",
   "name": "cofund",
   "routes": [
@@ -16,5 +17,13 @@
   ],
   "build": {
     "command": "CF_PAGES=true bun run build"
+  },
+  "observability": {
+    "logs": {
+      "enabled": true,
+      "head_sampling_rate": 1,
+      "invocation_logs": true,
+      "persist": true
+    }
   }
 }
