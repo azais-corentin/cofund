@@ -1,0 +1,14 @@
+[tools]
+"github:dprint/dprint" = "latest"
+"github:sst/opencode" = "latest"
+bun = "latest"
+rg = "latest"
+shfmt = "latest"
+
+# These completion hooks add about 25ms to shell startup time.
+[hooks.enter]
+shell = "bash"
+script = """
+source <(dprint completions bash)
+source <(mise completions bash --include-bash-completion-lib)
+"""
