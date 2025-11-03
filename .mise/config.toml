@@ -17,12 +17,12 @@ source <(mise completions bash --include-bash-completion-lib)
 
 [tasks."issue:new"]
 description = "Create a new GitHub issue and start working on it"
-usage = '''
-arg "<title>" help="Issue title"
-arg "<body>" help="Issue body" default=""
-'''
 run = '''
-issue_url=$(gh issue create -t "${usage_title?}" -b "${usage_body?}")
+#!/usr/bin/env bash
+set -e
+read -e -p "Title: " issue_title
+read -e -p "Body: " issue_body
+issue_url=$(gh issue create -t "$issue_title" -b "$issue_body")
 gh issue develop -c "$issue_url"
 '''
 
