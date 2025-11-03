@@ -7,7 +7,7 @@
   import * as Form from '$shadcn/form';
   import { Input } from '$shadcn/input';
   import { CoState } from 'jazz-tools/svelte';
-  import { untrack } from 'svelte';
+  import { watch } from 'runed';
   import { SvelteSet } from 'svelte/reactivity';
   import { defaults, superForm } from 'sveltekit-superforms';
   import { zod4 } from 'sveltekit-superforms/adapters';
@@ -52,10 +52,10 @@
 
   let selectedMembers = new SvelteSet<string>();
 
-  $effect(() => {
+  watch(() => group?.users, () => {
     if (group?.users) {
       for (const user of group.users) {
-        untrack(() => selectedMembers.add(user));
+        selectedMembers.add(user);
       }
     }
   });
