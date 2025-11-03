@@ -14,3 +14,29 @@ script = """
 source <(dprint completions bash)
 source <(mise completions bash --include-bash-completion-lib)
 """
+
+[tasks."issue:new"]
+description = "Create a new GitHub issue and start working on it"
+usage = '''
+arg "<title>" help="Issue title"
+arg "<body>" help="Issue body" default=""
+'''
+run = '''
+issue_url=$(gh issue create -t "${usage_title?}" -b "${usage_body?}")
+gh issue develop -c "$issue_url"
+'''
+
+[tasks."issue:dev"]
+description = "Start working on an existing GitHub issue"
+usage = '''
+arg "<issue>" help="Issue number or URL to work on"
+'''
+run = 'gh issue develop -c ${usage_issue?}'
+
+[tasks."pr:new"]
+description = "Create a new GitHub pull request from the current branch"
+run = 'gh pr new'
+
+[tasks."pr:merge"]
+description = "Merge the current GitHub pull request and cleanup local branches"
+run = 'gh pr merge -ds && git pull -p --autostash'
