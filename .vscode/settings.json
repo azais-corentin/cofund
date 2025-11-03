@@ -26,6 +26,9 @@
   "[markdown]": {
     "editor.defaultFormatter": "dprint.dprint"
   },
+  "[toml]": {
+    "editor.defaultFormatter": "dprint.dprint"
+  },
   "[shellscript]": {
     "editor.defaultFormatter": "dprint.dprint"
   },
