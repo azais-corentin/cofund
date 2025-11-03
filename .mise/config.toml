@@ -39,4 +39,4 @@ run = 'gh pr new'
 
 [tasks."pr:merge"]
 description = "Merge the current GitHub pull request and cleanup local branches"
-run = 'gh pr merge -ds && git pull -p --autostash'
+run = 'gh pr merge -ds --auto && git pull -p --autostash'
